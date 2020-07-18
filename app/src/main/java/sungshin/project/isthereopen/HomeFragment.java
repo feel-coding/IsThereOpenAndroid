@@ -16,7 +16,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -32,13 +34,61 @@ public class HomeFragment extends Fragment {
     ArrayList<Store> storeList = new ArrayList<>();
     private Context mContext;
     Activity activity;
+    Button restaurantBtn;
+    Button cafeBtn;
+    Button barBtn;
+    TextView thereTv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = v.findViewById(R.id.storeRecyclerView);
+        restaurantBtn = v.findViewById(R.id.restaurantBtn);
+        cafeBtn = v.findViewById(R.id.cafeBtn);
+        barBtn = v.findViewById(R.id.barBtn);
+        thereTv = v.findViewById(R.id.thereTv);
+        restaurantBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thereTv.setText("음식점");
+                storeList.clear();
+                storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
+                storeList.add(new Store("최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
+                storeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
+                storeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        cafeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thereTv.setText("카페");
+                storeList.clear();
+                storeList.add(new Store("본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
+                storeList.add(new Store("카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
+                storeList.add(new Store("카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
+                storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        barBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thereTv.setText("술집");
+                storeList.clear();
+                storeList.add(new Store("도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
+                adapter.notifyDataSetChanged();
+            }
+        });
         storeList.add(new Store("본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
+        storeList.add(new Store("카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
+        storeList.add(new Store("최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
+        storeList.add(new Store("카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
+        storeList.add(new Store("도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
+        storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
+        storeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
+        storeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         adapter = new StoreAdapter(storeList, mContext);
         recyclerView.setAdapter(adapter);

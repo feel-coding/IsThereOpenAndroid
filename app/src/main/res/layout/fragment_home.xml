@@ -11,40 +11,54 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/thereTv"
+                    android:layout_width="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content"
+                    android:text="거기" />
+                <TextView
+                    android:text=" 열었나?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/thereTv"
-                android:layout_width="wrap_content"
-                android:textSize="20sp"
-                android:layout_height="wrap_content"
-                android:text="거기" />
-            <TextView
-                android:text=" 열었나?"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <Button
-                android:background="@drawable/black_round_square"
-                android:layout_marginLeft="40dp"
+            <LinearLayout
+                android:layout_gravity="right"
                 android:layout_width="wrap_content"
-                android:text="@string/restaurant"
-                android:layout_height="wrap_content" />
+                android:gravity="right"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/restaurantBtn"
+                    android:background="@drawable/black_round_square"
+                    android:layout_width="wrap_content"
+                    android:text="@string/restaurant"
+                    android:layout_height="wrap_content" />
 
-            <Button
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/black_round_square"
-                android:layout_width="wrap_content"
-                android:text="@string/cafe"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/cafeBtn"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/black_round_square"
+                    android:layout_width="wrap_content"
+                    android:text="@string/cafe"
+                    android:layout_height="wrap_content" />
 
-            <Button
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/black_round_square"
-                android:layout_width="wrap_content"
-                android:text="@string/bar"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/barBtn"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/black_round_square"
+                    android:layout_width="wrap_content"
+                    android:text="@string/bar"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
