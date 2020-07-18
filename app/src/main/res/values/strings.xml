@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Isthereopen</string>
+    <string name="home">홈</string>
+    <string name="restaurant">음식점</string>
+    <string name="cafe">카페</string>
+    <string name="bar">술집</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
