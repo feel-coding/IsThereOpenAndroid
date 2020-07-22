@@ -1,6 +1,7 @@
 package sungshin.project.isthereopen;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView runningTimeTv;
     TextView rateTv;
     TextView latestUpdateTv;
+    ImageView heartButton;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -20,5 +22,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         runningTimeTv = itemView.findViewById(R.id.runningTime);
         rateTv = itemView.findViewById(R.id.rate);
         latestUpdateTv = itemView.findViewById(R.id.latestUpdate);
+        heartButton = itemView.findViewById(R.id.addPatron);
     }
 }

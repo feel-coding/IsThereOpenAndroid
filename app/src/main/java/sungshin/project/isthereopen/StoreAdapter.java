@@ -14,6 +14,7 @@ import java.util.List;
 public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
     private List<Store> storeList;
     private Context mContext;
+    boolean isPatron = false;
 
     public StoreAdapter(List<Store> storeList, Context mContext) {
         this.storeList = storeList;
@@ -28,7 +29,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         String storeName = storeList.get(position).name;
         String openState = storeList.get(position).openState;
         String latestUpdate = storeList.get(position).latestUpdate;
@@ -39,7 +40,16 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
         holder.latestUpdateTv.setText(latestUpdate.toString());
         holder.rateTv.setText(rate + "");
         holder.runningTimeTv.setText(runningTime);
-
+        holder.heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isPatron)
+                    holder.heartButton.setImageResource(R.drawable.ic_heart_red);
+                else
+                    holder.heartButton.setImageResource(R.drawable.ic_heart);
+                isPatron = !isPatron;
+            }
+        });
     }
 
     @Override
