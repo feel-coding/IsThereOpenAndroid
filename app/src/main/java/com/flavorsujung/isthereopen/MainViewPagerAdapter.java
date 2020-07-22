@@ -1,4 +1,4 @@
-package sungshin.project.isthereopen;
+package com.flavorsujung.isthereopen;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;

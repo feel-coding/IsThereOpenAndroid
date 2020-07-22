@@ -1,8 +1,7 @@
-package sungshin.project.isthereopen;
+package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BarFragment extends Fragment {
+
+public class RestaurantFragment extends Fragment {
 
     private Context mContext;
     Activity activity;
@@ -21,11 +21,8 @@ public class BarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bar, container, false);
+        View v = inflater.inflate(R.layout.fragment_restaurant, container, false);
         mContext = v.getContext();
-
-
-
         return v;
     }
 

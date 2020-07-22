@@ -1,4 +1,4 @@
-package sungshin.project.isthereopen;
+package com.flavorsujung.isthereopen;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

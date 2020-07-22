@@ -1,4 +1,4 @@
-package sungshin.project.isthereopen;
+package com.flavorsujung.isthereopen;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Date;
 import java.util.List;
 
 public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {

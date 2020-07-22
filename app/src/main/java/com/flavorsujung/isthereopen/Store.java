@@ -1,6 +1,4 @@
-package sungshin.project.isthereopen;
-
-import java.util.Date;
+package com.flavorsujung.isthereopen;
 
 public class Store {
     String name;

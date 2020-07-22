@@ -1,8 +1,7 @@
-package sungshin.project.isthereopen;
+package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
