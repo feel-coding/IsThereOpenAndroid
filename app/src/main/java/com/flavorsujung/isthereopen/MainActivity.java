@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent i = new Intent(this, ServerTestActivity.class);
+        startActivity(i);
         SharedPreferences sharedPref = getSharedPreferences("pw", Context.MODE_PRIVATE);
         String p = sharedPref.getString(SHARED_PREF_PASSWORD, "-1");
         Log.d("pwpwpw", p);

@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 public class RestaurantFragment extends Fragment {
 
-    private Context mContext;
+    Context mContext;
     Activity activity;
 
     @Override
