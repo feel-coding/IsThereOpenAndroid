@@ -3,6 +3,7 @@ package com.flavorsujung.isthereopen;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ServerTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_test);
-        serverAPI = RetrofitManager.getInstance().getServerApi(this);
+        serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         textView = findViewById(R.id.serverTestTv);
         serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
             @Override
@@ -30,7 +31,7 @@ public class ServerTestActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Cafe>> call, Throwable t) {
-
+                Log.d("실패원인", t.getMessage());
             }
         });
     }

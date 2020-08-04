@@ -2,6 +2,9 @@ package com.flavorsujung.isthereopen;
 
 import android.content.Context;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.GsonBuilder;
 
 import java.net.CookieManager;
@@ -11,6 +14,8 @@ import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.flavorsujung.isthereopen.ServerAPI.BASE_URL;
 
 public class RetrofitManager {
     private static RetrofitManager instance = null; //자기자신을 변수로 가짐
@@ -26,12 +31,18 @@ public class RetrofitManager {
         return instance;
     }
 
-    public ServerAPI getServerApi(Context context){
+    public ServerAPI getServerAPI(Context context){
         final CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         //쿠키설정 안해주면 401 에러 남
+        CookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cookieJar(cookieJar)
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ServerAPI.BASE_URL)
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         return retrofit.create(ServerAPI.class);
 
