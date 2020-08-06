@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class HomeFragment extends Fragment {
     Button cafeBtn;
     Button barBtn;
     TextView thereTv;
+    SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
 
     @Override
@@ -50,6 +52,50 @@ public class HomeFragment extends Fragment {
         cafeBtn = v.findViewById(R.id.cafeBtn);
         barBtn = v.findViewById(R.id.barBtn);
         thereTv = v.findViewById(R.id.thereTv);
+        swipeRefreshLayout = v.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
+                    @Override
+                    public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
+                        if(response.isSuccessful()) {
+                            Log.d("서버", "성공");
+                            storeList.clear();
+                            for(Cafe cafe : response.body()) {
+                                String openState;
+                                if(cafe.getCurrentState() == 0) {
+                                    openState = "CLOSE";
+                                }
+                                else if (cafe.getCurrentState() == 1) {
+                                    openState = "BREAKTIME";
+                                }
+                                else if (cafe.getCurrentState() == 2) {
+                                    openState = "OPEN";
+                                }
+                                else {
+                                    openState = "등록된 오픈 정보 없음";
+                                }
+                                String date;
+                                if(cafe.getLastUpdate() == null)
+                                    date = "";
+                                else date = cafe.getLastUpdate().toString();
+                                Log.d("서버", cafe.getName());
+                                storeList.add(new Store(0, cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
+                            }
+                            Log.d("서버", storeList.toString());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Cafe>> call, Throwable t) {
+                        Log.d("서버", t.getMessage());
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
         restaurantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +143,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
                 if(response.isSuccessful()) {
                     Log.d("서버", "성공");
+                    storeList.clear();
                     for(Cafe cafe : response.body()) {
                         String openState;
                         if(cafe.getCurrentState() == 0) {

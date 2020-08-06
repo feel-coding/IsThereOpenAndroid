@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public interface ServerAPI {
     //String BASE_URL = "http://210.125.96.73:8081"; //서버 url
-    String BASE_URL = "http://192.168.126.1:8081";
+    String BASE_URL = "http://13.125.64.62:8081";
     @GET("/user/{seq}")
     Call<User> getUser(@Path("seq")Integer seq);
 
