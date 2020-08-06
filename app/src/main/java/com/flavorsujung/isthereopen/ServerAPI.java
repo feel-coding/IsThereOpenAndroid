@@ -14,8 +14,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServerAPI {
-    String BASE_URL = "http://210.125.96.73:8081"; //서버 url
-
+    //String BASE_URL = "http://210.125.96.73:8081"; //서버 url
+    String BASE_URL = "http://192.168.126.1:8081";
     @GET("/user/{seq}")
     Call<User> getUser(@Path("seq")Integer seq);
 
@@ -30,6 +30,14 @@ public interface ServerAPI {
 
     @GET("/cafe/all")
     Call<List<Cafe>> getCafeList();
+
+    @GET("/restaurant/all")
+    public List<Restaurant> getRestaurantList();
+
+    @PUT("/cafe/{cafeSeq}/openReview") //오픈 리뷰 추가하는 API
+    public void putCafeOpenReview(@Path("cafeSeq") Integer cafeSeq, @Body Integer userSeq, @Body Integer openState);
+
+
     /*
 
     @POST("/api/v1/users/signin")

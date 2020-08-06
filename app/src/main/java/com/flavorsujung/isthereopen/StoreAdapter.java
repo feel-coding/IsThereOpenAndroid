@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
@@ -29,15 +31,18 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        String storePhotoUrl = storeList.get(position).photoUrl;
         String storeName = storeList.get(position).name;
         String openState = storeList.get(position).openState;
         String latestUpdate = storeList.get(position).latestUpdate;
         String runningTime = storeList.get(position).runtime;
         double rate = storeList.get(position).rate;
+        Glide.with(mContext).load(storePhotoUrl).into(holder.storePhotoIv);
         holder.storeNameTv.setText(storeName);
         holder.openStateTv.setText(openState);
         holder.latestUpdateTv.setText(latestUpdate.toString());
-        holder.rateTv.setText(rate + "");
+        if(rate == -1.0) holder.rateTv.setText("등록된 평점 없음");
+        else holder.rateTv.setText(rate + "");
         holder.runningTimeTv.setText(runningTime);
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override

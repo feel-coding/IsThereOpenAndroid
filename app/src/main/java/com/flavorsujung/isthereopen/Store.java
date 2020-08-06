@@ -1,13 +1,17 @@
 package com.flavorsujung.isthereopen;
 
 public class Store {
+    int type; // 0 카페, 1 식당, 2 술집
+    String photoUrl;
     String name;
     String openState;
     String latestUpdate;
     String runtime;
     double rate;
 
-    public Store(String name, String openState, String latestUpdate, String runtime, double rate) {
+    public Store(int type, String photoUrl, String name, String openState, String latestUpdate, String runtime, double rate) {
+        this.type = type;
+        this.photoUrl = photoUrl;
         this.name = name;
         this.openState = openState;
         this.latestUpdate = latestUpdate;
@@ -33,5 +37,9 @@ public class Store {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 }

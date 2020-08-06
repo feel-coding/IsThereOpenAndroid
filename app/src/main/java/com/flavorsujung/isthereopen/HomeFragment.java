@@ -55,10 +55,10 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 thereTv.setText("음식점");
                 storeList.clear();
-                storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
-                storeList.add(new Store("최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
-                storeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
-                storeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));
+                storeList.add(new Store(1, null, "홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
+                storeList.add(new Store(1, null, "최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
+                storeList.add(new Store(1, null, "봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
+                storeList.add(new Store(1, null, "아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -67,10 +67,10 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 thereTv.setText("카페");
                 storeList.clear();
-                storeList.add(new Store("본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
-                storeList.add(new Store("카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
-                storeList.add(new Store("카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
-                storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
+                storeList.add(new Store(0, null, "본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
+                storeList.add(new Store(0, null, "카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
+                storeList.add(new Store(0, null, "카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
+                storeList.add(new Store(0, null, "홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 thereTv.setText("술집");
                 storeList.clear();
-                storeList.add(new Store("도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
+                storeList.add(new Store(2, null, "도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -109,14 +109,14 @@ public class HomeFragment extends Fragment {
                             openState = "OPEN";
                         }
                         else {
-                            openState = "UNKNOWN";
+                            openState = "등록된 오픈 정보 없음";
                         }
                         String date;
                         if(cafe.getLastUpdate() == null)
                             date = "";
                         else date = cafe.getLastUpdate().toString();
                         Log.d("서버", cafe.getName());
-                        storeList.add(new Store(cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
+                        storeList.add(new Store(0, cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
                     }
                     Log.d("서버", storeList.toString());
                     adapter.notifyDataSetChanged();
@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Cafe>> call, Throwable t) {
-
+                Log.d("서버", t.getMessage());
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
