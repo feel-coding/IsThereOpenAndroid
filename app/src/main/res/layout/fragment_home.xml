@@ -32,7 +32,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:letterSpacing="0.2"
                     android:text="거기 열었나?"
                     android:textColor="#000000"
                     android:textSize="30sp" />

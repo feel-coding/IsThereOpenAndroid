@@ -6,10 +6,168 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.flavorsujung.isthereopen.CafeActivity">
-    <ImageView
-        android:id="@+id/cafeProfileImage"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cafeToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/cafeTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/cafeUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/cafeProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="현재 오픈 상태"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/cafeOpenStateTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="오픈상태"
+                    android:textColor="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="영업시간"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/cafeRunningTimeTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="영업시간"
+                    android:textColor="@color/colorBlack" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="주소"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/cafeAddressTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="주소"
+                    android:textColor="@color/colorBlack" />
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0.3dp"
+                android:background="@color/colorLightGrey" />
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:text="오픈 정보 업데이트(허위사실 기재는 자제바랍니다.)"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/cafeOpenBtn"
+                    android:text="OPEN"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:text="BREAK"
+                    android:id="@+id/cafeBreakBtn"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/cafeCloseBtn"
+                    android:layout_weight="1"
+                    android:text="CLOSE"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/reviewTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="3.5dp" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/cafeViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f0f0f0" />
+    </LinearLayout>
 </LinearLayout>

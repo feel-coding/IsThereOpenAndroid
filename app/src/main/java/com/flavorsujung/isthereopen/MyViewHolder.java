@@ -17,9 +17,11 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView rateTv;
     TextView latestUpdateTv;
     ImageView heartButton;
+    final View mView;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
+        mView = itemView;
         storePhotoIv = itemView.findViewById(R.id.storeLogo);
         storeNameTv = itemView.findViewById(R.id.storeName);
         openStateTv = itemView.findViewById(R.id.openState);

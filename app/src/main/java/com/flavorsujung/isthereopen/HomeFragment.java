@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     TextView thereTv;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
+    int selectedStoreType = 0; //0 카페, 1 식당, 2 술집
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,32 +57,148 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(selectedStoreType == 0) {
+                    serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
+                        @Override
+                        public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("서버", "성공");
+                                storeList.clear();
+                                for (Cafe cafe : response.body()) {
+                                    String openState;
+                                    if (cafe.getCurrentState() == 0) {
+                                        openState = "CLOSE";
+                                    } else if (cafe.getCurrentState() == 1) {
+                                        openState = "BREAKTIME";
+                                    } else if (cafe.getCurrentState() == 2) {
+                                        openState = "OPEN";
+                                    } else {
+                                        openState = "등록된 오픈 정보 없음";
+                                    }
+                                    Date date;
+                                    if (cafe.getLastUpdate() == null)
+                                        date = null;
+                                    else date = cafe.getLastUpdate();
+                                    Log.d("서버", cafe.getName());
+                                    storeList.add(new Store(0, cafe.getSeq(), cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
+                                }
+                                Log.d("서버", storeList.toString());
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Cafe>> call, Throwable t) {
+                            Log.d("서버", t.getMessage());
+                        }
+                    });
+                }
+                else if (selectedStoreType == 1) {
+                    serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
+                        @Override
+                        public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("서버", "성공");
+                                storeList.clear();
+                                for (Restaurant restaurant : response.body()) {
+                                    String openState;
+                                    if (restaurant.getCurrentState() == 0) {
+                                        openState = "CLOSE";
+                                    } else if (restaurant.getCurrentState() == 1) {
+                                        openState = "BREAKTIME";
+                                    } else if (restaurant.getCurrentState() == 2) {
+                                        openState = "OPEN";
+                                    } else {
+                                        openState = "등록된 오픈 정보 없음";
+                                    }
+                                    Date date;
+                                    if (restaurant.getLastUpdate() == null)
+                                        date = null;
+                                    else date = restaurant.getLastUpdate();
+                                    Log.d("서버", restaurant.getName());
+                                    storeList.add(new Store(0, restaurant.getSeq(), restaurant.getPhotoURL(), restaurant.getName(), openState, date, restaurant.getRunningTime(), restaurant.getRate()));
+                                }
+                                Log.d("서버", storeList.toString());
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                            Log.d("서버", t.getMessage());
+                        }
+                    });
+                }
+                swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
+        restaurantBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thereTv.setText("음식점");
+                serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
+                    @Override
+                    public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("서버", "성공");
+                            storeList.clear();
+                            for (Restaurant restaurant : response.body()) {
+                                String openState;
+                                if (restaurant.getCurrentState() == 0) {
+                                    openState = "CLOSE";
+                                } else if (restaurant.getCurrentState() == 1) {
+                                    openState = "BREAKTIME";
+                                } else if (restaurant.getCurrentState() == 2) {
+                                    openState = "OPEN";
+                                } else {
+                                    openState = "등록된 오픈 정보 없음";
+                                }
+                                Date date;
+                                if (restaurant.getLastUpdate() == null)
+                                    date = null;
+                                else date = restaurant.getLastUpdate();
+                                Log.d("서버", restaurant.getName());
+                                storeList.add(new Store(1, restaurant.getSeq(), restaurant.getPhotoURL(), restaurant.getName(), openState, date, restaurant.getRunningTime(), restaurant.getRate()));
+                            }
+                            Log.d("서버", storeList.toString());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                        Log.d("서버", t.getMessage());
+                    }
+                });
+            }
+        });
+        cafeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thereTv.setText("카페");
                 serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
                     @Override
                     public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             Log.d("서버", "성공");
                             storeList.clear();
-                            for(Cafe cafe : response.body()) {
+                            for (Cafe cafe : response.body()) {
                                 String openState;
-                                if(cafe.getCurrentState() == 0) {
+                                if (cafe.getCurrentState() == 0) {
                                     openState = "CLOSE";
-                                }
-                                else if (cafe.getCurrentState() == 1) {
+                                } else if (cafe.getCurrentState() == 1) {
                                     openState = "BREAKTIME";
-                                }
-                                else if (cafe.getCurrentState() == 2) {
+                                } else if (cafe.getCurrentState() == 2) {
                                     openState = "OPEN";
-                                }
-                                else {
+                                } else {
                                     openState = "등록된 오픈 정보 없음";
                                 }
-                                String date;
-                                if(cafe.getLastUpdate() == null)
-                                    date = "";
-                                else date = cafe.getLastUpdate().toString();
+                                Date date;
+                                if (cafe.getLastUpdate() == null)
+                                    date = null;
+                                else date = cafe.getLastUpdate();
                                 Log.d("서버", cafe.getName());
-                                storeList.add(new Store(0, cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
+                                storeList.add(new Store(0, cafe.getSeq(), cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
                             }
                             Log.d("서버", storeList.toString());
                             adapter.notifyDataSetChanged();
@@ -93,40 +210,46 @@ public class HomeFragment extends Fragment {
                         Log.d("서버", t.getMessage());
                     }
                 });
-                swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
-            }
-        });
-        restaurantBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                thereTv.setText("음식점");
-                storeList.clear();
-                storeList.add(new Store(1, null, "홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
-                storeList.add(new Store(1, null, "최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
-                storeList.add(new Store(1, null, "봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
-                storeList.add(new Store(1, null, "아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));
-                adapter.notifyDataSetChanged();
-            }
-        });
-        cafeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                thereTv.setText("카페");
-                storeList.clear();
-                storeList.add(new Store(0, null, "본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
-                storeList.add(new Store(0, null, "카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
-                storeList.add(new Store(0, null, "카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
-                storeList.add(new Store(0, null, "홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
-                adapter.notifyDataSetChanged();
             }
         });
         barBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 thereTv.setText("술집");
-                storeList.clear();
-                storeList.add(new Store(2, null, "도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
-                adapter.notifyDataSetChanged();
+                serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
+                    @Override
+                    public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("서버", "성공");
+                            storeList.clear();
+                            for (Bar bar : response.body()) {
+                                String openState;
+                                if (bar.getCurrentState() == 0) {
+                                    openState = "CLOSE";
+                                } else if (bar.getCurrentState() == 1) {
+                                    openState = "BREAKTIME";
+                                } else if (bar.getCurrentState() == 2) {
+                                    openState = "OPEN";
+                                } else {
+                                    openState = "등록된 오픈 정보 없음";
+                                }
+                                Date date;
+                                if (bar.getLastUpdate() == null)
+                                    date = null;
+                                else date = bar.getLastUpdate();
+                                Log.d("서버", bar.getName());
+                                storeList.add(new Store(0, bar.getSeq(), bar.getPhotoURL(), bar.getName(), openState, date, bar.getRunningTime(), bar.getRate()));
+                            }
+                            Log.d("서버", storeList.toString());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Bar>> call, Throwable t) {
+                        Log.d("서버", t.getMessage());
+                    }
+                });
             }
         });
 
@@ -158,12 +281,12 @@ public class HomeFragment extends Fragment {
                         else {
                             openState = "등록된 오픈 정보 없음";
                         }
-                        String date;
+                        Date date;
                         if(cafe.getLastUpdate() == null)
-                            date = "";
-                        else date = cafe.getLastUpdate().toString();
+                            date = null;
+                        else date = cafe.getLastUpdate();
                         Log.d("서버", cafe.getName());
-                        storeList.add(new Store(0, cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
+                        storeList.add(new Store(0, cafe.getSeq(), cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
                     }
                     Log.d("서버", storeList.toString());
                     adapter.notifyDataSetChanged();

@@ -6,6 +6,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
@@ -25,18 +26,23 @@ public interface ServerAPI {
     @PUT("/user/{seq}")
     Call<Void> putUser(@Path("seq") Integer seq, @Body String id, @Body String name);
 
-    @PUT("/cafeOpenReview/{seq}")
-    Call<Void> putCafeOpenReview(@Path("seq") Integer seq, @Body Integer cafeSeq, @Body Integer userSeq, @Body Integer openState);
-
     @GET("/cafe/all")
     Call<List<Cafe>> getCafeList();
 
-    @GET("/restaurant/all")
-    public List<Restaurant> getRestaurantList();
+    @GET("cafe/{seq}")
+    Call<Cafe> getCafe(@Path("seq") Integer seq);
 
     @PUT("/cafe/{cafeSeq}/openReview") //오픈 리뷰 추가하는 API
-    public void putCafeOpenReview(@Path("cafeSeq") Integer cafeSeq, @Body Integer userSeq, @Body Integer openState);
+    Call<Void> putCafeOpenReview(@Path("cafeSeq") Integer cafeSeq, @Query("userSeq") Integer userSeq, @Query("openState") Integer openState);
 
+    @GET("/restaurant/all")
+    Call<List<Restaurant>> getRestaurantList();
+
+    @GET("/restaurant/{seq}")
+    Call<Restaurant> getRestaurant(@Path("seq") Integer seq);
+
+    @GET("/bar/all")
+    Call<List<Bar>> getBarList();
 
     /*
 

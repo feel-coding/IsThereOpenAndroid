@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-public class Restaurant {
+public class Bar {
     @SerializedName("seq")
     private Integer seq;
 
@@ -30,11 +30,11 @@ public class Restaurant {
     @SerializedName("lastUpdate")
     private Date lastUpdate;
 
-    @SerializedName("restaurantInfoReviewList")
-    private List<RestaurantInfoReview> restaurantInfoReviewList;
+    @SerializedName("barInfoReviewList")
+    List<CafeInfoReview> barInfoReviewList;
 
-    @SerializedName("restaurantOpenReviewList")
-    private List<RestaurantOpenReview> restaurantOpenReviewList;
+    @SerializedName("barOpenReviewList")
+    List<CafeOpenReview> barOpenReviewList;
 
     public Integer getSeq() {
         return seq;
@@ -100,19 +100,19 @@ public class Restaurant {
         this.lastUpdate = lastUpdate;
     }
 
-    public List<RestaurantInfoReview> getRestaurantInfoReviewList() {
-        return restaurantInfoReviewList;
+    public List<CafeInfoReview> getBarInfoReviewList() {
+        return barInfoReviewList;
     }
 
-    public void setRestaurantInfoReviewList(List<RestaurantInfoReview> restaurantInfoReviewList) {
-        this.restaurantInfoReviewList = restaurantInfoReviewList;
+    public void setBarInfoReviewList(List<CafeInfoReview> barInfoReviewList) {
+        this.barInfoReviewList = barInfoReviewList;
     }
 
-    public List<RestaurantOpenReview> getRestaurantOpenReviewList() {
-        return restaurantOpenReviewList;
+    public List<CafeOpenReview> getBarOpenReviewList() {
+        return barOpenReviewList;
     }
 
-    public void setRestaurantOpenReviewList(List<RestaurantOpenReview> restaurantOpenReviewList) {
-        this.restaurantOpenReviewList = restaurantOpenReviewList;
+    public void setBarOpenReviewList(List<CafeOpenReview> barOpenReviewList) {
+        this.barOpenReviewList = barOpenReviewList;
     }
 }
