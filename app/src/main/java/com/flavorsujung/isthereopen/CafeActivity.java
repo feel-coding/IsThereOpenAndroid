@@ -21,6 +21,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.flavorsujung.isthereopen.Cafe;
+import com.flavorsujung.isthereopen.CafeInfoReviewFragment;
+import com.flavorsujung.isthereopen.ImageActivity;
+import com.flavorsujung.isthereopen.OpenReviewFragment;
+import com.flavorsujung.isthereopen.R;
+import com.flavorsujung.isthereopen.RetrofitManager;
+import com.flavorsujung.isthereopen.ServerAPI;
+import com.flavorsujung.isthereopen.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

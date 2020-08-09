@@ -52,4 +52,6 @@ dependencies {
 
     //당겨서 새로고침
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation 'com.github.amarjain07:StickyScrollView:1.0.2'
 }
