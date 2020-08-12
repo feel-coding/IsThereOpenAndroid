@@ -35,14 +35,25 @@ public interface ServerAPI {
     @PUT("/cafe/{cafeSeq}/openReview") //오픈 리뷰 추가하는 API
     Call<Void> putCafeOpenReview(@Path("cafeSeq") Integer cafeSeq, @Query("userSeq") Integer userSeq, @Query("openState") Integer openState);
 
+    @GET("/cafe/{cafeSeq}/openReview")
+    Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("cafeSeq") Integer cafeSeq);
+
     @GET("/restaurant/all")
     Call<List<Restaurant>> getRestaurantList();
 
     @GET("/restaurant/{seq}")
     Call<Restaurant> getRestaurant(@Path("seq") Integer seq);
 
+    @PUT("/restaurant/{restaurantSeq}/openReview") //오픈 리뷰 추가하는 API
+    Call<Void> putRestaurantOpenReview(@Path("restaurantSeq") Integer cafeSeq, @Query("userSeq") Integer userSeq, @Query("openState") Integer openState);
+
+    @GET("/restaurant/{restaurantSeq}/openReview")
+    Call<List<RestaurantOpenReview>> getRestaurantOpenReviewList(@Path("restaurantSeq") Integer restaurantSeq);
+
     @GET("/bar/all")
     Call<List<Bar>> getBarList();
+
+
 
     /*
 

@@ -8,11 +8,9 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,21 +19,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.flavorsujung.isthereopen.Cafe;
-import com.flavorsujung.isthereopen.CafeInfoReviewFragment;
-import com.flavorsujung.isthereopen.ImageActivity;
-import com.flavorsujung.isthereopen.OpenReviewFragment;
-import com.flavorsujung.isthereopen.R;
-import com.flavorsujung.isthereopen.RetrofitManager;
-import com.flavorsujung.isthereopen.ServerAPI;
-import com.flavorsujung.isthereopen.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.OPTIONS;
 
 public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
 
@@ -48,7 +37,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     TabLayout tabLayout;
     ViewPager2 viewPager;
     String[] tabTitles= {"가게 리뷰", "오픈 리뷰"};
-    ViewPagerAdapter viewPagerAdapter;
+    CafeViewPagerAdapter cafeViewPagerAdapter;
     TextView openStateTv;
     TextView runningTimeTv;
     TextView addressTv;
@@ -70,10 +59,10 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
-        viewPagerAdapter = new ViewPagerAdapter(this, 2);
+        cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);
         tabLayout = findViewById(R.id.reviewTabLayout);
         viewPager = findViewById(R.id.cafeViewpager);
-        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setAdapter(cafeViewPagerAdapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
         cafeTitleTv = findViewById(R.id.cafeTitleTv);
         cafeLogoIv = findViewById(R.id.cafeProfileImage);

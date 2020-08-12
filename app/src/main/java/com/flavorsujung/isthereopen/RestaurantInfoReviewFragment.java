@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,27 +17,32 @@ import android.widget.ListView;
 import com.amar.library.ui.StickyScrollView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class CafeInfoReviewFragment extends Fragment {
+public class RestaurantInfoReviewFragment extends Fragment {
     Context mContext;
     Activity activity;
     StickyScrollView stickyScrollView;
     ListView listView;
-    private Integer cafeSeq;
+    Integer restaurantSeq;
+    ServerAPI serverAPI;
 
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public CafeInfoReviewFragment() {
+    public RestaurantInfoReviewFragment() {
         // Required empty public constructor
     }
 
 
-    public static CafeInfoReviewFragment newInstance(String param1, String param2) {
-        CafeInfoReviewFragment fragment = new CafeInfoReviewFragment();
+    public static RestaurantInfoReviewFragment newInstance(String param1, String param2) {
+        RestaurantInfoReviewFragment fragment = new RestaurantInfoReviewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -54,53 +59,38 @@ public class CafeInfoReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_cafe_info_review, container, false);
-        listView = v.findViewById(R.id.cafeInfoReviewLv);
-       /* listView.setNestedScrollingEnabled(false);
-        stickyScrollView = v.findViewById(R.id.stickyScroll);
-        stickyScrollView.setOnTouchListener(new View.OnTouchListener() {
+        View v =  inflater.inflate(R.layout.fragment_restaurant_info_review, container, false);
+        serverAPI = RetrofitManager.getInstance().getServerAPI(v.getContext());
+        listView = v.findViewById(R.id.restaurantInfoReviewLv);
+        ArrayList<String> arrayList = new ArrayList<>();
+        /*serverAPI.getRestaurantOpenReviewList(restaurantSeq).enqueue(new Callback<List<RestaurantOpenReview>>() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!stickyScrollView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
+            public void onResponse(Call<List<RestaurantOpenReview>> call, Response<List<RestaurantOpenReview>> response) {
+                if (response.isSuccessful()) {
+                    for (RestaurantOpenReview review : response.body()) {
+                        String state;
+                        Integer openState = review.getOpenState();
+                        if (openState == 0) {
+                            state = "CLOSE를";
+                        }
+                        else if (openState == 1) {
+                            state = "BREAK를";
+                        }
+                        else if (openState == 2) {
+                            state = "OPEN을";
+                        }
+                        else
+                            state = "UNKNOWN";
+                        //arrayList.add("(사용자id)님이" +review.getUpdatedTime().getHours() + "시 " + review.getUpdatedTime().getMinutes() + "분에 " + state + " 확인했습니다.");
+                    }
                 }
-                else if (!stickyScrollView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                return false;
             }
-        });
-        listView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!stickyScrollView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else if (!stickyScrollView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                return false;
+            public void onFailure(Call<List<RestaurantOpenReview>> call, Throwable t) {
+
             }
         });*/
-        ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("(사용자id)님이 몇시 몇분에 CLOSE을 확인하였습니다.");
         arrayList.add("(사용자id)님이 몇시 몇분에 BREAK를 확인하였습니다.");
         arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
@@ -126,8 +116,7 @@ public class CafeInfoReviewFragment extends Fragment {
         mContext = context;
         if(context instanceof Activity)
             activity = (Activity) context;
-        cafeSeq = activity.getIntent().getIntExtra("seq", 0);
-
+        restaurantSeq = activity.getIntent().getIntExtra("seq", 0);
     }
 
     @Override

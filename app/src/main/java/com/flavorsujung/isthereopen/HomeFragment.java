@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -58,76 +57,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if(selectedStoreType == 0) {
-                    serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
-                        @Override
-                        public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
-                            if (response.isSuccessful()) {
-                                Log.d("서버", "성공");
-                                storeList.clear();
-                                for (Cafe cafe : response.body()) {
-                                    String openState;
-                                    if (cafe.getCurrentState() == 0) {
-                                        openState = "CLOSE";
-                                    } else if (cafe.getCurrentState() == 1) {
-                                        openState = "BREAKTIME";
-                                    } else if (cafe.getCurrentState() == 2) {
-                                        openState = "OPEN";
-                                    } else {
-                                        openState = "등록된 오픈 정보 없음";
-                                    }
-                                    Date date;
-                                    if (cafe.getLastUpdate() == null)
-                                        date = null;
-                                    else date = cafe.getLastUpdate();
-                                    Log.d("서버", cafe.getName());
-                                    storeList.add(new Store(0, cafe.getSeq(), cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
-                                }
-                                Log.d("서버", storeList.toString());
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<Cafe>> call, Throwable t) {
-                            Log.d("서버", t.getMessage());
-                        }
-                    });
+                    refreshCafeList();
                 }
                 else if (selectedStoreType == 1) {
-                    serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
-                        @Override
-                        public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
-                            if (response.isSuccessful()) {
-                                Log.d("서버", "성공");
-                                storeList.clear();
-                                for (Restaurant restaurant : response.body()) {
-                                    String openState;
-                                    if (restaurant.getCurrentState() == 0) {
-                                        openState = "CLOSE";
-                                    } else if (restaurant.getCurrentState() == 1) {
-                                        openState = "BREAKTIME";
-                                    } else if (restaurant.getCurrentState() == 2) {
-                                        openState = "OPEN";
-                                    } else {
-                                        openState = "등록된 오픈 정보 없음";
-                                    }
-                                    Date date;
-                                    if (restaurant.getLastUpdate() == null)
-                                        date = null;
-                                    else date = restaurant.getLastUpdate();
-                                    Log.d("서버", restaurant.getName());
-                                    storeList.add(new Store(0, restaurant.getSeq(), restaurant.getPhotoURL(), restaurant.getName(), openState, date, restaurant.getRunningTime(), restaurant.getRate()));
-                                }
-                                Log.d("서버", storeList.toString());
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<Restaurant>> call, Throwable t) {
-                            Log.d("서버", t.getMessage());
-                        }
-                    });
+                    refreshRestaurantList();
                 }
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
@@ -136,120 +69,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 thereTv.setText("음식점");
-                serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
-                    @Override
-                    public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("서버", "성공");
-                            storeList.clear();
-                            for (Restaurant restaurant : response.body()) {
-                                String openState;
-                                if (restaurant.getCurrentState() == 0) {
-                                    openState = "CLOSE";
-                                } else if (restaurant.getCurrentState() == 1) {
-                                    openState = "BREAKTIME";
-                                } else if (restaurant.getCurrentState() == 2) {
-                                    openState = "OPEN";
-                                } else {
-                                    openState = "등록된 오픈 정보 없음";
-                                }
-                                Date date;
-                                if (restaurant.getLastUpdate() == null)
-                                    date = null;
-                                else date = restaurant.getLastUpdate();
-                                Log.d("서버", restaurant.getName());
-                                storeList.add(new Store(1, restaurant.getSeq(), restaurant.getPhotoURL(), restaurant.getName(), openState, date, restaurant.getRunningTime(), restaurant.getRate()));
-                            }
-                            Log.d("서버", storeList.toString());
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Restaurant>> call, Throwable t) {
-                        Log.d("서버", t.getMessage());
-                    }
-                });
+                selectedStoreType = 1;
+                refreshRestaurantList();
             }
         });
         cafeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 thereTv.setText("카페");
-                serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
-                    @Override
-                    public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("서버", "성공");
-                            storeList.clear();
-                            for (Cafe cafe : response.body()) {
-                                String openState;
-                                if (cafe.getCurrentState() == 0) {
-                                    openState = "CLOSE";
-                                } else if (cafe.getCurrentState() == 1) {
-                                    openState = "BREAKTIME";
-                                } else if (cafe.getCurrentState() == 2) {
-                                    openState = "OPEN";
-                                } else {
-                                    openState = "등록된 오픈 정보 없음";
-                                }
-                                Date date;
-                                if (cafe.getLastUpdate() == null)
-                                    date = null;
-                                else date = cafe.getLastUpdate();
-                                Log.d("서버", cafe.getName());
-                                storeList.add(new Store(0, cafe.getSeq(), cafe.getPhotoURL(), cafe.getName(), openState, date, cafe.getRunningTime(), cafe.getRate()));
-                            }
-                            Log.d("서버", storeList.toString());
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Cafe>> call, Throwable t) {
-                        Log.d("서버", t.getMessage());
-                    }
-                });
+                selectedStoreType = 0;
+                refreshCafeList();
             }
         });
         barBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 thereTv.setText("술집");
-                serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
-                    @Override
-                    public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("서버", "성공");
-                            storeList.clear();
-                            for (Bar bar : response.body()) {
-                                String openState;
-                                if (bar.getCurrentState() == 0) {
-                                    openState = "CLOSE";
-                                } else if (bar.getCurrentState() == 1) {
-                                    openState = "BREAKTIME";
-                                } else if (bar.getCurrentState() == 2) {
-                                    openState = "OPEN";
-                                } else {
-                                    openState = "등록된 오픈 정보 없음";
-                                }
-                                Date date;
-                                if (bar.getLastUpdate() == null)
-                                    date = null;
-                                else date = bar.getLastUpdate();
-                                Log.d("서버", bar.getName());
-                                storeList.add(new Store(0, bar.getSeq(), bar.getPhotoURL(), bar.getName(), openState, date, bar.getRunningTime(), bar.getRate()));
-                            }
-                            Log.d("서버", storeList.toString());
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Bar>> call, Throwable t) {
-                        Log.d("서버", t.getMessage());
-                    }
-                });
+                selectedStoreType = 2;
+                refreshBarList();
             }
         });
 
@@ -261,6 +98,64 @@ public class HomeFragment extends Fragment {
         storeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
         storeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
         storeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));*/
+        refreshCafeList();
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        adapter = new StoreAdapter(storeList, mContext);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new MyItemDecorator());
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+
+
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+        if (context instanceof Activity)
+            activity = (Activity) context;
+    }
+    void refreshRestaurantList(){
+        serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
+            @Override
+            public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("서버", "성공");
+                    storeList.clear();
+                    for (Restaurant restaurant : response.body()) {
+                        String openState;
+                        if (restaurant.getCurrentState() == 0) {
+                            openState = "CLOSE";
+                        } else if (restaurant.getCurrentState() == 1) {
+                            openState = "BREAK";
+                        } else if (restaurant.getCurrentState() == 2) {
+                            openState = "OPEN";
+                        } else {
+                            openState = "등록된 오픈 정보 없음";
+                        }
+                        Date date;
+                        if (restaurant.getLastUpdate() == null)
+                            date = null;
+                        else date = restaurant.getLastUpdate();
+                        Log.d("서버", restaurant.getName());
+                        storeList.add(new Store(1, restaurant.getSeq(), restaurant.getPhotoURL(), restaurant.getName(), openState, date, restaurant.getRunningTime(), restaurant.getRate()));
+                    }
+                    Log.d("서버", storeList.toString());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                Log.d("서버", t.getMessage());
+            }
+        });
+    }
+    void refreshCafeList(){
         serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
             @Override
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
@@ -273,7 +168,7 @@ public class HomeFragment extends Fragment {
                             openState = "CLOSE";
                         }
                         else if (cafe.getCurrentState() == 1) {
-                            openState = "BREAKTIME";
+                            openState = "BREAK";
                         }
                         else if (cafe.getCurrentState() == 2) {
                             openState = "OPEN";
@@ -298,24 +193,41 @@ public class HomeFragment extends Fragment {
                 Log.d("서버", t.getMessage());
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        adapter = new StoreAdapter(storeList, mContext);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new MyItemDecorator());
-        return v;
     }
+    void refreshBarList(){
+        serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
+            @Override
+            public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("서버", "성공");
+                    storeList.clear();
+                    for (Bar bar : response.body()) {
+                        String openState;
+                        if (bar.getCurrentState() == 0) {
+                            openState = "CLOSE";
+                        } else if (bar.getCurrentState() == 1) {
+                            openState = "BREAK";
+                        } else if (bar.getCurrentState() == 2) {
+                            openState = "OPEN";
+                        } else {
+                            openState = "등록된 오픈 정보 없음";
+                        }
+                        Date date;
+                        if (bar.getLastUpdate() == null)
+                            date = null;
+                        else date = bar.getLastUpdate();
+                        Log.d("서버", bar.getName());
+                        storeList.add(new Store(0, bar.getSeq(), bar.getPhotoURL(), bar.getName(), openState, date, bar.getRunningTime(), bar.getRate()));
+                    }
+                    Log.d("서버", storeList.toString());
+                    adapter.notifyDataSetChanged();
+                }
+            }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-
-
-    }
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = context;
-        if (context instanceof Activity)
-            activity = (Activity) context;
+            @Override
+            public void onFailure(Call<List<Bar>> call, Throwable t) {
+                Log.d("서버", t.getMessage());
+            }
+        });
     }
 }

@@ -124,23 +124,28 @@
                 android:text="오픈 정보 업데이트(허위사실 기재는 자제바랍니다.)"
                 android:layout_height="wrap_content" />
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <Button
+                    android:background="@drawable/black_round_square"
                     android:id="@+id/cafeOpenBtn"
                     android:text="OPEN"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <Button
+                    android:background="@drawable/black_round_square"
                     android:text="BREAK"
                     android:id="@+id/cafeBreakBtn"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <Button
+                    android:background="@drawable/black_round_square"
                     android:id="@+id/cafeCloseBtn"
                     android:layout_weight="1"
                     android:text="CLOSE"
@@ -161,8 +166,10 @@
             android:id="@+id/reviewTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabTextColor="@color/colorLightGrey"
+            app:tabSelectedTextColor="@color/colorPrimary"
             app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorHeight="3.5dp" />
+            app:tabIndicatorHeight="3dp" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/cafeViewpager"

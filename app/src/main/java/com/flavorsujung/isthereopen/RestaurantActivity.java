@@ -1,14 +1,217 @@
 package com.flavorsujung.isthereopen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class RestaurantActivity extends AppCompatActivity {
+import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class RestaurantActivity extends AppCompatActivity implements RestaurantInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
+
+
+    ImageView restaurantLogoIv;
+    Intent intent;
+    Restaurant restaurant;
+    ServerAPI serverAPI;
+    TextView restaurantTitleTv;
+    Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
+    String[] tabTitles= {"가게 리뷰", "오픈 리뷰"};
+    RestaurantViewPagerAdapter restaurantViewPagerAdapter;
+    TextView openStateTv;
+    TextView runningTimeTv;
+    TextView addressTv;
+    SwipeRefreshLayout swipeRefreshLayout;
+    Button openBtn;
+    Button breakBtn;
+    Button closeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+//        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
+        serverAPI = RetrofitManager.getInstance().getServerAPI(this);
+        toolbar = findViewById(R.id.restaurantToolbar);
+        swipeRefreshLayout = findViewById(R.id.restaurantUpdate);
+        restaurantViewPagerAdapter = new RestaurantViewPagerAdapter(this, 2);
+        tabLayout = findViewById(R.id.reviewTabLayout);
+        viewPager = findViewById(R.id.restaurantViewpager);
+        viewPager.setAdapter(restaurantViewPagerAdapter);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
+        restaurantTitleTv = findViewById(R.id.restaurantTitleTv);
+        restaurantLogoIv = findViewById(R.id.restaurantProfileImage);
+        openStateTv = findViewById(R.id.restaurantOpenStateTv);
+        runningTimeTv = findViewById(R.id.restaurantRunningTimeTv);
+        addressTv = findViewById(R.id.restaurantAddressTv);
+        openBtn = findViewById(R.id.restaurantOpenBtn);
+        breakBtn = findViewById(R.id.restaurantBreakBtn);
+        closeBtn = findViewById(R.id.restaurantCloseBtn);
+
+        intent = getIntent();
+        serverAPI.getRestaurant(intent.getIntExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
+            @Override
+            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+                if (response.isSuccessful()) {
+                    restaurant = response.body();
+                    restaurantTitleTv.setText(restaurant.getName());
+                    Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
+//                    Log.d("서버", restaurant.getCurrentState());
+                    String openState;
+                    if (restaurant.getCurrentState() == 0)
+                        openState = "CLOSE";
+
+                    else if (restaurant.getCurrentState() == 1)
+                        openState = "BREAK";
+
+                    else if (restaurant.getCurrentState() == 2)
+                        openState = "OPEN";
+                    else
+                        openState = "UNKNOWN";
+                    openStateTv.setText(openState);
+                    addressTv.setText(restaurant.getAddress());
+                    runningTimeTv.setText(restaurant.getRunningTime());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Restaurant> call, Throwable t) {
+
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                serverAPI.getRestaurant(restaurant.getSeq()).enqueue(new Callback<Restaurant>() {
+                    @Override
+                    public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+                        if (response.isSuccessful()) {
+                            Integer state = response.body().getCurrentState();
+                            if(state == 0) {
+                                openStateTv.setText("CLOSE");
+                            }
+                            else if (state == 1) {
+                                openStateTv.setText("BREAK");
+                            }
+                            else if (state == 2) {
+                                openStateTv.setText("OPEN");
+                            }
+                            else {
+                                openStateTv.setText("UNKNOWN");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Restaurant> call, Throwable t) {
+
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
+        openBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 2).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 OPEN으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            openStateTv.setText("OPEN");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        breakBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 1).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 BREAK로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            openStateTv.setText("BREAK");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 0).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 CLOSE로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            openStateTv.setText("CLOSE");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
+        restaurantLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
+        restaurantLogoIv.setClipToOutline(true);
+        restaurantLogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(RestaurantActivity.this, ImageActivity.class);
+                i.putExtra("imageURL", restaurant.getPhotoURL());
+                startActivity(i);
+            }
+        });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
