@@ -2,13 +2,12 @@ package com.flavorsujung.isthereopen;
 
 import java.util.Date;
 
-public class RestaurantOpenReview {
+public class BarOpenReview {
     Integer seq;
     Integer cafeSeq;
     Integer userSeq;
     Integer openState; //0 close, 1 break time, 2 open, 3 미확인
     Date updatedAt;
-
     public Integer getSeq() {
         return seq;
     }

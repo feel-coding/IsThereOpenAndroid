@@ -1,10 +1,13 @@
 package com.flavorsujung.isthereopen;
 
+import java.util.Date;
+
 public class CafeOpenReview {
     Integer seq;
     Integer cafeSeq;
     Integer userSeq;
     Integer openState; //0 close, 1 break time, 2 open, 3 미확인
+    Date updatedAt;
 
     public Integer getSeq() {
         return seq;
@@ -36,5 +39,13 @@ public class CafeOpenReview {
 
     public void setOpenState(Integer openState) {
         this.openState = openState;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
