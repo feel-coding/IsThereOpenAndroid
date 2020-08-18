@@ -35,26 +35,27 @@ public class SignUpActivity extends AppCompatActivity {
                 if(userNameEdit.getText().toString().equals("")) {
                     Toast.makeText(SignUpActivity.this, "최소 한 글자는 입력해야합니다.", Toast.LENGTH_SHORT).show();
                 }
-                serverAPI.putUser(userNameEdit.getText().toString()).enqueue(new Callback<Integer>() {
+                serverAPI.putUser(userNameEdit.getText().toString()).enqueue(new Callback<Long>() {
                     @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    public void onResponse(Call<Long> call, Response<Long> response) {
                         if(response.isSuccessful()) {
-                            if(response.body() == 0) { //사용가능
+                            if(response.body() != -1L) { //사용가능
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("exist", true); //1은 닉네임 있다는거
+                                editor.putLong("userSeq", response.body());
                                 editor.apply();
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 startActivity(i);
                                 finish();
                             }
-                            else if (response.body() == -1) { //이미 존재
+                            else  { //이미 존재
                                 Toast.makeText(SignUpActivity.this, "이미 존재하는 닉네임입니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
+                    public void onFailure(Call<Long> call, Throwable t) {
 
                     }
                 });

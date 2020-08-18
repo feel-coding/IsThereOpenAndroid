@@ -34,13 +34,13 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         int type = storeList.get(position).type;
-        int seq = storeList.get(position).seq;
+        Long seq = storeList.get(position).seq;
         String storePhotoUrl = storeList.get(position).photoUrl;
         String storeName = storeList.get(position).name;
         String openState = storeList.get(position).openState;
         Date latestUpdate = storeList.get(position).latestUpdate;
         String runningTime = storeList.get(position).runtime;
-        double rate = storeList.get(position).rate;
+        double rate = storeList.get(position).avgRate;
         Glide.with(mContext).load(storePhotoUrl).into(holder.storePhotoIv);
         holder.storeNameTv.setText(storeName);
         holder.openStateTv.setText(openState);

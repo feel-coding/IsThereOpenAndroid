@@ -12,7 +12,7 @@ public class BarInfoReview {
     @SerializedName("barSeq")
     private Long barSeq;
 
-    @SerializedName("rate")
+    @SerializedName("avgRate")
     private String rate;
 
     @SerializedName("toilet")

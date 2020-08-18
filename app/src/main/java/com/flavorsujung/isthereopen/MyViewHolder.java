@@ -26,7 +26,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         storeNameTv = itemView.findViewById(R.id.storeName);
         openStateTv = itemView.findViewById(R.id.openState);
         runningTimeTv = itemView.findViewById(R.id.runningTime);
-        rateTv = itemView.findViewById(R.id.rate);
+        rateTv = itemView.findViewById(R.id.avgRate);
         latestUpdateTv = itemView.findViewById(R.id.latestUpdate);
         heartButton = itemView.findViewById(R.id.addPatron);
         storePhotoIv.setBackground(new ShapeDrawable(new OvalShape()));

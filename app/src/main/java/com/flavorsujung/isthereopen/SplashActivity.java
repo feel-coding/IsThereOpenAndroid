@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import javax.net.ssl.HandshakeCompletedEvent;
 
@@ -19,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         boolean nicknameExist = sharedPreferences.getBoolean("exist", false);
+        Log.d("사용자 seq", ": " + sharedPreferences.getLong("userSeq", 0));
 
         new Handler().postDelayed(new Runnable() {
             @Override

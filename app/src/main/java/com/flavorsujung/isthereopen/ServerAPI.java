@@ -12,8 +12,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServerAPI {
-    String BASE_URL = "http://210.125.96.73:8081"; //서버 url
-//    String BASE_URL = "http://13.125.64.62:8081";
+//    String BASE_URL = "http://210.125.96.73:8081"; //학교 컴퓨터 서버 url
+//    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
+    String BASE_URL = "http://192.168.126.1:8081";
 
     //----------카페 API---------------
     @GET("/cafe/{cafeSeq}/openState")// 카페 오픈 여부 조회
@@ -53,7 +54,7 @@ public interface ServerAPI {
             @Query("price") String price,
             @Query("customerNum") String customerNum,
             @Query("plugNum") String plugNum,
-            @Query("rate") String rate,
+            @Query("avgRate") String rate,
             @Query("tableHeight") String tableHeight,
             @Query("lightness") String lightness,
             @Query("stayLong") String stayLong);
@@ -96,7 +97,7 @@ public interface ServerAPI {
     Call<Void> putRestaurantInfoReview(
             @Path("restaurantSeq") Long restaurantSeq,
             @Query("userSeq") Long userSeq,
-            @Query("rate") String rate, @Query("waitingTime") String waitingTime,
+            @Query("avgRate") String rate, @Query("waitingTime") String waitingTime,
             @Query("cleanness") String cleanness,@Query("price") String price,
             @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyle") String openStyle);
 
@@ -137,7 +138,7 @@ public interface ServerAPI {
     Call<Void> putBarInfoReview(
             @Path("barSeq") Long barSeq,
             @Query("userSeq") Long userSeq,
-            @Query("rate") String rate,
+            @Query("avgRate") String rate,
             @Query("toilet") String toilet,
             @Query("mood") String mood,
             @Query("mainAlcohol") String mainAlcohol,
@@ -162,7 +163,7 @@ public interface ServerAPI {
     Call<List<User>> getUserList();
 
     @PUT("/user") //사용자 추가
-    Call<Integer> putUser(@Query("name") String name); //이미 존재하는 이름이면 -1 반환, 성공적이면 0 반환
+    Call<Long> putUser(@Query("name") String name); //이미 존재하는 이름이면 -1 반환, 성공적이면 0 반환
 
     @POST("/user/{seq}") //사용자 이름 변경
     Call<Void> postUserName(@Query("seq") Long userSeq, @Query("name") String name);

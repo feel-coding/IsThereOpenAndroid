@@ -13,7 +13,7 @@ public class RestaurantInfoReview {
     @SerializedName("userSeq")
     private Long userSeq;
 
-    @SerializedName("rate")
+    @SerializedName("avgRate")
     private String rate;
 
     @SerializedName("waitingTime")

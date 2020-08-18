@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
@@ -34,8 +35,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     ServerAPI serverAPI;
     TextView cafeTitleTv;
     Toolbar toolbar;
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
+//    TabLayout tabLayout;
+//    ViewPager2 viewPager;
     String[] tabTitles= {"가게 리뷰", "오픈 리뷰"};
     CafeViewPagerAdapter cafeViewPagerAdapter;
     TextView openStateTv;
@@ -45,6 +46,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     Button openBtn;
     Button breakBtn;
     Button closeBtn;
+    SharedPreferences sharedPreferences;
+    Long userSeq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,15 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 //        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 //        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
+        sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
+        userSeq = sharedPreferences.getLong("userSeq", 0L);
         toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
         cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);
-        tabLayout = findViewById(R.id.reviewTabLayout);
-        viewPager = findViewById(R.id.cafeViewpager);
-        viewPager.setAdapter(cafeViewPagerAdapter);
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
+//        tabLayout = findViewById(R.id.reviewTabLayout);
+//        viewPager = findViewById(R.id.cafeViewpager);
+//        viewPager.setAdapter(cafeViewPagerAdapter);
+//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
         cafeTitleTv = findViewById(R.id.cafeTitleTv);
         cafeLogoIv = findViewById(R.id.cafeProfileImage);
         openStateTv = findViewById(R.id.cafeOpenStateTv);
@@ -74,7 +79,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         closeBtn = findViewById(R.id.cafeCloseBtn);
 
         intent = getIntent();
-        /*serverAPI.getCafe(intent.getIntExtra("seq", 0)).enqueue(new Callback<Cafe>() {
+        serverAPI.getCafe(intent.getLongExtra("seq", 0)).enqueue(new Callback<Cafe>() {
             @Override
             public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                 if (response.isSuccessful()) {
@@ -82,17 +87,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     cafeTitleTv.setText(cafe.getName());
                     Glide.with(CafeActivity.this).load(cafe.getPhotoURL()).into(cafeLogoIv);
 //                    Log.d("서버", cafe.getCurrentState());
-                    String openState;
-                    if (cafe.getCurrentState() == 0)
-                        openState = "CLOSE";
-
-                    else if (cafe.getCurrentState() == 1)
-                        openState = "BREAK";
-
-                    else if (cafe.getCurrentState() == 2)
-                        openState = "OPEN";
-                    else
-                        openState = "UNKNOWN";
+                    String openState = cafe.getCurrentState();
                     openStateTv.setText(openState);
                     addressTv.setText(cafe.getAddress());
                     runningTimeTv.setText(cafe.getRunningTime());
@@ -103,27 +98,15 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             public void onFailure(Call<Cafe> call, Throwable t) {
 
             }
-        });*/
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                /*serverAPI.getCafe(cafe.getSeq()).enqueue(new Callback<Cafe>() {
+                serverAPI.getCafe(cafe.getSeq()).enqueue(new Callback<Cafe>() {
                     @Override
                     public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                         if (response.isSuccessful()) {
-                            Integer state = response.body().getCurrentState();
-                            if(state == 0) {
-                                openStateTv.setText("CLOSE");
-                            }
-                            else if (state == 1) {
-                                openStateTv.setText("BREAK");
-                            }
-                            else if (state == 2) {
-                                openStateTv.setText("OPEN");
-                            }
-                            else {
-                                openStateTv.setText("UNKNOWN");
-                            }
+                            openStateTv.setText(response.body().getCurrentState());
                         }
                     }
 
@@ -131,14 +114,14 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Cafe> call, Throwable t) {
 
                     }
-                });*/
+                });
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 2).enqueue(new Callback<Void>() {
+                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "OPEN").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -151,13 +134,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 1).enqueue(new Callback<Void>() {
+                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "BREAK").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -170,13 +153,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 0).enqueue(new Callback<Void>() {
+                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "CLOSE").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -189,7 +172,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
 

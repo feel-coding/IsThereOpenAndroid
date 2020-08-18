@@ -13,7 +13,7 @@ public class CafeInfoReview {
     @SerializedName("cafeSeq")
     private Long cafeSeq;
 
-    @SerializedName("rate")
+    @SerializedName("avgRate")
     private String rate;
 
     @SerializedName("waitingTime")

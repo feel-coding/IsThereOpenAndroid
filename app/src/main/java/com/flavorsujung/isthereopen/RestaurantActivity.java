@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
@@ -36,7 +37,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager2 viewPager;
-    String[] tabTitles= {"가게 리뷰", "오픈 리뷰"};
+    String[] tabTitles = {"가게 리뷰", "오픈 리뷰"};
     RestaurantViewPagerAdapter restaurantViewPagerAdapter;
     TextView openStateTv;
     TextView runningTimeTv;
@@ -45,6 +46,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     Button openBtn;
     Button breakBtn;
     Button closeBtn;
+    SharedPreferences sharedPreferences;
+    Long userSeq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,18 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
 //        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 //        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
+        sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
+        userSeq = sharedPreferences.getLong("userSeq", 0L);
         toolbar = findViewById(R.id.restaurantToolbar);
         swipeRefreshLayout = findViewById(R.id.restaurantUpdate);
         restaurantViewPagerAdapter = new RestaurantViewPagerAdapter(this, 2);
         tabLayout = findViewById(R.id.reviewTabLayout);
         viewPager = findViewById(R.id.restaurantViewpager);
         viewPager.setAdapter(restaurantViewPagerAdapter);
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(tabTitles[position]);
+            viewPager.setCurrentItem(tab.getPosition(), true);
+        }).attach();
         restaurantTitleTv = findViewById(R.id.restaurantTitleTv);
         restaurantLogoIv = findViewById(R.id.restaurantProfileImage);
         openStateTv = findViewById(R.id.restaurantOpenStateTv);
@@ -74,7 +82,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         closeBtn = findViewById(R.id.restaurantCloseBtn);
 
         intent = getIntent();
-        /*serverAPI.getRestaurant(intent.getIntExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
+        serverAPI.getRestaurant(intent.getLongExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.isSuccessful()) {
@@ -82,17 +90,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     restaurantTitleTv.setText(restaurant.getName());
                     Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
 //                    Log.d("서버", restaurant.getCurrentState());
-                    String openState;
-                    if (restaurant.getCurrentState() == 0)
-                        openState = "CLOSE";
-
-                    else if (restaurant.getCurrentState() == 1)
-                        openState = "BREAK";
-
-                    else if (restaurant.getCurrentState() == 2)
-                        openState = "OPEN";
-                    else
-                        openState = "UNKNOWN";
+                    String openState = restaurant.getCurrentState();
                     openStateTv.setText(openState);
                     addressTv.setText(restaurant.getAddress());
                     runningTimeTv.setText(restaurant.getRunningTime());
@@ -103,27 +101,15 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onFailure(Call<Restaurant> call, Throwable t) {
 
             }
-        });*/
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                /*serverAPI.getRestaurant(restaurant.getSeq()).enqueue(new Callback<Restaurant>() {
+                serverAPI.getRestaurant(restaurant.getSeq()).enqueue(new Callback<Restaurant>() {
                     @Override
                     public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                         if (response.isSuccessful()) {
-                            Integer state = response.body().getCurrentState();
-                            if(state == 0) {
-                                openStateTv.setText("CLOSE");
-                            }
-                            else if (state == 1) {
-                                openStateTv.setText("BREAK");
-                            }
-                            else if (state == 2) {
-                                openStateTv.setText("OPEN");
-                            }
-                            else {
-                                openStateTv.setText("UNKNOWN");
-                            }
+                            openStateTv.setText(response.body().getCurrentState());
                         }
                     }
 
@@ -131,14 +117,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Restaurant> call, Throwable t) {
 
                     }
-                });*/
+                });
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 2).enqueue(new Callback<Void>() {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "OPEN").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -151,13 +137,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 1).enqueue(new Callback<Void>() {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "BREAK").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -170,13 +156,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 0).enqueue(new Callback<Void>() {
+                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "CLOSE").enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -189,7 +175,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });*/
+                });
             }
         });
 
