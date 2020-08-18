@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Intent i = new Intent(this, ServerTestActivity.class);
-//        startActivity(i); // 서버 테스트용
+        Intent i = new Intent(this, ServerTestActivity.class);
+        startActivity(i); // 서버 테스트용
         SharedPreferences sharedPref = getSharedPreferences("pw", Context.MODE_PRIVATE);
         String p = sharedPref.getString(SHARED_PREF_PASSWORD, "-1");
         Log.d("pwpwpw", p);

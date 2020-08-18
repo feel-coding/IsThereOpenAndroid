@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
             activity = (Activity) context;
     }
     void refreshRestaurantList(){
-        serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
+        /*serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
             @Override
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 if (response.isSuccessful()) {
@@ -153,10 +153,10 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<List<Restaurant>> call, Throwable t) {
                 Log.d("서버", t.getMessage());
             }
-        });
+        });*/
     }
     void refreshCafeList(){
-        serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
+        /*serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
             @Override
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
                 if(response.isSuccessful()) {
@@ -192,10 +192,10 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<List<Cafe>> call, Throwable t) {
                 Log.d("서버", t.getMessage());
             }
-        });
+        });*/
     }
     void refreshBarList(){
-        serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
+        /*serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
             @Override
             public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
                 if (response.isSuccessful()) {
@@ -228,6 +228,6 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<List<Bar>> call, Throwable t) {
                 Log.d("서버", t.getMessage());
             }
-        });
+        });*/
     }
 }

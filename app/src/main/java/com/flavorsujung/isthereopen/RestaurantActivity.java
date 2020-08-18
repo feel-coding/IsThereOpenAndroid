@@ -74,7 +74,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         closeBtn = findViewById(R.id.restaurantCloseBtn);
 
         intent = getIntent();
-        serverAPI.getRestaurant(intent.getIntExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
+        /*serverAPI.getRestaurant(intent.getIntExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.isSuccessful()) {
@@ -103,11 +103,11 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onFailure(Call<Restaurant> call, Throwable t) {
 
             }
-        });
+        });*/
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                serverAPI.getRestaurant(restaurant.getSeq()).enqueue(new Callback<Restaurant>() {
+                /*serverAPI.getRestaurant(restaurant.getSeq()).enqueue(new Callback<Restaurant>() {
                     @Override
                     public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                         if (response.isSuccessful()) {
@@ -131,14 +131,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Restaurant> call, Throwable t) {
 
                     }
-                });
+                });*/
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 2).enqueue(new Callback<Void>() {
+                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 2).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -151,13 +151,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 1).enqueue(new Callback<Void>() {
+                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 1).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -170,13 +170,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 0).enqueue(new Callback<Void>() {
+                /*serverAPI.putRestaurantOpenReview(restaurant.getSeq(), 0, 0).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -189,7 +189,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
 
@@ -207,7 +207,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        
+
     }
 
     @Override

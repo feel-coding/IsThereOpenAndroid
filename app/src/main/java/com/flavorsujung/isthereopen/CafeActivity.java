@@ -74,7 +74,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         closeBtn = findViewById(R.id.cafeCloseBtn);
 
         intent = getIntent();
-        serverAPI.getCafe(intent.getIntExtra("seq", 0)).enqueue(new Callback<Cafe>() {
+        /*serverAPI.getCafe(intent.getIntExtra("seq", 0)).enqueue(new Callback<Cafe>() {
             @Override
             public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                 if (response.isSuccessful()) {
@@ -103,11 +103,11 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             public void onFailure(Call<Cafe> call, Throwable t) {
 
             }
-        });
+        });*/
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                serverAPI.getCafe(cafe.getSeq()).enqueue(new Callback<Cafe>() {
+                /*serverAPI.getCafe(cafe.getSeq()).enqueue(new Callback<Cafe>() {
                     @Override
                     public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                         if (response.isSuccessful()) {
@@ -131,14 +131,14 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Cafe> call, Throwable t) {
 
                     }
-                });
+                });*/
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 2).enqueue(new Callback<Void>() {
+                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 2).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -151,13 +151,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 1).enqueue(new Callback<Void>() {
+                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 1).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -170,13 +170,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 0).enqueue(new Callback<Void>() {
+                /*serverAPI.putCafeOpenReview(cafe.getSeq(), 0, 0).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
@@ -189,7 +189,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     public void onFailure(Call<Void> call, Throwable t) {
 
                     }
-                });
+                });*/
             }
         });
 
