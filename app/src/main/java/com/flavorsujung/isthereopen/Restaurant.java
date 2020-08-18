@@ -27,8 +27,8 @@ public class Restaurant {
     @SerializedName("currentState")
     private String currentState;
 
-    @SerializedName("photoUrl")
-    private String photoUrl;
+    @SerializedName("photoURL")
+    private String photoURL;
 
     @SerializedName("lastUpdate")
     private Date lastUpdate;
@@ -89,12 +89,12 @@ public class Restaurant {
         this.currentState = currentState;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getPhotoURL() {
+        return photoURL;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     public Date getLastUpdate() {

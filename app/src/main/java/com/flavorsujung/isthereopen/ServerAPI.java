@@ -162,7 +162,7 @@ public interface ServerAPI {
     Call<List<User>> getUserList();
 
     @PUT("/user") //사용자 추가
-    Call<Void> putUser(@Query("name") String name);
+    Call<Integer> putUser(@Query("name") String name); //이미 존재하는 이름이면 -1 반환, 성공적이면 0 반환
 
     @POST("/user/{seq}") //사용자 이름 변경
     Call<Void> postUserName(@Query("seq") Long userSeq, @Query("name") String name);
