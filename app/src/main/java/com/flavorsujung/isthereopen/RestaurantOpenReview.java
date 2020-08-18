@@ -1,51 +1,52 @@
 package com.flavorsujung.isthereopen;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class RestaurantOpenReview {
-    Integer seq;
-    Integer cafeSeq;
-    Integer userSeq;
-    Integer openState; //0 close, 1 break time, 2 open, 3 미확인
-    Date updatedAt;
 
-    public Integer getSeq() {
+    @SerializedName("seq")
+    private Long seq;
+
+    @SerializedName("userSeq")
+    private Long userSeq;
+
+    @SerializedName("restaurantSeq")
+    private Long restaurantSeq;
+
+    @SerializedName("openState")
+    private String openState;
+
+    public Long getSeq() {
         return seq;
     }
 
-    public void setSeq(Integer seq) {
+    public void setSeq(Long seq) {
         this.seq = seq;
     }
 
-    public Integer getCafeSeq() {
-        return cafeSeq;
-    }
-
-    public void setCafeSeq(Integer cafeSeq) {
-        this.cafeSeq = cafeSeq;
-    }
-
-    public Integer getUserSeq() {
+    public Long getUserSeq() {
         return userSeq;
     }
 
-    public void setUserSeq(Integer userSeq) {
+    public void setUserSeq(Long userSeq) {
         this.userSeq = userSeq;
     }
 
-    public Integer getOpenState() {
+    public Long getRestaurantSeq() {
+        return restaurantSeq;
+    }
+
+    public void setRestaurantSeq(Long restaurantSeq) {
+        this.restaurantSeq = restaurantSeq;
+    }
+
+    public String getOpenState() {
         return openState;
     }
 
-    public void setOpenState(Integer openState) {
+    public void setOpenState(String openState) {
         this.openState = openState;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

@@ -3,11 +3,11 @@ package com.flavorsujung.isthereopen;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
-import java.util.List;
 
 public class Restaurant {
+
     @SerializedName("seq")
-    private Integer seq;
+    private Long seq;
 
     @SerializedName("name")
     private String name;
@@ -15,32 +15,29 @@ public class Restaurant {
     @SerializedName("address")
     private String address;
 
+    @SerializedName("phoneNum")
+    private String phoneNum;
+
     @SerializedName("runningTime")
     private String runningTime;
 
-    @SerializedName("rate")
-    private Double rate;
+    @SerializedName("avgRate")
+    private Double avgRate;
 
     @SerializedName("currentState")
-    private Integer currentState;
+    private String currentState;
 
-    @SerializedName("photoURL")
-    private String photoURL;
+    @SerializedName("photoUrl")
+    private String photoUrl;
 
     @SerializedName("lastUpdate")
     private Date lastUpdate;
 
-    @SerializedName("restaurantInfoReviewList")
-    private List<RestaurantInfoReview> restaurantInfoReviewList;
-
-    @SerializedName("restaurantOpenReviewList")
-    private List<RestaurantOpenReview> restaurantOpenReviewList;
-
-    public Integer getSeq() {
+    public Long getSeq() {
         return seq;
     }
 
-    public void setSeq(Integer seq) {
+    public void setSeq(Long seq) {
         this.seq = seq;
     }
 
@@ -60,6 +57,14 @@ public class Restaurant {
         this.address = address;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
     public String getRunningTime() {
         return runningTime;
     }
@@ -68,28 +73,28 @@ public class Restaurant {
         this.runningTime = runningTime;
     }
 
-    public Double getRate() {
-        return rate;
+    public Double getAvgRate() {
+        return avgRate;
     }
 
-    public void setRate(Double rate) {
-        this.rate = rate;
+    public void setAvgRate(Double avgRate) {
+        this.avgRate = avgRate;
     }
 
-    public Integer getCurrentState() {
+    public String getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(Integer currentState) {
+    public void setCurrentState(String currentState) {
         this.currentState = currentState;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public Date getLastUpdate() {
@@ -98,21 +103,5 @@ public class Restaurant {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
-
-    public List<RestaurantInfoReview> getRestaurantInfoReviewList() {
-        return restaurantInfoReviewList;
-    }
-
-    public void setRestaurantInfoReviewList(List<RestaurantInfoReview> restaurantInfoReviewList) {
-        this.restaurantInfoReviewList = restaurantInfoReviewList;
-    }
-
-    public List<RestaurantOpenReview> getRestaurantOpenReviewList() {
-        return restaurantOpenReviewList;
-    }
-
-    public void setRestaurantOpenReviewList(List<RestaurantOpenReview> restaurantOpenReviewList) {
-        this.restaurantOpenReviewList = restaurantOpenReviewList;
     }
 }

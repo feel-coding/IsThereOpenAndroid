@@ -6,8 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Cafe {
+
     @SerializedName("seq")
-    private Integer seq;
+    private Long seq;
 
     @SerializedName("name")
     private String name;
@@ -15,32 +16,29 @@ public class Cafe {
     @SerializedName("address")
     private String address;
 
+    @SerializedName("phoneNum")
+    private String phoneNum;
+
     @SerializedName("runningTime")
     private String runningTime;
 
-    @SerializedName("rate")
-    private Double rate;
+    @SerializedName("avgRate")
+    private Double avgRate;
 
     @SerializedName("currentState")
-    private Integer currentState;
+    private String currentState;
 
-    @SerializedName("photoURL")
+    @SerializedName("photoUrl")
     private String photoURL;
 
     @SerializedName("lastUpdate")
     private Date lastUpdate;
 
-    @SerializedName("cafeInfoReviewList")
-    List<CafeInfoReview> cafeInfoReviewList;
-
-    @SerializedName("cafeOpenReviewList")
-    List<CafeOpenReview> cafeOpenReviewList;
-
-    public Integer getSeq() {
+    public Long getSeq() {
         return seq;
     }
 
-    public void setSeq(Integer seq) {
+    public void setSeq(Long seq) {
         this.seq = seq;
     }
 
@@ -60,12 +58,36 @@ public class Cafe {
         this.address = address;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
     public String getRunningTime() {
         return runningTime;
     }
 
     public void setRunningTime(String runningTime) {
         this.runningTime = runningTime;
+    }
+
+    public Double getAvgRate() {
+        return avgRate;
+    }
+
+    public void setAvgRate(Double avgRate) {
+        this.avgRate = avgRate;
+    }
+
+    public String getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
     }
 
     public String getPhotoURL() {
@@ -76,43 +98,11 @@ public class Cafe {
         this.photoURL = photoURL;
     }
 
-    public Double getRate() {
-        return rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
-
-    public Integer getCurrentState() {
-        return currentState;
-    }
-
-    public void setCurrentState(Integer currentState) {
-        this.currentState = currentState;
-    }
-
     public Date getLastUpdate() {
         return lastUpdate;
     }
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
-
-    public List<CafeInfoReview> getCafeInfoReviewList() {
-        return cafeInfoReviewList;
-    }
-
-    public void setCafeInfoReviewList(List<CafeInfoReview> cafeInfoReviewList) {
-        this.cafeInfoReviewList = cafeInfoReviewList;
-    }
-
-    public List<CafeOpenReview> getCafeOpenReviewList() {
-        return cafeOpenReviewList;
-    }
-
-    public void setCafeOpenReviewList(List<CafeOpenReview> cafeOpenReviewList) {
-        this.cafeOpenReviewList = cafeOpenReviewList;
     }
 }

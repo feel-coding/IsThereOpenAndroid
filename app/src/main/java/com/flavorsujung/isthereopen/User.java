@@ -4,26 +4,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
     @SerializedName("seq")
-    private Integer seq;
-    @SerializedName("id")
-    private String id;
+    private Long seq;
+
     @SerializedName("name")
     private String name;
 
-    public Integer getSeq() {
+    public Long getSeq() {
         return seq;
     }
 
-    public void setSeq(Integer seq) {
+    public void setSeq(Long seq) {
         this.seq = seq;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

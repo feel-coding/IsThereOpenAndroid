@@ -1,50 +1,20 @@
 package com.flavorsujung.isthereopen;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class BarOpenReview {
-    Integer seq;
-    Integer cafeSeq;
-    Integer userSeq;
-    Integer openState; //0 close, 1 break time, 2 open, 3 미확인
-    Date updatedAt;
-    public Integer getSeq() {
-        return seq;
-    }
 
-    public void setSeq(Integer seq) {
-        this.seq = seq;
-    }
+    @SerializedName("seq")
+    private Long seq;
 
-    public Integer getCafeSeq() {
-        return cafeSeq;
-    }
+    @SerializedName("userSeq")
+    private Long userSeq;
 
-    public void setCafeSeq(Integer cafeSeq) {
-        this.cafeSeq = cafeSeq;
-    }
+    @SerializedName("barSeq")
+    private Long barSeq;
 
-    public Integer getUserSeq() {
-        return userSeq;
-    }
-
-    public void setUserSeq(Integer userSeq) {
-        this.userSeq = userSeq;
-    }
-
-    public Integer getOpenState() {
-        return openState;
-    }
-
-    public void setOpenState(Integer openState) {
-        this.openState = openState;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    @SerializedName("openState")
+    private String openState;
 }
