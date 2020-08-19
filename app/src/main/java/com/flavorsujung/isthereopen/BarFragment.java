@@ -92,6 +92,7 @@ public class BarFragment extends Fragment {
                         else date = bar.getLastUpdate();
                         Log.d("서버", bar.getName());
                         Store store = new Store();
+                        store.setType(2);
                         store.setSeq(bar.getSeq());
                         store.setPhotoUrl(bar.getPhotoURL());
                         store.setName(bar.getName());

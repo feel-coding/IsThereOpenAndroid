@@ -14,66 +14,68 @@ import retrofit2.http.Query;
 public interface ServerAPI {
 //    String BASE_URL = "http://210.125.96.73:8081"; //학교 컴퓨터 서버 url
 //    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
-    String BASE_URL = "http://192.168.126.1:8081";
+    String BASE_URL = "http://192.168.1.10:8081";
 
     //----------카페 API---------------
-    @GET("/bar/{barSeq}/openState")// 카페 오픈 여부 조회
-    Call<String> getCafeCurrentState(@Path("barSeq") Long cafeSeq);
+    @GET("/cafe/{cafeSeq}/openState")// 카페 오픈 여부 조회
+    Call<String> getCafeCurrentState(@Path("cafeSeq") Long cafeSeq);
 
-    @GET("/bar/all")// 카페 리스트 조회
+    @GET("/cafe/all")// 카페 리스트 조회
     Call<List<Cafe>> getCafeList();
 
-    @GET("/bar/{barSeq}")// 카페 조회
-    Call<Cafe> getCafe(@Path("barSeq") Long cafeSeq);
+    @GET("/cafe/{cafeSeq}")// 카페 조회
+    Call<Cafe> getCafe(@Path("cafeSeq") Long cafeSeq);
 
-    @PUT("/bar") //카페 추가
+    @PUT("/cafe") //카페 추가
     Call<Void> putCafe(@Query("name") String name, @Query("address") String address,
                        @Query("runningTime") String runningTime, @Query("phoneNum") String phoneNum, @Query("photoURL") String photoURL);
 
-    @POST("/bar/{barSeq}/name")//카페 이름 변경
-    Call<Void> changeCafeName(@Path("barSeq") Long cafeSeq, @Query("name") String name);
+    @POST("/cafe/{cafeSeq}/name")//카페 이름 변경
+    Call<Void> changeCafeName(@Path("cafeSeq") Long cafeSeq, @Query("name") String name);
 
-    @POST("/bar/{barSeq}/runningTime")//카페 운영시간 변경
-    Call<Void> changeCafeRunningTime(@Path("barSeq") Long cafeSeq, @Query("runningTime") String runningTime);
+    @POST("/cafe/{cafeSeq}/runningTime")//카페 운영시간 변경
+    Call<Void> changeCafeRunningTime(@Path("cafeSeq") Long cafeSeq, @Query("runningTime") String runningTime);
 
-    @POST("/bar/{barSeq}/photoUrl")//카페 프로필 사진 변경
-    Call<Void> changeCafePhoto(@Path("barSeq") Long cafeSeq, @Query("photoUrl") String photoUrl);
+    @POST("/cafe/{cafeSeq}/photoUrl")//카페 프로필 사진 변경
+    Call<Void> changeCafePhoto(@Path("cafeSeq") Long cafeSeq, @Query("photoUrl") String photoUrl);
 
-    @POST("/bar/{barSeq}/address")// 카페 주소 변경
-    Call<Void> changeCafeAddress(@Path("barSeq") Long cafeSeq, @Query("address") String address);
+    @POST("/cafe/{cafeSeq}/address")// 카페 주소 변경
+    Call<Void> changeCafeAddress(@Path("cafeSeq") Long cafeSeq, @Query("address") String address);
 
-    @DELETE("/bar")//카페 삭제
-    Call<Void> deleteCafe(@Query("barSeq") Long cafeSeq);
+    @DELETE("/cafe")//카페 삭제
+    Call<Void> deleteCafe(@Query("cafeSeq") Long cafeSeq);
 
-    @PUT("/bar/{barSeq}/infoReview") // 카페 정보 리뷰 작성 (인자가 11개로 좀 많습니다....)
+    @PUT("/cafe/{cafeSeq}/infoReview") // 카페 정보 리뷰 작성
     Call<Void> putCafeInfoReview(
-            @Path("barSeq") Long cafeSeq,
+            @Path("cafeSeq") Long cafeSeq,
             @Query("userSeq") Long userSeq,
-            @Query("openStyleTv") String openStyle,
-            @Query("waitingTimeTv") String waitingTime,
-            @Query("priceTv") String price,
-            @Query("customerNumTv") String customerNum,
-            @Query("plugNumTv") String plugNum,
-            @Query("avgRate") String rate,
-            @Query("tableHeightTv") String tableHeight,
-            @Query("lightnessTv") String lightness,
-            @Query("stayLongTv") String stayLong);
+            @Query("openStyle") String openStyle,
+            @Query("waitingTime") String waitingTime,
+            @Query("price") String price,
+            @Query("customerNum") String customerNum,
+            @Query("plugNum") String plugNum,
+            @Query("rate") String rate,
+            @Query("tableHeight") String tableHeight,
+            @Query("lightness") String lightness,
+            @Query("stayLong") String stayLong);
 
-    @GET("/bar/{barSeq}/infoReview") //카페 정보 리뷰 리스트 조회
-    Call<List<CafeInfoReview>> getCafeInfoReviewList(@Path("barSeq") Long cafeSeq);
+    @GET("/cafe/{cafeSeq}/infoReview") //카페 정보 리뷰 리스트 조회
+    Call<List<CafeInfoReview>> getCafeInfoReviewList(@Path("cafeSeq") Long cafeSeq);
 
-    @GET("/bar/{barSeq}/openReview") //카페 오픈 리뷰 조회
+    @GET("/cafe/{cafeSeq}/openReview/all") //카페 오픈 리뷰 조회
     Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("barSeq") Long cafeSeq);
 
-    @PUT("/bar/{barSeq}/openReview") //카페 오픈리뷰 작성
-    Call<Void> putCafeOpenReview(@Path("barSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);
+    @PUT("/cafe/{cafeSeq}/openReview") //카페 오픈리뷰 작성
+    Call<Void> putCafeOpenReview(@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);
 
     @GET("/user/{seq}/patronCafe/all") //내 단골카페 리스트 조회
     Call<List<PatronCafe>> getPatronCafeList(@Path("seq") Long userSeq);
 
     @PUT("/user/{seq}/patronCafe")// 단골 카페 추가
-    Call<Void> putPatronCafe(@Path("seq") Long userSeq, @Query("barSeq") Long cafeSeq);
+    Call<Void> putPatronCafe(@Path("seq") Long userSeq, @Query("cafeSeq") Long cafeSeq);
 
+    @DELETE("/user/{seq}/patronCafe") //단골 카페 삭제
+    Call<Void> deletePatronCafe(@Path("seq") Long userSeq, @Query("cafeSeq") Long cafeSeq);
 
 
     //------------음식점 API--------------
@@ -97,9 +99,9 @@ public interface ServerAPI {
     Call<Void> putRestaurantInfoReview(
             @Path("restaurantSeq") Long restaurantSeq,
             @Query("userSeq") Long userSeq,
-            @Query("avgRate") String rate, @Query("waitingTimeTv") String waitingTime,
-            @Query("cleanness") String cleanness,@Query("priceTv") String price,
-            @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyleTv") String openStyle);
+            @Query("rate") String rate, @Query("waitingTime") String waitingTime,
+            @Query("cleanness") String cleanness,@Query("price") String price,
+            @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyle") String openStyle);
 
     @GET("/restaurant/{restaurantSeq}/infoReview") //음식점 정보리뷰 리스트 조회
     Call<List<RestaurantInfoReview>> getRestaurantInfoReview(@Path("restaurantSeq") Long restaurantSeq);
@@ -115,6 +117,10 @@ public interface ServerAPI {
 
     @PUT("/user/{seq}/patronRestaurant") //단골 음식점 추가
     Call<Void> putPatronRestaurant(@Path("seq") Long userSeq, @Query("restaurantSeq") Long restaurantSeq);
+
+    @DELETE("/user/{seq}/patronRestaurant") //단골 카페 삭제
+    Call<Void> deletePatronRestaurant(@Path("seq") Long userSeq, @Query("restaurantSeq") Long restaurantSeq);
+
 
 
     //-------------술집 API----------------
@@ -138,13 +144,13 @@ public interface ServerAPI {
     Call<Void> putBarInfoReview(
             @Path("barSeq") Long barSeq,
             @Query("userSeq") Long userSeq,
-            @Query("avgRate") String rate,
+            @Query("rate") String rate,
             @Query("toilet") String toilet,
             @Query("mood") String mood,
             @Query("mainAlcohol") String mainAlcohol,
-            @Query("priceTv") String price,
+            @Query("price") String price,
             @Query("cleanness") String cleanness,
-            @Query("openStyleTv") String openStyle);
+            @Query("openStyle") String openStyle);
 
     @GET("/bar/{barSeq}/infoReview") //특정 술집의 정보리뷰 리스트 조회
     Call<List<BarInfoReview>> getBarInfoReviewList(@Path("barSeq") Long barSeq);
@@ -163,6 +169,10 @@ public interface ServerAPI {
 
     @PUT("/user/{seq}/patronBar")// 단골 술집 추가
     Call<Void> putPatronBar(@Path("seq") Long userSeq, @Query("barSeq") Long barSeq);
+
+    @DELETE("/user/{seq}/patronBar") //단골 술집 삭제
+    Call<Void> deletePatronBar(@Path("seq") Long userSeq, @Query("barSeq") Long barSeq);
+
 
     //--------사용자 API------------
     @GET("/user/{seq}") //사용자 조회

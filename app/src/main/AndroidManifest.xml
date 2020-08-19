@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BarReviewActivity"></activity>
+        <activity android:name=".WriteBarReviewActivity"></activity>
+        <activity android:name=".RestaurantReviewActivity" />
+        <activity android:name=".BarReviewActivity" />
         <activity android:name=".WriteCafeReviewActivity" />
         <activity android:name=".CafeReviewActivity" />
         <activity android:name=".MainActivity" />
@@ -28,7 +30,6 @@
         <activity android:name=".RestaurantActivity" />
         <activity android:name=".BarActivity" />
         <activity android:name=".CafeActivity" />
-        <activity android:name=".ServerTestActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -11,6 +11,7 @@ public class Store {
     Date latestUpdate;
     String runtime;
     double avgRate;
+    boolean isPatron;
 
 
     public void setName(String name) {
@@ -44,5 +45,45 @@ public class Store {
 
     public void setSeq(Long seq) {
         this.seq = seq;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Long getSeq() {
+        return seq;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOpenState() {
+        return openState;
+    }
+
+    public Date getLatestUpdate() {
+        return latestUpdate;
+    }
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public double getAvgRate() {
+        return avgRate;
+    }
+
+    public boolean isPatron() {
+        return isPatron;
+    }
+
+    public void setPatron(boolean patron) {
+        isPatron = patron;
     }
 }

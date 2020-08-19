@@ -49,6 +49,6 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return reviewList.size();
     }
 }

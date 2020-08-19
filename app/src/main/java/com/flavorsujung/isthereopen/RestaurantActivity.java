@@ -2,9 +2,6 @@ package com.flavorsujung.isthereopen;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -28,17 +29,12 @@ import retrofit2.Response;
 
 public class RestaurantActivity extends AppCompatActivity implements RestaurantInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
 
-
     ImageView restaurantLogoIv;
     Intent intent;
     Restaurant restaurant;
     ServerAPI serverAPI;
     TextView restaurantTitleTv;
     Toolbar toolbar;
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
-    String[] tabTitles = {"가게 리뷰", "오픈 리뷰"};
-    RestaurantViewPagerAdapter restaurantViewPagerAdapter;
     TextView openStateTv;
     TextView runningTimeTv;
     TextView addressTv;
@@ -48,6 +44,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
+    Button toRestaurantReviewBtn;
+    Long restaurantSeq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +62,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         toolbar = findViewById(R.id.restaurantToolbar);
         swipeRefreshLayout = findViewById(R.id.restaurantUpdate);
-        restaurantViewPagerAdapter = new RestaurantViewPagerAdapter(this, 2);
-        tabLayout = findViewById(R.id.reviewTabLayout);
-        viewPager = findViewById(R.id.restaurantViewpager);
-        viewPager.setAdapter(restaurantViewPagerAdapter);
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            tab.setText(tabTitles[position]);
-            viewPager.setCurrentItem(tab.getPosition(), true);
-        }).attach();
         restaurantTitleTv = findViewById(R.id.restaurantTitleTv);
         restaurantLogoIv = findViewById(R.id.restaurantProfileImage);
         openStateTv = findViewById(R.id.restaurantOpenStateTv);
@@ -80,16 +70,17 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         openBtn = findViewById(R.id.restaurantOpenBtn);
         breakBtn = findViewById(R.id.restaurantBreakBtn);
         closeBtn = findViewById(R.id.restaurantCloseBtn);
-
+        toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
         intent = getIntent();
-        serverAPI.getRestaurant(intent.getLongExtra("seq", 0)).enqueue(new Callback<Restaurant>() {
+        restaurantSeq = intent.getLongExtra("seq", 0);
+        serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.isSuccessful()) {
                     restaurant = response.body();
                     restaurantTitleTv.setText(restaurant.getName());
                     Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
-//                    Log.d("서버", restaurant.getCurrentState());
+//                    Log.d("서버", bar.getCurrentState());
                     String openState = restaurant.getCurrentState();
                     openStateTv.setText(openState);
                     addressTv.setText(restaurant.getAddress());
@@ -176,6 +167,15 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
 
                     }
                 });
+            }
+        });
+
+        toRestaurantReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RestaurantActivity.this, RestaurantReviewActivity.class);
+                intent.putExtra("seq", restaurantSeq);
+                startActivity(intent);
             }
         });
 

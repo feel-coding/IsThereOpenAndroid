@@ -27,7 +27,7 @@ public class Restaurant {
     @SerializedName("currentState")
     private String currentState;
 
-    @SerializedName("photoURL")
+    @SerializedName("photoUrl")
     private String photoURL;
 
     @SerializedName("lastUpdate")

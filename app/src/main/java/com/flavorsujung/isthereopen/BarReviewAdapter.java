@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class BarReviewAdapter extends RecyclerView.Adapter<BarReviewViewHolder>  {
 
@@ -37,6 +42,8 @@ public class BarReviewAdapter extends RecyclerView.Adapter<BarReviewViewHolder> 
         String toilet = reviewList.get(position).getToilet();
         String rate = reviewList.get(position).getRate();
         Long userSeq = reviewList.get(position).getUserSeq();
+        Date date = reviewList.get(position).getCreatedAt();
+
         holder.priceTv.setText(price);
         holder.rateTv.setText(rate);
         holder.toiletTv.setText(toilet);
@@ -45,6 +52,11 @@ public class BarReviewAdapter extends RecyclerView.Adapter<BarReviewViewHolder> 
         holder.mainAlcoholTv.setText(mainAlcohol);
         holder.openStyleTv.setText(openStyle);
         holder.moodTv.setText(mood);
+        TimeZone timeZone;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 HH시 mm분");
+        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        dateFormat.setTimeZone(timeZone);
+        holder.dateTv.setText(dateFormat.format(date));
     }
 
     @Override

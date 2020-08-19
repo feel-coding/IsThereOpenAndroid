@@ -49,53 +49,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/thereTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="거기"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 열었나?" />
-                </LinearLayout>
-
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/allBtn"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/black_round_square"
+                        android:text="모두" />
 
                     <Button
                         android:id="@+id/restaurantBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/black_round_square"
                         android:text="@string/restaurant" />
 
                     <Button
                         android:id="@+id/cafeBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:background="@drawable/black_round_square"
                         android:text="@string/cafe" />
 
                     <Button
-                        android:id="@+id/barBtn"
-                        android:layout_width="wrap_content"
+                    android:id="@+id/barBtn"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_square"
+                    android:text="@string/bar" />
+                    <Button
+                        android:id="@+id/patron"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:background="@drawable/black_round_square"
-                        android:text="@string/bar" />
+                        android:text="단골" />
                 </LinearLayout>
 
             </LinearLayout>

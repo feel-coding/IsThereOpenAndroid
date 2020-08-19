@@ -10,7 +10,7 @@ public class PatronCafe {
     @SerializedName("userSeq")
     private Long userSeq;
 
-    @SerializedName("barSeq")
+    @SerializedName("cafeSeq")
     private Long cafeSeq;
 
     public Long getSeq() {

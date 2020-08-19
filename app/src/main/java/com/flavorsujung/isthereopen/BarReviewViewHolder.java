@@ -15,6 +15,7 @@ public class BarReviewViewHolder extends RecyclerView.ViewHolder {
     TextView toiletTv;
     TextView priceTv;
     TextView moodTv;
+    TextView dateTv;
     public BarReviewViewHolder(@NonNull View itemView) {
         super(itemView);
         rateTv = itemView.findViewById(R.id.barRate);
@@ -25,5 +26,6 @@ public class BarReviewViewHolder extends RecyclerView.ViewHolder {
         mainAlcoholTv = itemView.findViewById(R.id.mainAlcohol);
         moodTv = itemView.findViewById(R.id.mood);
         priceTv = itemView.findViewById(R.id.barPrice);
+        dateTv = itemView.findViewById(R.id.barReviewDate);
     }
 }

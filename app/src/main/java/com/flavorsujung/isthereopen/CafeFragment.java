@@ -94,6 +94,7 @@ public class CafeFragment extends Fragment {
                         else date = cafe.getLastUpdate();
                         Log.d("서버", cafe.getName());
                         Store store = new Store();
+                        store.setType(0);
                         store.setSeq(cafe.getSeq());
                         store.setPhotoUrl(cafe.getPhotoURL());
                         store.setName(cafe.getName());

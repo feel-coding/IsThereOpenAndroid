@@ -2,6 +2,7 @@ package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class HomeFragment extends Fragment {
 
@@ -37,28 +40,44 @@ public class HomeFragment extends Fragment {
     Button restaurantBtn;
     Button cafeBtn;
     Button barBtn;
-    TextView thereTv;
+    Button allBtn;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
-    int selectedStoreType = 0; //0 카페, 1 식당, 2 술집
+    int selectedStoreType = 3; //0 카페, 1 식당, 2 술집, 3 전부, 4 단골
+    SharedPreferences sharedPreferences;
+    Long userSeq;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
+        sharedPreferences = activity.getSharedPreferences("nickname", MODE_PRIVATE);
+        userSeq = sharedPreferences.getLong("userSeq", 0L);
         recyclerView = v.findViewById(R.id.storeRecyclerView);
         restaurantBtn = v.findViewById(R.id.restaurantBtn);
         cafeBtn = v.findViewById(R.id.cafeBtn);
         barBtn = v.findViewById(R.id.barBtn);
-        thereTv = v.findViewById(R.id.thereTv);
+        allBtn = v.findViewById(R.id.allBtn);
         swipeRefreshLayout = v.findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (selectedStoreType == 0) {
+                    storeList.clear();
                     refreshCafeList();
                 } else if (selectedStoreType == 1) {
+                    storeList.clear();
+                    refreshRestaurantList();
+                }
+                else if (selectedStoreType == 2){
+                    storeList.clear();
+                    refreshBarList();
+                }
+                else {
+                    storeList.clear();
+                    refreshBarList();
+                    refreshCafeList();
                     refreshRestaurantList();
                 }
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
@@ -67,25 +86,36 @@ public class HomeFragment extends Fragment {
         restaurantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thereTv.setText("음식점");
                 selectedStoreType = 1;
+                storeList.clear();
                 refreshRestaurantList();
             }
         });
         cafeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thereTv.setText("카페");
                 selectedStoreType = 0;
+                storeList.clear();
                 refreshCafeList();
             }
         });
         barBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thereTv.setText("술집");
                 selectedStoreType = 2;
+                storeList.clear();
                 refreshBarList();
+            }
+        });
+
+        allBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedStoreType = 3;
+                storeList.clear();
+                refreshCafeList();
+                refreshRestaurantList();
+                refreshRestaurantList();
             }
         });
 
@@ -97,7 +127,10 @@ public class HomeFragment extends Fragment {
         cafeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
         cafeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
         cafeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));*/
+        storeList.clear();
         refreshCafeList();
+        refreshRestaurantList();
+        refreshBarList();
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         adapter = new StoreAdapter(storeList, mContext);
         recyclerView.setAdapter(adapter);
@@ -125,7 +158,6 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 if (response.isSuccessful()) {
                     Log.d("서버", "성공");
-                    storeList.clear();
                     for (Restaurant restaurant : response.body()) {
                         String openState = restaurant.getCurrentState();
                         if (openState.equals("UNKNOWN"))
@@ -136,6 +168,7 @@ public class HomeFragment extends Fragment {
                         else date = restaurant.getLastUpdate();
                         Log.d("서버", restaurant.getName());
                         Store store = new Store();
+                        store.setType(1);
                         store.setSeq(restaurant.getSeq());
                         store.setPhotoUrl(restaurant.getPhotoURL());
                         store.setName(restaurant.getName());
@@ -144,6 +177,25 @@ public class HomeFragment extends Fragment {
                         if(restaurant.getAvgRate() != null)
                             store.setAvgRate(restaurant.getAvgRate());
                         else store.setAvgRate(-1.0);
+                        serverAPI.getPatronRestaurantList(userSeq).enqueue(new Callback<List<PatronRestaurant>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronRestaurant>> call, Response<List<PatronRestaurant>> response) {
+                                if (response.isSuccessful()) {
+                                    for (PatronRestaurant patronRestaurant : response.body()) {
+                                        if(patronRestaurant.getRestaurantSeq().equals(restaurant.getSeq())) {
+                                            store.setPatron(true);
+                                        }
+                                        storeList.add(store);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronRestaurant>> call, Throwable t) {
+
+                            }
+                        });
                         storeList.add(store);
                     }
                     Log.d("서버", storeList.toString());
@@ -163,8 +215,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("서버", "성공");
-                    storeList.clear();
+                    Log.d("카페이름", response.body().get(0).getName());
                     for (Cafe cafe : response.body()) {
                         String openState = cafe.getCurrentState();
                         if (openState.equals("UNKNOWN"))
@@ -175,6 +226,7 @@ public class HomeFragment extends Fragment {
                         else date = cafe.getLastUpdate();
                         Log.d("서버", cafe.getName());
                         Store store = new Store();
+                        store.setType(0);
                         store.setSeq(cafe.getSeq());
                         store.setPhotoUrl(cafe.getPhotoURL());
                         store.setName(cafe.getName());
@@ -183,10 +235,28 @@ public class HomeFragment extends Fragment {
                         if(cafe.getAvgRate() != null)
                             store.setAvgRate(cafe.getAvgRate());
                         else store.setAvgRate(-1.0);
-                        storeList.add(store);
+                        serverAPI.getPatronCafeList(userSeq).enqueue(new Callback<List<PatronCafe>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronCafe>> call, Response<List<PatronCafe>> response) {
+                                if(response.isSuccessful()) {
+                                    Log.d("카페", "userSeq: " + userSeq);
+                                    for(PatronCafe patronCafe : response.body()) {
+                                        if(patronCafe.getCafeSeq().equals(cafe.getSeq())) {
+                                            store.setPatron(true);
+                                        }
+                                    }
+                                    storeList.add(store);
+                                    Log.d("카페", "스토어리스트에 집어넣음");
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronCafe>> call, Throwable t) {
+
+                            }
+                        });
                     }
-                    Log.d("서버", storeList.toString());
-                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -202,8 +272,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("서버", "성공");
-                    storeList.clear();
+                    Log.d("타입: ", "" + selectedStoreType);
                     for (Bar bar : response.body()) {
                         String openState = bar.getCurrentState();
                         if (openState.equals("UNKNOWN"))
@@ -214,6 +283,7 @@ public class HomeFragment extends Fragment {
                         else date = bar.getLastUpdate();
                         Log.d("서버", bar.getName());
                         Store store = new Store();
+                        store.setType(2);
                         store.setSeq(bar.getSeq());
                         store.setPhotoUrl(bar.getPhotoURL());
                         store.setName(bar.getName());
@@ -222,10 +292,26 @@ public class HomeFragment extends Fragment {
                         if(bar.getAvgRate() != null)
                             store.setAvgRate(bar.getAvgRate());
                         else store.setAvgRate(-1.0);
-                        storeList.add(store);
+                        serverAPI.getPatronBarList(userSeq).enqueue(new Callback<List<PatronBar>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronBar>> call, Response<List<PatronBar>> response) {
+                                if(response.isSuccessful()) {
+                                    for(PatronBar patronBar : response.body()) {
+                                        if(patronBar.getBarSeq().equals(bar.getSeq())) {
+                                            store.setPatron(true);
+                                        }
+                                    }
+                                    storeList.add(store);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronBar>> call, Throwable t) {
+
+                            }
+                        });
                     }
-                    Log.d("서버", storeList.toString());
-                    adapter.notifyDataSetChanged();
                 }
             }
 

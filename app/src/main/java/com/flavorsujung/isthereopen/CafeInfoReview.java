@@ -2,6 +2,8 @@ package com.flavorsujung.isthereopen;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class CafeInfoReview {
 
     @SerializedName("seq")
@@ -13,32 +15,35 @@ public class CafeInfoReview {
     @SerializedName("barSeq")
     private Long cafeSeq;
 
-    @SerializedName("avgRate")
+    @SerializedName("rate")
     private String rate;
 
-    @SerializedName("waitingTimeTv")
+    @SerializedName("waitingTime")
     private String waitingTime;
 
-    @SerializedName("priceTv")
+    @SerializedName("price")
     private String price;
 
-    @SerializedName("customerNumTv")
+    @SerializedName("customerNum")
     private String customerNum;
 
-    @SerializedName("plugNumTv")
+    @SerializedName("plugNum")
     private String plugNum;
 
-    @SerializedName("tableHeightTv")
+    @SerializedName("tableHeight")
     private String tableHeight;
 
-    @SerializedName("lightnessTv")
+    @SerializedName("lightness")
     private String lightness;
 
-    @SerializedName("stayLongTv")
+    @SerializedName("stayLong")
     private String stayLong; // POSSIBLE/NORMAL/UNCOMFORTABLE
 
-    @SerializedName("openStyleTv")
+    @SerializedName("openStyle")
     private String openStyle; // STABLE/NORMAL/UNSTABLE
+
+    @SerializedName("createdAt")
+    private Date createdAt;
 
     public Long getSeq() {
         return seq;
@@ -134,5 +139,13 @@ public class CafeInfoReview {
 
     public void setOpenStyle(String openStyle) {
         this.openStyle = openStyle;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

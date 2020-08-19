@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.flavorsujung.isthereopen.WriteCafeReviewActivity">
+    tools:context="com.flavorsujung.isthereopen.WriteBarReviewActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,38 +24,38 @@
                 android:layout_height="wrap_content"
                 android:text="총점"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/cafeStarOne"
+                    android:id="@+id/barStarOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_star_gray" />
 
                 <ImageView
-                    android:id="@+id/cafeStarTwo"
+                    android:id="@+id/barStarTwo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_star_gray" />
 
                 <ImageView
-                    android:id="@+id/cafeStarThree"
+                    android:id="@+id/barStarThree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_star_gray" />
 
                 <ImageView
-                    android:id="@+id/cafeStarFour"
+                    android:id="@+id/barStarFour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_star_gray" />
 
                 <ImageView
-                    android:id="@+id/cafeStarFive"
+                    android:id="@+id/barStarFive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_star_gray" />
@@ -74,7 +74,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeOpenStyleStable"
+                    android:id="@+id/barOpenStyleStable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -82,7 +82,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeOpenStyleNormal"
+                    android:id="@+id/barOpenStyleNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -92,7 +92,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeOpenStyleUnstable"
+                    android:id="@+id/barOpenStyleUnstable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -104,7 +104,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="음료 제조 시간"
+                android:text="분위기"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 
@@ -114,33 +114,33 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeWaitingShort"
+                    android:id="@+id/moodSilent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="금방 나와요" />
+                    android:text="조용한 편" />
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeWaitingNormal"
+                    android:id="@+id/moodNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="보통이에요" />
+                    android:text="보통" />
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeWaitingLong"
+                    android:id="@+id/moodLoud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="오래걸려요" />
+                    android:text="시끄러운 편" />
             </LinearLayout>
 
             <TextView
@@ -156,7 +156,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafePriceCheap"
+                    android:id="@+id/barPriceCheap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -166,7 +166,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafePriceNormal"
+                    android:id="@+id/barPriceNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -176,7 +176,7 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafePriceExpensive"
+                    android:id="@+id/barPriceExpensive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -186,7 +186,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="손님 수"
+                android:text="화장실"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 
@@ -196,39 +196,91 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeCustomerLittle"
+                    android:id="@+id/toiletOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="적은 편" />
+                    android:text="남녀공용" />
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeCustomerNormal"
+                    android:id="@+id/toiletSeparate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="보통" />
+                    android:text="남녀분리" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="메인 주류"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
-                    android:id="@+id/cafeCustomerMany"
+                    android:id="@+id/soju"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="많은 편" />
+                    android:text="소주" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:id="@+id/beer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="맥주" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:id="@+id/makgeolli"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="막걸리" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:id="@+id/wine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="와인" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:id="@+id/vodka"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="보드카" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="오래 있어도 괜찮나요?"
+                android:text="청결도"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 
@@ -238,113 +290,15 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeStayLong"
+                    android:id="@+id/barClean"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="가능" />
+                    android:text="깨끗한 편" />
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeStayNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="보통이에요" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeStayShort"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="눈치 보여요" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeStayNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="테이블 없음" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="콘센트 수"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafePlugLittle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:text="적은 편" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafePlugNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:text="보통" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafePlugMany"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:text="많은 편" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafePlugNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="테이블 없음" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="테이블 높이"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeTableLow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:text="낮은 편" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeTableNormal"
+                    android:id="@+id/barCleannessNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
@@ -352,73 +306,25 @@
 
                 <Button
                     android:textSize="13sp"
-                    android:id="@+id/cafeTableHigh"
+                    android:id="@+id/barDirty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
-                    android:text="높은 편" />
+                    android:text="더러운 편" />
 
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeTableNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:text="테이블 없음" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="조명"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeLightnessDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="어두운 편이에요" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeLightnessNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="보통이에요" />
-
-                <Button
-                    android:textSize="13sp"
-                    android:id="@+id/cafeLightnessLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="밝은 편이에요" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/cafeReviewFinish"
+        android:id="@+id/barReviewFinish"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/full_red_square"
         android:text="리뷰 작성"
         android:textColor="@color/colorWhite"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 </LinearLayout>

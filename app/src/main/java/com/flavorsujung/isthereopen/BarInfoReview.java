@@ -2,6 +2,8 @@ package com.flavorsujung.isthereopen;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class BarInfoReview {
     @SerializedName("seq")
     private Long seq;
@@ -12,7 +14,7 @@ public class BarInfoReview {
     @SerializedName("barSeq")
     private Long barSeq;
 
-    @SerializedName("avgRate")
+    @SerializedName("rate")
     private String rate;
 
     @SerializedName("toilet")
@@ -24,14 +26,17 @@ public class BarInfoReview {
     @SerializedName("mainAlcohol")
     private String mainAlcohol;
 
-    @SerializedName("priceTv")
+    @SerializedName("price")
     private String price;
 
     @SerializedName("cleanness")
     private String cleanness;
 
-    @SerializedName("openStyleTv")
+    @SerializedName("openStyle")
     private String openStyle;
+
+    @SerializedName("createdAt")
+    private Date createdAt;
 
     public Long getSeq() {
         return seq;
@@ -111,5 +116,13 @@ public class BarInfoReview {
 
     public void setOpenStyle(String openStyle) {
         this.openStyle = openStyle;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

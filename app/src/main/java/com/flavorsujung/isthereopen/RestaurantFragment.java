@@ -93,6 +93,7 @@ public class RestaurantFragment extends Fragment {
                         else date = restaurant.getLastUpdate();
                         Log.d("서버", restaurant.getName());
                         Store store = new Store();
+                        store.setType(1);
                         store.setSeq(restaurant.getSeq());
                         store.setPhotoUrl(restaurant.getPhotoURL());
                         store.setName(restaurant.getName());
