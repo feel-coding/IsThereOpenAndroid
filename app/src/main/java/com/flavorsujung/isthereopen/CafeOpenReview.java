@@ -12,7 +12,7 @@ public class CafeOpenReview {
     @SerializedName("userSeq")
     private Long userSeq;
 
-    @SerializedName("cafeSeq")
+    @SerializedName("barSeq")
     private Long cafeSeq;
 
     @SerializedName("openState")

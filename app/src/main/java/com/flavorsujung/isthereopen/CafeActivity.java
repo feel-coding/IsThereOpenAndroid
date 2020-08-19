@@ -48,6 +48,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
+    Button toCafeReviewBtn;
+    Long cafeSeq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +79,17 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         openBtn = findViewById(R.id.cafeOpenBtn);
         breakBtn = findViewById(R.id.cafeBreakBtn);
         closeBtn = findViewById(R.id.cafeCloseBtn);
-
+        toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
         intent = getIntent();
-        serverAPI.getCafe(intent.getLongExtra("seq", 0)).enqueue(new Callback<Cafe>() {
+        cafeSeq = intent.getLongExtra("seq", 0);
+        serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
             @Override
             public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                 if (response.isSuccessful()) {
                     cafe = response.body();
                     cafeTitleTv.setText(cafe.getName());
                     Glide.with(CafeActivity.this).load(cafe.getPhotoURL()).into(cafeLogoIv);
-//                    Log.d("서버", cafe.getCurrentState());
+//                    Log.d("서버", bar.getCurrentState());
                     String openState = cafe.getCurrentState();
                     openStateTv.setText(openState);
                     addressTv.setText(cafe.getAddress());
@@ -173,6 +176,15 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
                     }
                 });
+            }
+        });
+
+        toCafeReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CafeActivity.this, CafeReviewActivity.class);
+                intent.putExtra("seq", cafeSeq);
+                startActivity(intent);
             }
         });
 

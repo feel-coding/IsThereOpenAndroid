@@ -10,34 +10,34 @@ public class CafeInfoReview {
     @SerializedName("userSeq")
     private Long userSeq;
 
-    @SerializedName("cafeSeq")
+    @SerializedName("barSeq")
     private Long cafeSeq;
 
     @SerializedName("avgRate")
     private String rate;
 
-    @SerializedName("waitingTime")
+    @SerializedName("waitingTimeTv")
     private String waitingTime;
 
-    @SerializedName("price")
+    @SerializedName("priceTv")
     private String price;
 
-    @SerializedName("customerNum")
+    @SerializedName("customerNumTv")
     private String customerNum;
 
-    @SerializedName("plugNum")
+    @SerializedName("plugNumTv")
     private String plugNum;
 
-    @SerializedName("tableHeight")
+    @SerializedName("tableHeightTv")
     private String tableHeight;
 
-    @SerializedName("lightness")
+    @SerializedName("lightnessTv")
     private String lightness;
 
-    @SerializedName("stayLong")
+    @SerializedName("stayLongTv")
     private String stayLong; // POSSIBLE/NORMAL/UNCOMFORTABLE
 
-    @SerializedName("openStyle")
+    @SerializedName("openStyleTv")
     private String openStyle; // STABLE/NORMAL/UNSTABLE
 
     public Long getSeq() {

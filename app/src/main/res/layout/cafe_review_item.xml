@@ -23,13 +23,13 @@
                 android:text="아이디 : "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/userID_tv"
+                android:id="@+id/cafeUserTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/id_tv"/>
 
             <TextView
-                android:id="@+id/rateNumber_tv"
+                android:id="@+id/cafeRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/rateStarImage_tv"/>
@@ -40,18 +40,29 @@
                 android:layout_alignParentRight="true"/>
             </RelativeLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="오픈 스타일 "
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/cafeOpenStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <!-- 가격대-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-           >
+            android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="가격대 : "
+                android:text="가격대 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/cafePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -63,35 +74,24 @@
             >
             <TextView
                 android:layout_width="wrap_content"
-                android:text="음료 제조시간 : "
+                android:text="음료 제조시간 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/waiting_time"
+                android:id="@+id/cafeWaitingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="오픈 스타일 : "
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/open_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+
         <!--손님 수-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="손님 수 : "
+                android:text="손님 수 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/customer_num"
+                android:id="@+id/cafeCustomerNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -101,10 +101,10 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="콘센트 수 : "
+                android:text="콘센트 수 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/plug_num"
+                android:id="@+id/plugNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -114,10 +114,10 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="책상 높이 : "
+                android:text="책상 높이 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/table_height"
+                android:id="@+id/tableHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="조명 밝기 : "
+                android:text="조명 "
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/lightness"
@@ -141,10 +141,10 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="장시간 착석 : "
+                android:text="장시간 착석 "
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/long_possibility"
+                android:id="@+id/stayLong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

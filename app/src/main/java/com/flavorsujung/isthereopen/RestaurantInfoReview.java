@@ -16,13 +16,13 @@ public class RestaurantInfoReview {
     @SerializedName("avgRate")
     private String rate;
 
-    @SerializedName("waitingTime")
+    @SerializedName("waitingTimeTv")
     private String waitingTime;
 
     @SerializedName("cleanness")
     private String cleanness;
 
-    @SerializedName("price")
+    @SerializedName("priceTv")
     private String price;
 
     @SerializedName("takeOut")
@@ -31,7 +31,7 @@ public class RestaurantInfoReview {
     @SerializedName("eatAlone")
     private String eatAlone;
 
-    @SerializedName("openStyle")
+    @SerializedName("openStyleTv")
     private String openStyle;
 
     public Long getSeq() {
