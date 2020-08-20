@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,20 +20,14 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 mainViewPager;
     MainViewPagerAdapter mainViewPagerAdapter;
 
-    private static final String TAG = "MyTag";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-//        Intent i = new Intent(this, NicknameSettingActivity.class);
-//        startActivity(i);
-
-
-
-
+        getWindow().setStatusBarColor(0xFFF7F7F7);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         mainViewPagerAdapter = new MainViewPagerAdapter(this, 4);
         mainViewPager = findViewById(R.id.main_viewpager);
         mainViewPager.setAdapter(mainViewPagerAdapter);

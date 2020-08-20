@@ -62,8 +62,8 @@ public interface ServerAPI {
     @GET("/cafe/{cafeSeq}/infoReview") //카페 정보 리뷰 리스트 조회
     Call<List<CafeInfoReview>> getCafeInfoReviewList(@Path("cafeSeq") Long cafeSeq);
 
-    @GET("/cafe/{cafeSeq}/openReview/all") //카페 오픈 리뷰 조회
-    Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("barSeq") Long cafeSeq);
+    @GET("/cafe/{cafeSeq}/openReview") //카페 오픈 리뷰 조회
+    Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("cafeSeq") Long cafeSeq);
 
     @PUT("/cafe/{cafeSeq}/openReview") //카페 오픈리뷰 작성
     Call<Void> putCafeOpenReview(@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);

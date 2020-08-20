@@ -33,13 +33,13 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
     public StoreAdapter(List<Store> storeList, Context mContext) {
         this.storeList = storeList;
         this.mContext = mContext;
+        serverAPI = RetrofitManager.getInstance().getServerAPI(mContext);
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_item, parent, false);
-        serverAPI = RetrofitManager.getInstance().getServerAPI(mContext);
         sharedPreferences = mContext.getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         return new MyViewHolder(view);
@@ -60,8 +60,10 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
         Glide.with(mContext).load(storePhotoUrl).into(holder.storePhotoIv);
         holder.storeNameTv.setText(storeName);
         holder.openStateTv.setText(openState);
-        if(latestUpdate != null)
-            holder.latestUpdateTv.setText(" ("+latestUpdate.getHours() + "시 " + latestUpdate.getMinutes() + "분 기준)");
+        if(latestUpdate != null) {
+            holder.latestUpdateTv.setText(" (" + (latestUpdate.getMonth() + 1) + "/" + latestUpdate.getDate() + " " + latestUpdate.getHours() + ":" + latestUpdate.getMinutes() + " 기준)");
+            Log.d("시간", storeName + " " + latestUpdate.toString());
+        }
         else
             holder.latestUpdateTv.setText("");
         if(rate == -1.0) holder.rateTv.setText("등록된 평점 없음");
@@ -69,6 +71,9 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
         holder.runningTimeTv.setText(runningTime);
         if(isPatron) {
             holder.heartButton.setImageResource(R.drawable.ic_heart_red);
+        }
+        else {
+            holder.heartButton.setImageResource(R.drawable.ic_heart);
         }
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +95,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                         if(response.isSuccessful()) {
                                             holder.heartButton.setImageResource(R.drawable.ic_heart);
-                                            Toast.makeText(mContext, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -106,7 +111,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                         if(response.isSuccessful()) {
                                             holder.heartButton.setImageResource(R.drawable.ic_heart_red);
-                                            Toast.makeText(mContext, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -192,7 +197,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                         if(response.isSuccessful()) {
                                             holder.heartButton.setImageResource(R.drawable.ic_heart);
-                                            Toast.makeText(mContext, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -208,7 +213,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                         if(response.isSuccessful()) {
                                             holder.heartButton.setImageResource(R.drawable.ic_heart_red);
-                                            Toast.makeText(mContext, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 

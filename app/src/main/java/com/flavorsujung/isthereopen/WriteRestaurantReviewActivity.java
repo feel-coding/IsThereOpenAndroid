@@ -1,13 +1,17 @@
 package com.flavorsujung.isthereopen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -19,6 +23,8 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
     ServerAPI serverAPI;
     Long restaurantSeq;
     Long userSeq;
+    String restaurantName;
+    String userName;
     SharedPreferences sharedPreferences;
 
     Button openStyleStableBtn;
@@ -53,14 +59,31 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
     String takeout = "";
     String eatAlone = "";
     Button writeReviewBtn;
+    Toolbar toolbar;
+    TextView toolbarTitleTv;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_restaurant_review);
-        restaurantSeq = getIntent().getLongExtra("seq", 0L);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.writeRestaurantReviewToolbar);
+        toolbarTitleTv = findViewById(R.id.writeRestaurantReviewTitle);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
+        intent = getIntent();
+        restaurantSeq = intent.getLongExtra("seq", 0L);
+        restaurantName = intent.getStringExtra("name");
+        toolbarTitleTv.setText(restaurantName + " 리뷰 쓰기");
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
+        userName = sharedPreferences.getString("name", "");
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         priceCheapBtn = findViewById(R.id.restaurantPriceCheap);
         priceNormalBtn = findViewById(R.id.restaurantPriceNormal);

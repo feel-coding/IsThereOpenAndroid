@@ -33,6 +33,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
     TextView reviewCount;
     SwipeRefreshLayout swipeRefreshLayout;
     LinearLayout noReviewLayout;
+    String restaurantName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0);
+        restaurantName = intent.getStringExtra("name");
         Log.d("카페 seq", restaurantSeq + "");
         recyclerView = findViewById(R.id.restaurantReviewRv);
         writeReviewBtn = findViewById(R.id.writeRestaurantReviewBtn);
@@ -65,6 +67,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RestaurantReviewActivity.this, WriteRestaurantReviewActivity.class);
                 intent.putExtra("seq", restaurantSeq);
+                intent.putExtra("name", restaurantName);
                 startActivity(intent);
             }
         });

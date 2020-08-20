@@ -9,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     TextView openStateTv;
     TextView runningTimeTv;
     TextView addressTv;
+    TextView phoneNumberTv;
     SwipeRefreshLayout swipeRefreshLayout;
     Button openBtn;
     Button breakBtn;
@@ -45,18 +47,23 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     SharedPreferences sharedPreferences;
     Long userSeq;
     Button toRestaurantReviewBtn;
+    Button toOpenReviewBtn;
     Long restaurantSeq;
+    ImageView callBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.restaurantToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-//        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
@@ -67,10 +74,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         openStateTv = findViewById(R.id.restaurantOpenStateTv);
         runningTimeTv = findViewById(R.id.restaurantRunningTimeTv);
         addressTv = findViewById(R.id.restaurantAddressTv);
+        phoneNumberTv = findViewById(R.id.restaurantPhoneTv);
         openBtn = findViewById(R.id.restaurantOpenBtn);
         breakBtn = findViewById(R.id.restaurantBreakBtn);
         closeBtn = findViewById(R.id.restaurantCloseBtn);
+        callBtn = findViewById(R.id.restaurantCall);
         toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
+        toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0);
         serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
@@ -82,9 +92,16 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
 //                    Log.d("서버", bar.getCurrentState());
                     String openState = restaurant.getCurrentState();
-                    openStateTv.setText(openState);
+                    if(openState.equals("UNKNOWN")) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
+                    }
+                    else {
+                        openStateTv.setText(openState);
+                    }
                     addressTv.setText(restaurant.getAddress());
                     runningTimeTv.setText(restaurant.getRunningTime());
+                    phoneNumberTv.setText(restaurant.getPhoneNum());
                 }
             }
 
@@ -100,7 +117,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     @Override
                     public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                         if (response.isSuccessful()) {
-                            openStateTv.setText(response.body().getCurrentState());
+                            String openState = response.body().getCurrentState();
+                            if(openState.equals("UNKNOWN")) {
+                                openState = "등록된 오픈 정보 없음";
+                                openStateTv.setText(openState);
+                            }
+                            else {
+                                openStateTv.setText(openState);
+                            }
                         }
                     }
 
@@ -110,6 +134,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     }
                 });
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + restaurant.getPhoneNum()));
+                startActivity(intent);
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +206,17 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onClick(View view) {
                 Intent intent = new Intent(RestaurantActivity.this, RestaurantReviewActivity.class);
                 intent.putExtra("seq", restaurantSeq);
+                intent.putExtra("name", restaurant.getName());
+                startActivity(intent);
+            }
+        });
+        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RestaurantActivity.this, OpenReviewActivity.class);
+                intent.putExtra("seq", restaurantSeq);
+                intent.putExtra("type", "restaurant");
+                intent.putExtra("name", restaurant.getName());
                 startActivity(intent);
             }
         });
@@ -199,5 +241,16 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

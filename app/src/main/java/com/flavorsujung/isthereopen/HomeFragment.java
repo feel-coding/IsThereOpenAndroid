@@ -46,11 +46,13 @@ public class HomeFragment extends Fragment {
     int selectedStoreType = 3; //0 카페, 1 식당, 2 술집, 3 전부, 4 단골
     SharedPreferences sharedPreferences;
     Long userSeq;
+    int count = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
         sharedPreferences = activity.getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
@@ -157,7 +159,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("서버", "성공");
                     for (Restaurant restaurant : response.body()) {
                         String openState = restaurant.getCurrentState();
                         if (openState.equals("UNKNOWN"))
@@ -174,20 +175,23 @@ public class HomeFragment extends Fragment {
                         store.setName(restaurant.getName());
                         store.setOpenState(openState);
                         store.setRuntime(restaurant.getRunningTime());
+                        store.setLatestUpdate(date);
                         if(restaurant.getAvgRate() != null)
                             store.setAvgRate(restaurant.getAvgRate());
                         else store.setAvgRate(-1.0);
                         serverAPI.getPatronRestaurantList(userSeq).enqueue(new Callback<List<PatronRestaurant>>() {
                             @Override
                             public void onResponse(Call<List<PatronRestaurant>> call, Response<List<PatronRestaurant>> response) {
-                                if (response.isSuccessful()) {
-                                    for (PatronRestaurant patronRestaurant : response.body()) {
+                                if(response.isSuccessful()) {
+                                    Log.d("카페", "userSeq: " + userSeq);
+                                    for(PatronRestaurant patronRestaurant: response.body()) {
                                         if(patronRestaurant.getRestaurantSeq().equals(restaurant.getSeq())) {
                                             store.setPatron(true);
                                         }
-                                        storeList.add(store);
-                                        adapter.notifyDataSetChanged();
                                     }
+                                    storeList.add(store);
+                                    Log.d("카페", "스토어리스트에 집어넣음");
+                                    adapter.notifyDataSetChanged();
                                 }
                             }
 
@@ -196,10 +200,7 @@ public class HomeFragment extends Fragment {
 
                             }
                         });
-                        storeList.add(store);
                     }
-                    Log.d("서버", storeList.toString());
-                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -231,6 +232,7 @@ public class HomeFragment extends Fragment {
                         store.setName(cafe.getName());
                         store.setOpenState(openState);
                         store.setRuntime(cafe.getRunningTime());
+                        store.setLatestUpdate(date);
                         if(cafe.getAvgRate() != null)
                             store.setAvgRate(cafe.getAvgRate());
                         else store.setAvgRate(-1.0);
@@ -288,6 +290,7 @@ public class HomeFragment extends Fragment {
                         store.setName(bar.getName());
                         store.setOpenState(openState);
                         store.setRuntime(bar.getRunningTime());
+                        store.setLatestUpdate(date);
                         if(bar.getAvgRate() != null)
                             store.setAvgRate(bar.getAvgRate());
                         else store.setAvgRate(-1.0);

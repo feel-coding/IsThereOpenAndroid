@@ -18,6 +18,9 @@ public class RestaurantOpenReview {
     @SerializedName("openState")
     private String openState;
 
+    @SerializedName("createdAt")
+    private Date createdAt;
+
     public Long getSeq() {
         return seq;
     }
@@ -48,5 +51,13 @@ public class RestaurantOpenReview {
 
     public void setOpenState(String openState) {
         this.openState = openState;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

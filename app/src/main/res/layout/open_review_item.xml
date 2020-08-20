@@ -1,71 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-    <!--아이디,평점, 날짜 한줄-->
-<LinearLayout android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_margin="10dp">
+    android:padding="10dp"
+    android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/userID_tv1"
-                android:layout_width="wrap_content"
-                android:text="사용자 아이디 "
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_toRightOf="@+id/userID_tv2"
-                android:id="@+id/rateStarImage_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:id="@+id/id_tv"
-                android:layout_width="wrap_content"
-                android:text="님이 "
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/ㅐopenReview_OPEN_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPEN을 "
-                android:layout_toRightOf="@+id/id_tv"/>
-
-        <!-- Break, CLose
-            <TextView
-                android:id="@+id/ㅐopenReview_BREAK_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BREAK를 "
-                android:layout_toRightOf="@+id/id_tv"/>
-            <TextView
-                android:id="@+id/ㅐopenReview_CLOSE_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CLOSE를 "
-                android:layout_toRightOf="@+id/id_tv"/>
-
-        -->
     <TextView
-        android:id="@+id/dateOfReview_tv1"
+        android:id="@+id/openReviewDateTv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="08.18-15:17 "
-        android:layout_alignParentRight="true"/>
-    <TextView
-        android:id="@+id/dateOfReview_tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
-    <TextView
-        android:id="@+id/id_tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="분에 확인했습니다."
-        android:layout_alignParentRight="true"/>
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/colorBlack"
+            android:id="@+id/openReviewWriter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="님이 " />
+
+        <TextView
+            android:id="@+id/openOpenReview"
+            android:text="OPEN"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/full_red_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/closeOpenReview"
+            android:text="CLOSE"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/full_red_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/breakOpenReview"
+            android:text="BREAK"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/full_red_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/postPosition"
+            android:textColor="@color/colorBlack"
+            android:text="를"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/colorBlack"
+            android:text=" 확인하였습니다."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
+
+</LinearLayout>
 

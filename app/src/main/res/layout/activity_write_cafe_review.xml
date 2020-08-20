@@ -3,10 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.flavorsujung.isthereopen.WriteCafeReviewActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/writeCafeReviewToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/writeCafeReviewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
+
+    </androidx.appcompat.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,20 +33,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="총점"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="총점"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="17sp" />
 
                 <ImageView
+                    android:layout_marginLeft="15dp"
                     android:id="@+id/cafeStarOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,13 +82,15 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오픈 시간은 잘 지키나요?"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -102,13 +124,15 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="음료 제조 시간"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -144,13 +168,15 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="가격"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -184,6 +210,7 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="손님 수"
@@ -191,6 +218,7 @@
                 android:textSize="18sp" />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -226,17 +254,20 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오래 있어도 괜찮나요?"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeStayLong"
                     android:layout_width="wrap_content"
@@ -247,6 +278,7 @@
                     android:text="가능" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeStayNormal"
                     android:layout_width="wrap_content"
@@ -257,6 +289,7 @@
                     android:text="보통이에요" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeStayShort"
                     android:layout_width="wrap_content"
@@ -267,6 +300,7 @@
                     android:text="눈치 보여요" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeStayNo"
                     android:layout_width="wrap_content"
@@ -278,17 +312,20 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="콘센트 수"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafePlugLittle"
                     android:layout_width="wrap_content"
@@ -297,6 +334,7 @@
                     android:text="적은 편" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafePlugNormal"
                     android:layout_width="wrap_content"
@@ -305,6 +343,7 @@
                     android:text="보통" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafePlugMany"
                     android:layout_width="wrap_content"
@@ -313,6 +352,7 @@
                     android:text="많은 편" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafePlugNo"
                     android:layout_width="wrap_content"
@@ -324,17 +364,20 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="테이블 높이"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp"  />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeTableLow"
                     android:layout_width="wrap_content"
@@ -343,6 +386,7 @@
                     android:text="낮은 편" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeTableNormal"
                     android:layout_width="wrap_content"
@@ -351,6 +395,7 @@
                     android:text="보통" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeTableHigh"
                     android:layout_width="wrap_content"
@@ -359,6 +404,7 @@
                     android:text="높은 편" />
 
                 <Button
+                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:id="@+id/cafeTableNo"
                     android:layout_width="wrap_content"
@@ -368,13 +414,15 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="조명"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -384,8 +432,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/black_round_border"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="어두운 편이에요" />
 
                 <Button

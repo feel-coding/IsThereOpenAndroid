@@ -9,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,10 +35,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     Cafe cafe;
     ServerAPI serverAPI;
     TextView cafeTitleTv;
+    TextView phoneNumberTv;
     Toolbar toolbar;
-//    TabLayout tabLayout;
-//    ViewPager2 viewPager;
-    String[] tabTitles= {"가게 리뷰", "오픈 리뷰"};
     CafeViewPagerAdapter cafeViewPagerAdapter;
     TextView openStateTv;
     TextView runningTimeTv;
@@ -49,37 +48,40 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     SharedPreferences sharedPreferences;
     Long userSeq;
     Button toCafeReviewBtn;
+    Button toOpenReviewBtn;
     Long cafeSeq;
+    ImageView callBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cafe);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.cafeToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-//        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
-        cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);
-//        tabLayout = findViewById(R.id.reviewTabLayout);
-//        viewPager = findViewById(R.id.cafeViewpager);
-//        viewPager.setAdapter(cafeViewPagerAdapter);
-//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {tab.setText(tabTitles[position]); viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
-        cafeTitleTv = findViewById(R.id.cafeTitleTv);
+        cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);cafeTitleTv = findViewById(R.id.cafeTitleTv);
         cafeLogoIv = findViewById(R.id.cafeProfileImage);
+        phoneNumberTv = findViewById(R.id.cafePhoneTv);
         openStateTv = findViewById(R.id.cafeOpenStateTv);
         runningTimeTv = findViewById(R.id.cafeRunningTimeTv);
         addressTv = findViewById(R.id.cafeAddressTv);
         openBtn = findViewById(R.id.cafeOpenBtn);
         breakBtn = findViewById(R.id.cafeBreakBtn);
         closeBtn = findViewById(R.id.cafeCloseBtn);
+        callBtn = findViewById(R.id.cafeCall);
         toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
+        toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
@@ -91,9 +93,16 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     Glide.with(CafeActivity.this).load(cafe.getPhotoURL()).into(cafeLogoIv);
 //                    Log.d("서버", bar.getCurrentState());
                     String openState = cafe.getCurrentState();
-                    openStateTv.setText(openState);
+                    if(openState.equals("UNKNOWN")) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
+                    }
+                    else {
+                        openStateTv.setText(openState);
+                    }
                     addressTv.setText(cafe.getAddress());
                     runningTimeTv.setText(cafe.getRunningTime());
+                    phoneNumberTv.setText(cafe.getPhoneNum());
                 }
             }
 
@@ -109,7 +118,14 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     @Override
                     public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                         if (response.isSuccessful()) {
-                            openStateTv.setText(response.body().getCurrentState());
+                            String openState = response.body().getCurrentState();
+                            if(openState.equals("UNKNOWN")) {
+                                openState = "등록된 오픈 정보 없음";
+                                openStateTv.setText(openState);
+                            }
+                            else {
+                                openStateTv.setText(openState);
+                            }
                         }
                     }
 
@@ -119,6 +135,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     }
                 });
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cafe.getPhoneNum()));
+                startActivity(intent);
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +207,17 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             public void onClick(View view) {
                 Intent intent = new Intent(CafeActivity.this, CafeReviewActivity.class);
                 intent.putExtra("seq", cafeSeq);
+                intent.putExtra("name", cafe.getName());
+                startActivity(intent);
+            }
+        });
+        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CafeActivity.this, OpenReviewActivity.class);
+                intent.putExtra("seq", cafeSeq);
+                intent.putExtra("type", "cafe");
+                intent.putExtra("name", cafe.getName());
                 startActivity(intent);
             }
         });
@@ -208,5 +242,16 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

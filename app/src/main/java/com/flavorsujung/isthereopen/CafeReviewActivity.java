@@ -25,6 +25,7 @@ public class CafeReviewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ServerAPI serverAPI;
     Long cafeSeq;
+    String cafeName;
     Intent intent;
     CafeReviewAdapter adapter;
     Button writeReviewBtn;
@@ -40,6 +41,7 @@ public class CafeReviewActivity extends AppCompatActivity {
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
+        cafeName = intent.getStringExtra("name");
         Log.d("카페 seq", cafeSeq + "");
         recyclerView = findViewById(R.id.cafeReviewRv);
         writeReviewBtn = findViewById(R.id.writeCafeReviewBtn);
@@ -63,6 +65,7 @@ public class CafeReviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CafeReviewActivity.this, WriteCafeReviewActivity.class);
                 intent.putExtra("seq", cafeSeq);
+                intent.putExtra("name", cafeName);
                 startActivity(intent);
             }
         });

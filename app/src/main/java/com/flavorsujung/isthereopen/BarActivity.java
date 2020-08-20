@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +38,7 @@ public class BarActivity extends AppCompatActivity {
     TextView openStateTv;
     TextView runningTimeTv;
     TextView addressTv;
+    TextView phoneNumberTv;
     SwipeRefreshLayout swipeRefreshLayout;
     Button openBtn;
     Button breakBtn;
@@ -43,18 +46,24 @@ public class BarActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Long userSeq;
     Button toBarReviewBtn;
+    Button toOpenReviewBtn;
     Long barSeq;
+    ImageView callBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.barToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-//        actionBar.setHomeAsUpIndicator(R.drawable.close_black);
+        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
@@ -65,10 +74,13 @@ public class BarActivity extends AppCompatActivity {
         openStateTv = findViewById(R.id.barOpenStateTv);
         runningTimeTv = findViewById(R.id.barRunningTimeTv);
         addressTv = findViewById(R.id.barAddressTv);
+        phoneNumberTv = findViewById(R.id.barPhoneTv);
         openBtn = findViewById(R.id.barOpenBtn);
         breakBtn = findViewById(R.id.barBreakBtn);
         closeBtn = findViewById(R.id.barCloseBtn);
+        callBtn = findViewById(R.id.barCall);
         toBarReviewBtn = findViewById(R.id.toBarReviewBtn);
+        toOpenReviewBtn = findViewById(R.id.toBarOpenReviewBtn);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
         serverAPI.getBar(barSeq).enqueue(new Callback<Bar>() {
@@ -79,9 +91,16 @@ public class BarActivity extends AppCompatActivity {
                     barTitleTv.setText(bar.getName());
                     Glide.with(BarActivity.this).load(bar.getPhotoURL()).into(barLogoIv);
                     String openState = bar.getCurrentState();
-                    openStateTv.setText(openState);
+                    if(openState.equals("UNKNOWN")) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
+                    }
+                    else {
+                        openStateTv.setText(openState);
+                    }
                     addressTv.setText(bar.getAddress());
                     runningTimeTv.setText(bar.getRunningTime());
+                    phoneNumberTv.setText(bar.getPhoneNum());
                 }
             }
 
@@ -97,7 +116,14 @@ public class BarActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Bar> call, Response<Bar> response) {
                         if (response.isSuccessful()) {
-                            openStateTv.setText(response.body().getCurrentState());
+                            String openState = bar.getCurrentState();
+                            if(openState.equals("UNKNOWN")) {
+                                openState = "등록된 오픈 정보 없음";
+                                openStateTv.setText(openState);
+                            }
+                            else {
+                                openStateTv.setText(openState);
+                            }
                         }
                     }
 
@@ -107,6 +133,13 @@ public class BarActivity extends AppCompatActivity {
                     }
                 });
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
+            }
+        });
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + bar.getPhoneNum()));
+                startActivity(intent);
             }
         });
         openBtn.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +210,17 @@ public class BarActivity extends AppCompatActivity {
             }
         });
 
+        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BarActivity.this, OpenReviewActivity.class);
+                intent.putExtra("seq", barSeq);
+                intent.putExtra("type", "bar");
+                intent.putExtra("name", bar.getName());
+                startActivity(intent);
+            }
+        });
+
         barLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         barLogoIv.setClipToOutline(true);
         barLogoIv.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +231,17 @@ public class BarActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
