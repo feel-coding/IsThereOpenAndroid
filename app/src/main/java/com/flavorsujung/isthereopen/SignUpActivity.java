@@ -43,6 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("exist", true); //1은 닉네임 있다는거
                                 editor.putLong("userSeq", response.body());
+                                editor.putString("name", userNameEdit.getText().toString());
                                 editor.apply();
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 startActivity(i);

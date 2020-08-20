@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WriteBarReviewActivity"></activity>
+        <activity android:name=".WriteRestaurantReviewActivity"></activity>
+        <activity android:name=".WriteBarReviewActivity" />
         <activity android:name=".RestaurantReviewActivity" />
         <activity android:name=".BarReviewActivity" />
         <activity android:name=".WriteCafeReviewActivity" />

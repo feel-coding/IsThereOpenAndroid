@@ -146,7 +146,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     Toast.makeText(WriteBarReviewActivity.this, "오픈 스타일을 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(mood.equals("")) {
-                    Toast.makeText(WriteBarReviewActivity.this, "분위기 선택해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WriteBarReviewActivity.this, "분위기를 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(price.equals("")) {
                     Toast.makeText(WriteBarReviewActivity.this, "가격대를 선택해주세요", Toast.LENGTH_SHORT).show();

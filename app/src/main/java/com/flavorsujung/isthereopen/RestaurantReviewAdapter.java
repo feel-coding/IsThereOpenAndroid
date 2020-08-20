@@ -1,7 +1,6 @@
 package com.flavorsujung.isthereopen;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,15 +19,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder>   {
-    private List<CafeInfoReview> reviewList;
+public class RestaurantReviewAdapter extends RecyclerView.Adapter<RestaurantReviewViewHolder>   {
+    private List<RestaurantInfoReview> reviewList;
     private Context mContext;
     ServerAPI serverAPI;
 
-
-    public CafeReviewAdapter(List<CafeInfoReview> reviewList, Context mContext) {
+    public RestaurantReviewAdapter(List<RestaurantInfoReview> reviewList, Context mContext) {
         this.reviewList = reviewList;
         this.mContext = mContext;
         serverAPI = RetrofitManager.getInstance().getServerAPI(mContext);
@@ -36,13 +32,13 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
 
     @NonNull
     @Override
-    public CafeReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cafe_review_item, parent, false);
-        return new CafeReviewViewHolder(view);
+    public RestaurantReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_review_item, parent, false);
+        return new RestaurantReviewViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CafeReviewViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RestaurantReviewViewHolder holder, int position) {
         serverAPI.getUser(reviewList.get(position).getUserSeq()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -60,10 +56,6 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
                 Log.d("이름", t.getMessage());
             }
         });
-        Date date = reviewList.get(position).getCreatedAt();
-        TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        dateFormat.setTimeZone(timeZone);
         String rate = reviewList.get(position).getRate();
         if(rate.equals("WORST")) {
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
@@ -120,67 +112,23 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
         else if (price.equals("EXPENSIVE")) {
             price = "비싼 편이에요";
         }
-        String customerNum = reviewList.get(position).getCustomerNum();
-        if(customerNum.equals("UNCROWDED")) {
-            customerNum = "적은 편이에요";
+        String takeout = reviewList.get(position).getTakeOut();
+        if(takeout.equals("UNABLE")) {
+            takeout = "불가능해요";
         }
-        else if(customerNum.equals("NORMAL")) {
-            customerNum = "보통이에요";
+        else if (takeout.equals("POSSIBLE")) {
+            takeout = "가능해요";
         }
-        else if(customerNum.equals("CROWDED")) {
-            customerNum = "많은 편이에요";
+        String eatAlone = reviewList.get(position).getEatAlone();
+        if(eatAlone.equals("POSSIBLE")) {
+            eatAlone = "완전 가능해요";
         }
-        String lightness = reviewList.get(position).getLightness();
-        if(lightness.equals("DARK")) {
-            lightness = "어두운 편이에요";
+        else if (eatAlone.equals("UNCOMFORTABLE")) {
+            eatAlone = "사람 많은 시간 아니면 가능해요";
         }
-        else if(lightness.equals("NORMAL")) {
-            lightness = "보통이에요";
+        else if (eatAlone.equals("UNABLE")) {
+            eatAlone = "불가능해요";
         }
-        else if(lightness.equals("LIGHT")) {
-            lightness = "밝은 편이에요";
-        }
-        String plugNum = reviewList.get(position).getPlugNum();
-        if(plugNum.equals("LITTLE")) {
-            plugNum = "적은 편이에요";
-        }
-        else if(plugNum.equals("NORMAL")) {
-            plugNum = "보통이에요";
-        }
-        else if(plugNum.equals("MANY")) {
-            plugNum = "많은 편이에요";
-        }
-        else if(plugNum.equals("NOTABLE")) {
-            plugNum = "테이블 없는 가게예요";
-        }
-        String stayLong = reviewList.get(position).getStayLong();
-        if(stayLong.equals("POSSIBLE")) {
-            stayLong = "가능해요";
-        }
-        else if(stayLong.equals("NORMAL")) {
-            stayLong = "보통이에요";
-        }
-        else if(stayLong.equals("UNCOMFORTABLE")) {
-            stayLong = "약간 눈치보여요";
-        }
-        else if(stayLong.equals("TAKEOUT")) {
-            stayLong = "테이크아웃 카페예요";
-        }
-        String tableHeight = reviewList.get(position).getTableHeight();
-        if(tableHeight.equals("LOW")) {
-            tableHeight = "낮은 편이에요";
-        }
-        else if (tableHeight.equals("NORMAL")) {
-            tableHeight = "보통이에요";
-        }
-        else if (tableHeight.equals("HIGH")) {
-            tableHeight = "높은 편이에요";
-        }
-        else if (tableHeight.equals("NOTABLE")) {
-            tableHeight = "테이블이 없는 카페예요";
-        }
-        Long userSeq = reviewList.get(position).getUserSeq();
-
         String waitingTime = reviewList.get(position).getWaitingTime();
         if(waitingTime.equals("SHORT")) {
             waitingTime = "금방 나오는 편이에요";
@@ -191,15 +139,27 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
         else if (waitingTime.equals("LONG")) {
             waitingTime = "오래 걸리는 편이에요";
         }
-        holder.waitingTimeTv.setText(waitingTime);
-        holder.customerNumTv.setText(customerNum);
-        holder.lightnessTv.setText(lightness);
-        holder.plugNumTv.setText(plugNum);
-        holder.priceTv.setText(price);
-        holder.openStyleTv.setText(openStyle);
-        holder.tableHeightTv.setText(tableHeight);
-        holder.stayLongTv.setText(stayLong);
+        String cleanness = reviewList.get(position).getCleanness();
+        if (cleanness.equals("CLEAN")) {
+            cleanness = "청결해요";
+        }
+        else if (cleanness.equals("NORMAL")) {
+            cleanness = "보통이에요";
+        }
+        else if (cleanness.equals("DIRTY")) {
+            cleanness = "청결하지 않아요";
+        }
+        Date date = reviewList.get(position).getCreatedAt();
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        dateFormat.setTimeZone(timeZone);
         holder.dateTv.setText(dateFormat.format(date));
+        holder.openStyleTv.setText(openStyle);
+        holder.takeoutTv.setText(takeout);
+        holder.eatAloneTv.setText(eatAlone);
+        holder.priceTv.setText(price);
+        holder.waitingTimeTv.setText(waitingTime);
+        holder.cleannessTv.setText(cleanness);
     }
 
     @Override

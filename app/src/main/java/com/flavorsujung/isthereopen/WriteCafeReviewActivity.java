@@ -2,6 +2,7 @@ package com.flavorsujung.isthereopen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
     ServerAPI serverAPI;
     Long cafeSeq;
     Long userSeq;
+    String userName;
     SharedPreferences sharedPreferences;
 
     Button openStyleStableBtn;
@@ -72,8 +74,25 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_write_cafe_review);
         cafeSeq = getIntent().getLongExtra("seq", 0);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
-        userSeq = sharedPreferences.getLong("userSeq", 0L);
+        userName = sharedPreferences.getString("name", "");
+        if(userName.equals("")) {
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
+        }
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
+        serverAPI.getUserSeq(userName).enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                if(response.isSuccessful()) {
+                    userSeq = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Long> call, Throwable t) {
+
+            }
+        });
         openStyleNormalBtn = findViewById(R.id.cafeOpenStyleNormal);
         openStyleStableBtn = findViewById(R.id.cafeOpenStyleStable);
         openStyleUnstableBtn = findViewById(R.id.cafeOpenStyleUnstable);

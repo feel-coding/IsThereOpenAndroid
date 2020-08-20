@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.flavorsujung.isthereopen.WriteRestaurantReviewActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총점"
+                android:textColor="@color/colorBlack"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/restaurantStarOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_gray" />
+
+                <ImageView
+                    android:id="@+id/restaurantStarTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_gray" />
+
+                <ImageView
+                    android:id="@+id/restaurantStarThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_gray" />
+
+                <ImageView
+                    android:id="@+id/restaurantStarFour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_gray" />
+
+                <ImageView
+                    android:id="@+id/restaurantStarFive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_gray" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오픈 시간은 잘 지키나요?"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantOpenStyleStable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="잘 지켜요" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantOpenStyleNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="보통이에요" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantOpenStyleUnstable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="사장님 마음대로 열어요" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가격"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantPriceCheap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="싼 편" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantPriceNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="보통" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantPriceExpensive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="비싼 편" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="포장 가능 여부"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/takeout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="포장 가능" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/noTakeout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="포장 불가능" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="혼밥"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/eatAlonePossible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="완전 가능" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/eatAloneNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="사람 많을 때 아니면 가능" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/eatAloneUnable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="불가능" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="음식 나오는 시간"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantWaitingShort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="금방 나와요" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantWaitingNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="보통이에요" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantWaitingLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="오래걸려요" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="청결도"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantClean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="깨끗한 편" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantCleannessNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="보통" />
+
+                <Button
+                    android:textSize="13sp"
+                    android:id="@+id/restaurantDirty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_round_border"
+                    android:text="더러운 편" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/restaurantReviewFinish"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/full_red_square"
+        android:text="리뷰 작성"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</LinearLayout>

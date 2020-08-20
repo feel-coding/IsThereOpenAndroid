@@ -104,7 +104,7 @@ public interface ServerAPI {
             @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyle") String openStyle);
 
     @GET("/restaurant/{restaurantSeq}/infoReview") //음식점 정보리뷰 리스트 조회
-    Call<List<RestaurantInfoReview>> getRestaurantInfoReview(@Path("restaurantSeq") Long restaurantSeq);
+    Call<List<RestaurantInfoReview>> getRestaurantInfoReviewList(@Path("restaurantSeq") Long restaurantSeq);
 
     @PUT("/restaurant/{restaurantSeq}/openReview") //음식점 오픈리뷰 작성
     Call<Void> putRestaurantOpenReview(@Path("restaurantSeq") Long restaurantSeq,  @Query("userSeq") Long userSeq, @Query("openState") String openState);
@@ -177,6 +177,9 @@ public interface ServerAPI {
     //--------사용자 API------------
     @GET("/user/{seq}") //사용자 조회
     Call<User> getUser(@Path("seq") Long userSeq);
+
+    @GET("/user")
+    Call<Long> getUserSeq(@Query("name") String name);
 
     @GET("/user/all") //사용자 리스트 조회
     Call<List<User>> getUserList();

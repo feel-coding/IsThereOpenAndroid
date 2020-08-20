@@ -215,7 +215,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("카페이름", response.body().get(0).getName());
                     for (Cafe cafe : response.body()) {
                         String openState = cafe.getCurrentState();
                         if (openState.equals("UNKNOWN"))

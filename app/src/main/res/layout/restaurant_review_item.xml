@@ -12,12 +12,12 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:textColor="@color/colorBlack"
-            android:id="@+id/barUserTv"
+            android:id="@+id/restaurantUserTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <TextView
             android:gravity="right"
-            android:id="@+id/barUserReviewDate"
+            android:id="@+id/restaurantUserReviewDate"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -34,37 +34,37 @@
             android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_weight="2"
-            android:id="@+id/barUserRate"
+            android:id="@+id/restaurantUserRate"
             android:layout_width="0dp"
             android:orientation="horizontal"
             android:layout_height="wrap_content" >
 
             <ImageView
-                android:id="@+id/barUserStarOne"
+                android:id="@+id/restaurantUserStarOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star_gray" />
 
             <ImageView
-                android:id="@+id/barUserStarTwo"
+                android:id="@+id/restaurantUserStarTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star_gray" />
 
             <ImageView
-                android:id="@+id/barUserStarThree"
+                android:id="@+id/restaurantUserStarThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star_gray" />
 
             <ImageView
-                android:id="@+id/barUserStarFour"
+                android:id="@+id/restaurantUserStarFour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star_gray" />
 
             <ImageView
-                android:id="@+id/barUserStarFive"
+                android:id="@+id/restaurantUserStarFive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star_gray" />
@@ -77,12 +77,12 @@
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="오픈 시간"
+            android:text="오픈 시간 "
             android:layout_height="wrap_content" />
         <TextView
             android:textColor="@color/colorBlack"
             android:layout_weight="2"
-            android:id="@+id/barUserOpenStyle"
+            android:id="@+id/restaurantUserOpenStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -99,7 +99,7 @@
         <TextView
             android:textColor="@color/colorBlack"
             android:layout_weight="2"
-            android:id="@+id/barUserPrice"
+            android:id="@+id/restaurantUserPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -111,12 +111,12 @@
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="화장실 "
+            android:text="포장"
             android:layout_height="wrap_content" />
         <TextView
             android:textColor="@color/colorBlack"
-            android:id="@+id/barUserToilet"
             android:layout_weight="2"
+            android:id="@+id/restaurantUserTakeout"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -128,12 +128,12 @@
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="분위기"
+            android:text="혼밥 가능 여부"
             android:layout_height="wrap_content" />
         <TextView
             android:textColor="@color/colorBlack"
-            android:id="@+id/barUserMood"
             android:layout_weight="2"
+            android:id="@+id/userEatAlone"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -142,15 +142,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
+
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="메인 주류"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="음식 나오는 시간" />
         <TextView
             android:textColor="@color/colorBlack"
             android:layout_weight="2"
-            android:id="@+id/barUserAlcohol"
+            android:id="@+id/restaurantUserWaitingTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -165,9 +166,9 @@
             android:text="청결도"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_weight="2"
             android:textColor="@color/colorBlack"
-            android:id="@+id/barUserCleanness"
+            android:layout_weight="2"
+            android:id="@+id/restaurantUserCleanness"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
