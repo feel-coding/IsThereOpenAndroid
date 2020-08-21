@@ -22,6 +22,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +33,7 @@ public class BarActivity extends AppCompatActivity {
     ImageView barLogoIv;
     Intent intent;
     Bar bar;
+    Double rate;
     ServerAPI serverAPI;
     TextView barTitleTv;
     Toolbar toolbar;
@@ -49,6 +52,19 @@ public class BarActivity extends AppCompatActivity {
     Button toOpenReviewBtn;
     Long barSeq;
     ImageView callBtn;
+
+    ImageView firstStar;
+    ImageView secondStar;
+    ImageView thirdStar;
+    ImageView fourthStar;
+    ImageView fifthStar;
+
+    TextView openStyleTv;
+    TextView moodTv;
+    TextView priceTv;
+    TextView toiletTv;
+    TextView alcoholTv;
+    TextView cleannessTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +95,22 @@ public class BarActivity extends AppCompatActivity {
         breakBtn = findViewById(R.id.barBreakBtn);
         closeBtn = findViewById(R.id.barCloseBtn);
         callBtn = findViewById(R.id.barCall);
+        firstStar = findViewById(R.id.barAvgStarOne);
+        secondStar = findViewById(R.id.barAvgStarTwo);
+        thirdStar = findViewById(R.id.barAvgStarThree);
+        fourthStar = findViewById(R.id.barAvgStarFour);
+        fifthStar = findViewById(R.id.barAvgStarFive);
+        openStyleTv = findViewById(R.id.barAvgOpenStyle);
+        moodTv = findViewById(R.id.barAvgMood);
+        priceTv = findViewById(R.id.barAvgPrice);
+        toiletTv = findViewById(R.id.barAvgToilet);
+        alcoholTv = findViewById(R.id.barAvgAlcohol);
+        cleannessTv = findViewById(R.id.barAvgCleanness);
         toBarReviewBtn = findViewById(R.id.toBarReviewBtn);
         toOpenReviewBtn = findViewById(R.id.toBarOpenReviewBtn);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
+        rate = intent.getDoubleExtra("rate", -1.0);
         serverAPI.getBar(barSeq).enqueue(new Callback<Bar>() {
             @Override
             public void onResponse(Call<Bar> call, Response<Bar> response) {
@@ -101,6 +129,7 @@ public class BarActivity extends AppCompatActivity {
                     addressTv.setText(bar.getAddress());
                     runningTimeTv.setText(bar.getRunningTime());
                     phoneNumberTv.setText(bar.getPhoneNum());
+                    refreshInfo();
                 }
             }
 
@@ -109,6 +138,7 @@ public class BarActivity extends AppCompatActivity {
 
             }
         });
+        refreshInfo();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -132,6 +162,7 @@ public class BarActivity extends AppCompatActivity {
 
                     }
                 });
+                refreshInfo();
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
@@ -243,6 +274,250 @@ public class BarActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void refreshInfo() {
+        serverAPI.getBarAvgOpenStyle(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        openStyleTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        openStyleTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        openStyleTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        openStyleTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgMood(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        moodTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        moodTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        moodTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        moodTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getBarAvgPrice(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        priceTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        priceTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        priceTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        priceTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgToilet(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        toiletTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        toiletTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        toiletTv.setText(list.get(0) + ", " + list.get(1));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgAlcohol(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        alcoholTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        alcoholTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        alcoholTv.setText(list.get(0) + ", " + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        alcoholTv.setText(list.get(0) + ", " + list.get(1) + ", " +  list.get(2));
+                    }
+                    else if (list.size() >= 4) {
+                        alcoholTv.setText("다양함");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getBarAvgCleanness(barSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        cleannessTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        cleannessTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        cleannessTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        cleannessTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getBarAvgRate(barSeq).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    Double rate = response.body();
+                    if (rate < 0) {
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 1.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if(rate < 1.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_half_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if (rate < 2.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if (rate < 2.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_half_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.25) {
+
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.75) {
+
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_half_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_half_red);
+                    }
+                    else {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_red);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 public interface ServerAPI {
 //    String BASE_URL = "http://210.125.96.73:8081"; //학교 컴퓨터 서버 url
 //    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
-    String BASE_URL = "http://192.168.1.10:8081";
+    String BASE_URL = "http://10.50.100.244:8081";
 
     //----------카페 API---------------
     @GET("/cafe/{cafeSeq}/openState")// 카페 오픈 여부 조회
@@ -66,11 +66,11 @@ public interface ServerAPI {
     Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("cafeSeq") Long cafeSeq);
 
     @GET("/cafe/{cafeSeq}/openStyle")
-    Call<Long> countCafeReviewByOpenStyle(@Path("cafeSeq") Long cafeSeq, @Query("openStyle") String openStyle);
+    Call<List<String>> getCafeAvgOpenStyle(@Path("cafeSeq") Long cafeSeq);
 
 
     @GET("/cafe/{cafeSeq}/waitingTime")
-    List<String> getCafeAvgWaitingTime(@Path("cafeSeq") Long cafeSeq);
+    Call<List<String>> getCafeAvgWaitingTime(@Path("cafeSeq") Long cafeSeq);
 
 
     @GET("/cafe/{cafeSeq}/price")
@@ -202,6 +202,27 @@ public interface ServerAPI {
 
     @GET("/bar/{barSeq}/infoReview") //특정 술집의 정보리뷰 리스트 조회
     Call<List<BarInfoReview>> getBarInfoReviewList(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/toilet")
+    Call<List<String>> getAvgToilet(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/openStyle")
+    Call<List<String>> getBarAvgOpenStyle(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/mood")
+    Call<List<String>> getAvgMood(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/alcohol")
+    Call<List<String>> getAvgAlcohol(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/cleanness")
+    Call<List<String>> getBarAvgCleanness(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/price")
+    Call<List<String>> getBarAvgPrice(@Path("barSeq") Long barSeq);
+
+    @GET("/bar/{barSeq}/avgRate")
+    Call<Double> getBarAvgRate(@Path("barSeq") Long barSeq);
 
     @GET("/bar/{seq}/openReview") //술집 오픈 리뷰 리스트 조회
     Call<List<BarOpenReview>> getBarOpenReviewList(@Path("seq") Long seq);

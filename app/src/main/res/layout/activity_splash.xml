@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:gravity="center"
     tools:context="com.flavorsujung.isthereopen.SplashActivity">
-    <TextView
-        android:text="스플래시 화면"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:src="@drawable/is_there_open_logo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
