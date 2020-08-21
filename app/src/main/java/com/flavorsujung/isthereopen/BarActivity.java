@@ -206,6 +206,7 @@ public class BarActivity extends AppCompatActivity {
                 Intent intent = new Intent(BarActivity.this, BarReviewActivity.class);
                 Log.d("술집리뷰", "술집 리뷰 버튼 눌림. seq: " + barSeq);
                 intent.putExtra("seq", barSeq);
+                intent.putExtra("name", bar.getName());
                 startActivity(intent);
             }
         });

@@ -248,6 +248,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                         intent = new Intent(mContext, BarActivity.class);
                 }
                 intent.putExtra("seq", seq);
+                intent.putExtra("rate", rate);
                 mContext.startActivity(intent);
             }
         });

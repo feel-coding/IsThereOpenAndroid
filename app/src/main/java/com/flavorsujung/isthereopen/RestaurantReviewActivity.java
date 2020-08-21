@@ -32,7 +32,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
     List<RestaurantInfoReview> reviewList = new ArrayList<>();
     TextView reviewCount;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout noReviewLayout;
+    SwipeRefreshLayout noReviewLayout;
     String restaurantName;
 
     @Override
@@ -62,6 +62,13 @@ public class RestaurantReviewActivity extends AppCompatActivity {
             }
 
         });
+        noReviewLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshReviewList();
+                noReviewLayout.setRefreshing(false);
+            }
+        });
         writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +89,10 @@ public class RestaurantReviewActivity extends AppCompatActivity {
                     if(reviewList.size() == 0) {
                         swipeRefreshLayout.setVisibility(View.GONE);
                         noReviewLayout.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        noReviewLayout.setVisibility(View.GONE);
                     }
                     reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
                     adapter = new RestaurantReviewAdapter(reviewList, RestaurantReviewActivity.this);

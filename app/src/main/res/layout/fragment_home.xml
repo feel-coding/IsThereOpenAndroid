@@ -85,7 +85,7 @@
                     android:background="@drawable/black_round_square"
                     android:text="@string/bar" />
                     <Button
-                        android:id="@+id/patron"
+                        android:id="@+id/patronBtn"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

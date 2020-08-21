@@ -30,7 +30,7 @@ public class CafeReviewActivity extends AppCompatActivity {
     CafeReviewAdapter adapter;
     Button writeReviewBtn;
     TextView reviewCount;
-    LinearLayout noReviewLayout;
+    SwipeRefreshLayout noReviewLayout;
     List<CafeInfoReview> reviewList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -60,6 +60,13 @@ public class CafeReviewActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        noReviewLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshReviewList();
+                noReviewLayout.setRefreshing(false);
+            }
+        });
         writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +88,10 @@ public class CafeReviewActivity extends AppCompatActivity {
                     if(reviewList.size() == 0) {
                         swipeRefreshLayout.setVisibility(View.GONE);
                         noReviewLayout.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        noReviewLayout.setVisibility(View.GONE);
                     }
                     adapter = new CafeReviewAdapter(response.body(), CafeReviewActivity.this);
                     recyclerView.setAdapter(adapter);

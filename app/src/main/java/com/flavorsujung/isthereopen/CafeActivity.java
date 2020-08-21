@@ -9,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,15 +25,19 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
+public class CafeActivity extends AppCompatActivity  {
 
     ImageView cafeLogoIv;
     Intent intent;
     Cafe cafe;
+    Double rate;
     ServerAPI serverAPI;
     TextView cafeTitleTv;
     TextView phoneNumberTv;
@@ -51,6 +56,21 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     Button toOpenReviewBtn;
     Long cafeSeq;
     ImageView callBtn;
+
+    TextView rateTv;
+    TextView openStyleTv;
+    TextView waitingTimeTv;
+    TextView priceTv;
+    TextView customerNumTv;
+    TextView stayLongTv;
+    TextView plugNumTv;
+    TextView tableHeightTv;
+    TextView lightnessTv;
+    ImageView firstStar;
+    ImageView secondStar;
+    ImageView thirdStar;
+    ImageView fourthStar;
+    ImageView fifthStar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +100,28 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         breakBtn = findViewById(R.id.cafeBreakBtn);
         closeBtn = findViewById(R.id.cafeCloseBtn);
         callBtn = findViewById(R.id.cafeCall);
+        rateTv = findViewById(R.id.cafeAvgRateTv);
+        openStyleTv = findViewById(R.id.cafeAvgOpenStyle);
+
+        lightnessTv = findViewById(R.id.avgLightness);
+        tableHeightTv = findViewById(R.id.avgTableHeight);
+        waitingTimeTv = findViewById(R.id.cafeAvgWaitingTime);
+        plugNumTv = findViewById(R.id.avgPlugNum);
+        priceTv = findViewById(R.id.cafeAvgPrice);
+        stayLongTv = findViewById(R.id.avgStayLong);
+        customerNumTv = findViewById(R.id.cafeAvgCustomerNum);
+
+        firstStar = findViewById(R.id.cafeAvgStarOne);
+        secondStar = findViewById(R.id.cafeAvgStarTwo);
+        thirdStar = findViewById(R.id.cafeAvgStarThree);
+        fourthStar = findViewById(R.id.cafeAvgStarFour);
+        fifthStar = findViewById(R.id.cafeAvgStarFive);
+
         toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
         toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
+        rate = intent.getDoubleExtra("rate", -1.0);
         serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
             @Override
             public void onResponse(Call<Cafe> call, Response<Cafe> response) {
@@ -111,6 +149,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
             }
         });
+        refreshInfo();
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -134,6 +174,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
                     }
                 });
+                refreshInfo();
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
@@ -234,15 +275,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         });
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -253,5 +285,228 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void refreshInfo() {
+
+        serverAPI.getCafeAvgLightness(cafeSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> lightnessList = new ArrayList<>();
+                    for(String str : response.body()) {
+                        if(str.equals("LIGHT")) {
+                            lightnessList.add("밝은 편");
+                        }
+                        else if (str.equals("NORMAL")) {
+                            lightnessList.add("보통");
+                        }
+                        else if (str.equals("DARK")) {
+                            lightnessList.add("어두운 편");
+                        }
+                    }
+                    if(lightnessList.size() == 0) {
+                        lightnessTv.setText("정보 없음");
+                    }
+                    else if (lightnessList.size() == 1) {
+                        lightnessTv.setText(lightnessList.get(0));
+                    }
+                    else if (lightnessList.size() == 2) {
+                        lightnessTv.setText(lightnessList.get(0) + "~" + lightnessList.get(1));
+                    }
+                    else if (lightnessList.size() == 3) {
+                        lightnessTv.setText("의견이 많이 갈리니 리뷰를 참고해주세요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getCafeAvgTableHeight(cafeSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    List<String> tableHeightList = new ArrayList<>();
+                    for(String s : response.body()) {
+                        if(s.equals("LOW")) {
+                            tableHeightList.add("낮은 편");
+                        }
+                        else if (s.equals("NORMAL")) {
+                            tableHeightList.add("보통");
+                        }
+                        else if (s.equals("HIGH")) {
+                            tableHeightList.add("높은 편");
+                        }
+                        else if (s.equals("NOTABLE")) {
+                            tableHeightList.add("테이블 없음");
+                        }
+                    }
+
+                    if(tableHeightList.size() == 0) {
+                        tableHeightTv.setText("정보 없음");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgPlugNum(cafeSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d("플러그 ", "들어옴");
+                if (response.isSuccessful()) {
+                    Log.d("플러그 ", "성공");
+                    List<String> plugNumList = new ArrayList<>();
+                    for (String s : response.body()) {
+                        if(s.equals("LITTLE")) {
+                            plugNumList.add("적은 편");
+                        }
+                        else if (s.equals("NORMAL")) {
+                            plugNumList.add("보통");
+                        }
+                        else if (s.equals("MANY")) {
+                            plugNumList.add("많은 편");
+                        }
+                        else if (s.equals("NOTABLE")) {
+                            plugNumList.add("테이블 없음");
+                        }
+                    }
+                    if(plugNumList.size() == 0) {
+                        plugNumTv.setText("정보 없음");
+                    }
+                    else if (plugNumList.size() == 1) {
+                        plugNumTv.setText(plugNumList.get(0));
+                    }
+                    else if (plugNumList.size() == 2) {
+                        plugNumTv.setText(plugNumList.get(0) + "~" + plugNumList.get(1));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d("플러그", t.getMessage());
+            }
+        });
+
+        serverAPI.getCafeAvgPrice(cafeSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> priceList = new ArrayList<>();
+                    String str;
+                    for(String s : response.body()) {
+                        if (s.equals("EXPENSIVE")) {
+                            priceList.add("비싼 편");
+                        }
+                        else if (s.equals("NORMAL")) {
+                            priceList.add("보통");
+                        }
+                        else if (s.equals("CHEAP")) {
+                            priceList.add("싼 편");
+                        }
+                    }
+                    if(priceList.size() == 0) {
+                        priceTv.setText("정보 없음");
+                    }
+                    else if (priceList.size() == 1) {
+                        priceTv.setText(priceList.get(0));
+                    }
+                    else if (priceList.size() == 2) {
+                        priceTv.setText(priceList.get(0) + "~" + priceList.get(1));
+                    }
+                    else if (priceList.size() == 3) {
+                        priceTv.setText("의견이 많이 갈리니 리뷰를 참고해주세요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        if (rate < 0) {
+            firstStar.setImageResource(R.drawable.ic_star_gray);
+            secondStar.setImageResource(R.drawable.ic_star_gray);
+            thirdStar.setImageResource(R.drawable.ic_star_gray);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+        }
+        else if (rate < 1.25) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_gray);
+            thirdStar.setImageResource(R.drawable.ic_star_gray);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+        }
+        else if(rate < 1.75) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_half_red);
+            thirdStar.setImageResource(R.drawable.ic_star_gray);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+        }
+        else if (rate < 2.25) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_gray);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+        }
+        else if (rate < 2.75) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_half_red);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+        }
+        else if (rate < 3.25) {
+
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_red);
+            fourthStar.setImageResource(R.drawable.ic_star_gray);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+        }
+        else if (rate < 3.75) {
+
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_red);
+            fourthStar.setImageResource(R.drawable.ic_star_half_red);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+        }
+        else if (rate < 4.25) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_red);
+            fourthStar.setImageResource(R.drawable.ic_star_red);
+            fifthStar.setImageResource(R.drawable.ic_star_gray);
+        }
+        else if (rate < 4.75) {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_red);
+            fourthStar.setImageResource(R.drawable.ic_star_red);
+            fifthStar.setImageResource(R.drawable.ic_star_half_red);
+        }
+        else {
+            firstStar.setImageResource(R.drawable.ic_star_red);
+            secondStar.setImageResource(R.drawable.ic_star_red);
+            thirdStar.setImageResource(R.drawable.ic_star_red);
+            fourthStar.setImageResource(R.drawable.ic_star_red);
+            fifthStar.setImageResource(R.drawable.ic_star_red);
+        }
+
     }
 }

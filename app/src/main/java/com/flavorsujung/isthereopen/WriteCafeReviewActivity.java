@@ -223,7 +223,7 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     Toast.makeText(WriteCafeReviewActivity.this, "콘센트 수를 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(tableHeight.equals("")) {
-                    Toast.makeText(WriteCafeReviewActivity.this, "테이블 개수를 선택해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WriteCafeReviewActivity.this, "테이블 높이를 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(lightness.equals("")) {
                     Toast.makeText(WriteCafeReviewActivity.this, "조명을 선택해주세요", Toast.LENGTH_SHORT).show();

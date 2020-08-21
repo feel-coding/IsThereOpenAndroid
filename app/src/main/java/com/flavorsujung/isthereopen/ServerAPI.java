@@ -65,6 +65,33 @@ public interface ServerAPI {
     @GET("/cafe/{cafeSeq}/openReview") //카페 오픈 리뷰 조회
     Call<List<CafeOpenReview>> getCafeOpenReviewList(@Path("cafeSeq") Long cafeSeq);
 
+    @GET("/cafe/{cafeSeq}/openStyle")
+    Call<Long> countCafeReviewByOpenStyle(@Path("cafeSeq") Long cafeSeq, @Query("openStyle") String openStyle);
+
+
+    @GET("/cafe/{cafeSeq}/waitingTime")
+    List<String> getCafeAvgWaitingTime(@Path("cafeSeq") Long cafeSeq);
+
+
+    @GET("/cafe/{cafeSeq}/price")
+    Call<List<String>> getCafeAvgPrice(@Path("cafeSeq") Long cafeSeq);
+
+
+    @GET("/cafe/{cafeSeq}/customerNum")
+    Call<List<String>> getAvgCustomerNum(@Path("cafeSeq") Long cafeSeq);
+
+    @GET("/cafe/{cafeSeq}/stayLong")
+    Call<List<String>> getAvgStayLong(@Path("cafeSeq") Long cafeSeq);
+
+    @GET("/cafe/{cafeSeq}/plugNum")
+    Call<List<String>> getAvgPlugNum(@Path("cafeSeq") Long cafeSeq);
+
+    @GET("/cafe/{cafeSeq}/tableHeight")
+    Call<List<String>> getCafeAvgTableHeight(@Path("cafeSeq") Long cafeSeq);
+
+    @GET("/cafe/{cafeSeq}/lightness")
+    Call<List<String> > getCafeAvgLightness(@Path("cafeSeq") Long cafeSeq);
+
     @PUT("/cafe/{cafeSeq}/openReview") //카페 오픈리뷰 작성
     Call<Void> putCafeOpenReview(@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);
 
@@ -105,6 +132,27 @@ public interface ServerAPI {
 
     @GET("/restaurant/{restaurantSeq}/infoReview") //음식점 정보리뷰 리스트 조회
     Call<List<RestaurantInfoReview>> getRestaurantInfoReviewList(@Path("restaurantSeq") Long restaurantSeq);
+
+    @GET("/restaurant/{restaurantSeq}/avgRate") // 음식점 평균 평점 조회
+    Call<Double> getRestaurantAvgRate(@Path("restaurantSeq") Long restaurantSeq);
+
+    @GET("/restaurant/{restaurantSeq}/eatAlone")
+    Call<Long> countRestaurantReviewByEatAlone(@Path("restaurantSeq") Long restaurantSeq, @Query("eatAlone") String eatAlone);
+
+    @GET("/restaurant/{restaurantSeq}/waitingTime")
+    Call<Long> countRestaurantReviewByWaitingTime(@Path("restaurantSeq") Long restaurantSeq, @Query("waitingTime") String waitingTime);
+
+    @GET("/restaurant/{restaurantSeq}/takeout")
+    Call<Long> countRestaurantReviewByTakeOut(@Path("restaurantSeq") Long restaurantSeq, @Query("takeout") String takeOut);
+
+    @GET("/restaurant/{restaurantSeq}/openStyle")
+    Call<Long> countRestaurantReviewByOpenStyle(@Path("restaurantSeq") Long restaurantSeq, @Query("openStyle") String openStyle);
+
+    @GET("/restaurant/{restaurantSeq}/price")
+    Call<Long> countByPrice(@Path("restaurantSeq") Long restaurantSeq, @Query("price") String price);
+
+    @GET("/restaurant/{restaurantSeq}/cleanness")
+    Call<Long> countRestaurantReviewByCleanness(@Path("restaurantSeq") Long restaurantSeq, @Query("cleanness") String cleanness);
 
     @PUT("/restaurant/{restaurantSeq}/openReview") //음식점 오픈리뷰 작성
     Call<Void> putRestaurantOpenReview(@Path("restaurantSeq") Long restaurantSeq,  @Query("userSeq") Long userSeq, @Query("openState") String openState);

@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     Button cafeBtn;
     Button barBtn;
     Button allBtn;
+    Button patronBtn;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
     int selectedStoreType = 3; //0 카페, 1 식당, 2 술집, 3 전부, 4 단골
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment {
         cafeBtn = v.findViewById(R.id.cafeBtn);
         barBtn = v.findViewById(R.id.barBtn);
         allBtn = v.findViewById(R.id.allBtn);
+        patronBtn = v.findViewById(R.id.patronBtn);
         swipeRefreshLayout = v.findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -76,11 +78,15 @@ public class HomeFragment extends Fragment {
                     storeList.clear();
                     refreshBarList();
                 }
-                else {
+                else if (selectedStoreType == 3){
                     storeList.clear();
                     refreshBarList();
                     refreshCafeList();
                     refreshRestaurantList();
+                }
+                else if (selectedStoreType == 4) {
+                    storeList.clear();
+                    refreshPatronStoreList();
                 }
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
@@ -121,14 +127,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*cafeList.add(new Store("본크레페", "open", "20:11 기준", "오후 2시~오후 8시", 3.8));
-        cafeList.add(new Store("카페온더플랜", "open", "20:11 기준", "오전 10시~오전 5시", 4.5));
-        cafeList.add(new Store("최고당 돈까스", "open", "17:05 기준", "오후 10시~오후 8시", 3.8));
-        cafeList.add(new Store("카페비", "open", "21:00 기준", "오전 10시~오후 12시", 4.8));
-        cafeList.add(new Store("도시포차", "open", "23:00 기준", "오후 4시~오전 2시", 4.1));
-        cafeList.add(new Store("홀슈", "close", "20:38 기준", "오후 1시~오후 8시", 3.8));
-        cafeList.add(new Store("봉봉", "open", "20:53 기준", "오전 10시~오후 8시", 3.8));
-        cafeList.add(new Store("아리랑노점", "close", "20:07 기준", "오전 9시~오후 8시", 3.8));*/
+        patronBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedStoreType = 4;
+                storeList.clear();
+                refreshPatronStoreList();
+            }
+        });
+
         storeList.clear();
         refreshCafeList();
         refreshRestaurantList();
@@ -304,6 +311,169 @@ public class HomeFragment extends Fragment {
                                         }
                                     }
                                     storeList.add(store);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronBar>> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Bar>> call, Throwable t) {
+                Log.d("서버", t.getMessage());
+            }
+        });
+    }
+    void refreshPatronStoreList() {
+        serverAPI.getCafeList().enqueue(new Callback<List<Cafe>>() {
+            @Override
+            public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
+                if (response.isSuccessful()) {
+                    for (Cafe cafe : response.body()) {
+                        String openState = cafe.getCurrentState();
+                        if (openState.equals("UNKNOWN"))
+                            openState = "등록된 오픈 정보 없음";
+                        Date date;
+                        if (cafe.getLastUpdate() == null)
+                            date = null;
+                        else date = cafe.getLastUpdate();
+                        Log.d("서버", cafe.getName());
+                        Store store = new Store();
+                        store.setType(0);
+                        store.setSeq(cafe.getSeq());
+                        store.setPhotoUrl(cafe.getPhotoURL());
+                        store.setName(cafe.getName());
+                        store.setOpenState(openState);
+                        store.setRuntime(cafe.getRunningTime());
+                        store.setLatestUpdate(date);
+                        if(cafe.getAvgRate() != null)
+                            store.setAvgRate(cafe.getAvgRate());
+                        else store.setAvgRate(-1.0);
+                        serverAPI.getPatronCafeList(userSeq).enqueue(new Callback<List<PatronCafe>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronCafe>> call, Response<List<PatronCafe>> response) {
+                                if(response.isSuccessful()) {
+                                    Log.d("카페", "userSeq: " + userSeq);
+                                    for(PatronCafe patronCafe : response.body()) {
+                                        if(patronCafe.getCafeSeq().equals(cafe.getSeq())) {
+                                            store.setPatron(true);
+                                            storeList.add(store);
+                                        }
+                                    }
+                                    Log.d("카페", "스토어리스트에 집어넣음");
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronCafe>> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cafe>> call, Throwable t) {
+                Log.d("서버", t.getMessage());
+            }
+        });
+        serverAPI.getRestaurantList().enqueue(new Callback<List<Restaurant>>() {
+            @Override
+            public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
+                if (response.isSuccessful()) {
+                    for (Restaurant restaurant : response.body()) {
+                        String openState = restaurant.getCurrentState();
+                        if (openState.equals("UNKNOWN"))
+                            openState = "등록된 오픈 정보 없음";
+                        Date date;
+                        if (restaurant.getLastUpdate() == null)
+                            date = null;
+                        else date = restaurant.getLastUpdate();
+                        Log.d("서버", restaurant.getName());
+                        Store store = new Store();
+                        store.setType(1);
+                        store.setSeq(restaurant.getSeq());
+                        store.setPhotoUrl(restaurant.getPhotoURL());
+                        store.setName(restaurant.getName());
+                        store.setOpenState(openState);
+                        store.setRuntime(restaurant.getRunningTime());
+                        store.setLatestUpdate(date);
+                        if(restaurant.getAvgRate() != null)
+                            store.setAvgRate(restaurant.getAvgRate());
+                        else store.setAvgRate(-1.0);
+                        serverAPI.getPatronRestaurantList(userSeq).enqueue(new Callback<List<PatronRestaurant>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronRestaurant>> call, Response<List<PatronRestaurant>> response) {
+                                if(response.isSuccessful()) {
+                                    Log.d("카페", "userSeq: " + userSeq);
+                                    for(PatronRestaurant patronRestaurant: response.body()) {
+                                        if(patronRestaurant.getRestaurantSeq().equals(restaurant.getSeq())) {
+                                            store.setPatron(true);
+                                            storeList.add(store);
+                                        }
+                                    }
+                                    Log.d("카페", "스토어리스트에 집어넣음");
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<PatronRestaurant>> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                Log.d("서버", t.getMessage());
+            }
+        });
+        serverAPI.getBarList().enqueue(new Callback<List<Bar>>() {
+            @Override
+            public void onResponse(Call<List<Bar>> call, Response<List<Bar>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("타입: ", "" + selectedStoreType);
+                    for (Bar bar : response.body()) {
+                        String openState = bar.getCurrentState();
+                        if (openState.equals("UNKNOWN"))
+                            openState = "등록된 오픈 정보 없음";
+                        Date date;
+                        if (bar.getLastUpdate() == null)
+                            date = null;
+                        else date = bar.getLastUpdate();
+                        Log.d("서버", bar.getName());
+                        Store store = new Store();
+                        store.setType(2);
+                        store.setSeq(bar.getSeq());
+                        store.setPhotoUrl(bar.getPhotoURL());
+                        store.setName(bar.getName());
+                        store.setOpenState(openState);
+                        store.setRuntime(bar.getRunningTime());
+                        store.setLatestUpdate(date);
+                        if(bar.getAvgRate() != null)
+                            store.setAvgRate(bar.getAvgRate());
+                        else store.setAvgRate(-1.0);
+                        serverAPI.getPatronBarList(userSeq).enqueue(new Callback<List<PatronBar>>() {
+                            @Override
+                            public void onResponse(Call<List<PatronBar>> call, Response<List<PatronBar>> response) {
+                                if(response.isSuccessful()) {
+                                    for(PatronBar patronBar : response.body()) {
+                                        if(patronBar.getBarSeq().equals(bar.getSeq())) {
+                                            store.setPatron(true);
+                                            storeList.add(store);
+                                        }
+                                    }
                                     adapter.notifyDataSetChanged();
                                 }
                             }

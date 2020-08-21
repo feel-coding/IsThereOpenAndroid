@@ -36,9 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <LinearLayout
-        android:visibility="gone"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/restaurantNoReview"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+    <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -57,5 +60,6 @@
             android:text="리뷰를 작성해주세요."
             android:layout_height="wrap_content" />
     </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

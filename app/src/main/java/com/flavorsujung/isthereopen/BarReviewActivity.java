@@ -25,11 +25,12 @@ public class BarReviewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ServerAPI serverAPI;
     Long barSeq;
+    String barName;
     Intent intent;
     BarReviewAdapter adapter;
     Button writeReviewBtn;
     TextView reviewCount;
-    LinearLayout noReviewLayout;
+    SwipeRefreshLayout noReviewLayout;
     List<BarInfoReview> reviewList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -40,6 +41,7 @@ public class BarReviewActivity extends AppCompatActivity {
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
+        barName = intent.getStringExtra("name");
         Log.d("술집 seq", barSeq + "");
         recyclerView = findViewById(R.id.barReviewRv);
         writeReviewBtn = findViewById(R.id.writeBarReviewBtn);
@@ -58,11 +60,19 @@ public class BarReviewActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        noReviewLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshReviewList();
+                noReviewLayout.setRefreshing(false);
+            }
+        });
         writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BarReviewActivity.this, WriteBarReviewActivity.class);
                 intent.putExtra("seq", barSeq);
+                intent.putExtra("name", barName);
                 startActivity(intent);
             }
         });
@@ -80,7 +90,10 @@ public class BarReviewActivity extends AppCompatActivity {
                         swipeRefreshLayout.setVisibility(View.GONE);
                         noReviewLayout.setVisibility(View.VISIBLE);
                     }
-
+                    else {
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        noReviewLayout.setVisibility(View.GONE);
+                    }
                     adapter = new BarReviewAdapter(response.body(), BarReviewActivity.this);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();

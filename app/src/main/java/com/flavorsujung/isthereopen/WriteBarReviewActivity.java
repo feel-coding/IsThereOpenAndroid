@@ -1,13 +1,17 @@
 package com.flavorsujung.isthereopen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -19,6 +23,8 @@ public class WriteBarReviewActivity extends AppCompatActivity {
     ServerAPI serverAPI;
     Long barSeq;
     Long userSeq;
+    String barName;
+    Intent intent;
     SharedPreferences sharedPreferences;
 
     Button openStyleStableBtn;
@@ -56,11 +62,27 @@ public class WriteBarReviewActivity extends AppCompatActivity {
     String mainAlcohol = "";
     Button writeReviewBtn;
 
+    Toolbar toolbar;
+    TextView toolbarTitleTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_bar_review);
-        barSeq = getIntent().getLongExtra("seq", 0L);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.writeBarReviewToolbar);
+        toolbarTitleTv = findViewById(R.id.writeBarReviewTitle);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
+        intent = getIntent();
+        barSeq = intent.getLongExtra("seq", 0L);
+        barName = intent.getStringExtra("name");
+        toolbarTitleTv.setText(barName + " 리뷰 쓰기");
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
@@ -224,7 +246,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     toiletSeparateBtn.setTextColor(getResources().getColor(R.color.colorWhite));
                     toiletOneBtn.setBackgroundResource(R.drawable.black_round_border);
                     toiletOneBtn.setTextColor(getResources().getColor(R.color.colorBlack));
-                    toilet = "ONE";
+                    toilet = "SEPARATION";
                     break;
                 case R.id.toiletOne:
                     toiletOneBtn.setBackgroundResource(R.drawable.full_red_round);
@@ -232,7 +254,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     toiletSeparateBtn.setBackgroundResource(R.drawable.black_round_border);
                     toiletSeparateBtn.setTextColor(getResources().getColor(R.color.colorBlack));
 
-                    toilet = "SEPARATION";
+                    toilet = "ONE";
                     break;
             }
         }
