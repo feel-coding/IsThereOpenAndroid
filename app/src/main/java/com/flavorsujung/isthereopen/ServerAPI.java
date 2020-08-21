@@ -137,22 +137,22 @@ public interface ServerAPI {
     Call<Double> getRestaurantAvgRate(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/eatAlone")
-    Call<Long> countRestaurantReviewByEatAlone(@Path("restaurantSeq") Long restaurantSeq, @Query("eatAlone") String eatAlone);
+    Call<List<String>> getRestaurantAvgEatAlone(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/waitingTime")
-    Call<Long> countRestaurantReviewByWaitingTime(@Path("restaurantSeq") Long restaurantSeq, @Query("waitingTime") String waitingTime);
+    Call<List<String>> getAvgRestaurantWaitingTime(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/takeout")
-    Call<Long> countRestaurantReviewByTakeOut(@Path("restaurantSeq") Long restaurantSeq, @Query("takeout") String takeOut);
+    Call<List<String>> getAvgTakeOut(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/openStyle")
-    Call<Long> countRestaurantReviewByOpenStyle(@Path("restaurantSeq") Long restaurantSeq, @Query("openStyle") String openStyle);
+    Call<List<String>> getRestaurantAvgOpenStyle(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/price")
-    Call<Long> countByPrice(@Path("restaurantSeq") Long restaurantSeq, @Query("price") String price);
+    Call<List<String>> getAvgRestaurantPrice(@Path("restaurantSeq") Long restaurantSeq);
 
     @GET("/restaurant/{restaurantSeq}/cleanness")
-    Call<Long> countRestaurantReviewByCleanness(@Path("restaurantSeq") Long restaurantSeq, @Query("cleanness") String cleanness);
+    Call<List<String>> getAvgRestaurantCleanness(@Path("restaurantSeq") Long restaurantSeq);
 
     @PUT("/restaurant/{restaurantSeq}/openReview") //음식점 오픈리뷰 작성
     Call<Void> putRestaurantOpenReview(@Path("restaurantSeq") Long restaurantSeq,  @Query("userSeq") Long userSeq, @Query("openState") String openState);

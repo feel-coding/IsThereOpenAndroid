@@ -24,6 +24,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +53,17 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     Button toOpenReviewBtn;
     Long restaurantSeq;
     ImageView callBtn;
+    ImageView firstStar;
+    ImageView secondStar;
+    ImageView thirdStar;
+    ImageView fourthStar;
+    ImageView fifthStar;
+    TextView openStyleTv;
+    TextView priceTv;
+    TextView takeoutTv;
+    TextView eatAloneTv;
+    TextView waitingTimeTv;
+    TextView cleannessTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +93,17 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         breakBtn = findViewById(R.id.restaurantBreakBtn);
         closeBtn = findViewById(R.id.restaurantCloseBtn);
         callBtn = findViewById(R.id.restaurantCall);
+        firstStar = findViewById(R.id.restaurantAvgStarOne);
+        secondStar = findViewById(R.id.restaurantAvgStarTwo);
+        thirdStar = findViewById(R.id.restaurantAvgStarThree);
+        fourthStar = findViewById(R.id.restaurantAvgStarFour);
+        fifthStar = findViewById(R.id.restaurantAvgStarFive);
+        openStyleTv = findViewById(R.id.restaurantAvgOpenStyle);
+        priceTv = findViewById(R.id.restaurantAvgPrice);
+        takeoutTv = findViewById(R.id.restaurantAvgTakeout);
+        eatAloneTv = findViewById(R.id.avgEatAlone);
+        waitingTimeTv = findViewById(R.id.restaurantAvgWaitingTime);
+        cleannessTv = findViewById(R.id.restaurantAvgCleanness);
         toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
         toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
         intent = getIntent();
@@ -102,6 +127,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                     addressTv.setText(restaurant.getAddress());
                     runningTimeTv.setText(restaurant.getRunningTime());
                     phoneNumberTv.setText(restaurant.getPhoneNum());
+                    refreshInfo();
                 }
             }
 
@@ -125,6 +151,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                             else {
                                 openStateTv.setText(openState);
                             }
+                            refreshInfo();
                         }
                     }
 
@@ -252,5 +279,245 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+    void refreshInfo() {
+        serverAPI.getAvgRestaurantWaitingTime(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+
+                    if (list.size() == 0) {
+                        waitingTimeTv.setText("정보 없음");
+                    } else if (list.size() == 1) {
+                        waitingTimeTv.setText(list.get(0));
+                    } else if (list.size() == 2) {
+                        waitingTimeTv.setText(list.get(0) + "~" + list.get(1));
+                    } else {
+                        waitingTimeTv.setText("의견이 많이 갈려요");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getRestaurantAvgOpenStyle(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        openStyleTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        openStyleTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        openStyleTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        openStyleTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgRestaurantPrice(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        priceTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        priceTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        priceTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        priceTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getRestaurantAvgEatAlone(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        eatAloneTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        eatAloneTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        eatAloneTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        eatAloneTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgTakeOut(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        takeoutTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        takeoutTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        takeoutTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        takeoutTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getAvgRestaurantCleanness(restaurantSeq).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    List<String> list = response.body();
+                    if(list.size() == 0) {
+                        cleannessTv.setText("정보 없음");
+                    }
+                    else if (list.size() == 1) {
+                        cleannessTv.setText(list.get(0));
+                    }
+                    else if (list.size() == 2) {
+                        cleannessTv.setText(list.get(0) + "~" + list.get(1));
+                    }
+                    else if (list.size() == 3) {
+                        cleannessTv.setText("의견이 많이 갈려요");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        serverAPI.getRestaurantAvgRate(restaurantSeq).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    Double rate = response.body();
+                    if (rate < 0) {
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 1.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if(rate < 1.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_half_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if (rate < 2.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+
+                    }
+                    else if (rate < 2.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_half_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.25) {
+
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.75) {
+
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_half_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_half_red);
+                    }
+                    else {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_red);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
     }
 }
