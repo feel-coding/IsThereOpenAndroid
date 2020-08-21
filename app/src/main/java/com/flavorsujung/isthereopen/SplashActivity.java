@@ -18,6 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         boolean nicknameExist = sharedPreferences.getBoolean("exist", false);
         Log.d("사용자 seq", ": " + sharedPreferences.getLong("userSeq", 0));

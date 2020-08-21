@@ -228,7 +228,6 @@
                             android:text="별점 " />
 
                         <LinearLayout
-                            android:id="@+id/barAvgRate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -263,6 +262,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_star_gray" />
+                            <TextView
+                                android:textSize="16sp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:id="@+id/barAvgRate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
                     </LinearLayout>
 

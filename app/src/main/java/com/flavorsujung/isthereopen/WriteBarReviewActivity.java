@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -76,9 +77,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
         toolbarTitleTv = findViewById(R.id.writeBarReviewTitle);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
         actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_black);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0L);
         barName = intent.getStringExtra("name");
@@ -201,6 +202,16 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class OpenStyleClickListener implements View.OnClickListener {

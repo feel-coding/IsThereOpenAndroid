@@ -27,7 +27,7 @@ public class MyItemDecorator extends RecyclerView.ItemDecoration {
         int width = parent.getWidth();
         int height = parent.getHeight();
         Paint paint = new Paint();
-        paint.setColor(0xFFF4F4F4);
+        paint.setColor(0xFFF9F9F9);
         c.drawRect(0, 0, width, height, paint);
     }
 }

@@ -58,6 +58,7 @@ public class BarActivity extends AppCompatActivity {
     ImageView thirdStar;
     ImageView fourthStar;
     ImageView fifthStar;
+    TextView rateTv;
 
     TextView openStyleTv;
     TextView moodTv;
@@ -100,6 +101,7 @@ public class BarActivity extends AppCompatActivity {
         thirdStar = findViewById(R.id.barAvgStarThree);
         fourthStar = findViewById(R.id.barAvgStarFour);
         fifthStar = findViewById(R.id.barAvgStarFive);
+        rateTv = findViewById(R.id.barAvgRate);
         openStyleTv = findViewById(R.id.barAvgOpenStyle);
         moodTv = findViewById(R.id.barAvgMood);
         priceTv = findViewById(R.id.barAvgPrice);
@@ -146,7 +148,7 @@ public class BarActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Bar> call, Response<Bar> response) {
                         if (response.isSuccessful()) {
-                            String openState = bar.getCurrentState();
+                            String openState = response.body().getCurrentState();
                             if(openState.equals("UNKNOWN")) {
                                 openState = "등록된 오픈 정보 없음";
                                 openStateTv.setText(openState);
@@ -154,6 +156,7 @@ public class BarActivity extends AppCompatActivity {
                             else {
                                 openStateTv.setText(openState);
                             }
+                            refreshInfo();
                         }
                     }
 
@@ -162,7 +165,6 @@ public class BarActivity extends AppCompatActivity {
 
                     }
                 });
-                refreshInfo();
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
@@ -433,6 +435,7 @@ public class BarActivity extends AppCompatActivity {
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if(response.isSuccessful()) {
                     Double rate = response.body();
+                    rateTv.setText(String.format("%.1f", rate));
                     if (rate < 0) {
                         firstStar.setImageResource(R.drawable.ic_star_gray);
                         secondStar.setImageResource(R.drawable.ic_star_gray);

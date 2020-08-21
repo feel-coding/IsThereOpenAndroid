@@ -30,6 +30,7 @@ public class OpenReviewActivity extends AppCompatActivity {
     Intent intent;
     String type;
     Long seq;
+    String name;
     TextView toolbarTitleTv;
     Toolbar toolbar;
     List<OpenReview> openReviewList = new ArrayList<>();
@@ -54,6 +55,9 @@ public class OpenReviewActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         intent = getIntent();
         seq = intent.getLongExtra("seq", 0);
+        name = intent.getStringExtra("name");
+        toolbarTitleTv = findViewById(R.id.openReviewStoreTitleTv);
+        toolbarTitleTv.setText(name);
         type = intent.getStringExtra("type");
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         if(type.equals("cafe")) {

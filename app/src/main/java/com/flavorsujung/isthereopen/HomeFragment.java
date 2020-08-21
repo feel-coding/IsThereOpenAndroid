@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,8 +48,7 @@ public class HomeFragment extends Fragment {
     int selectedStoreType = 3; //0 카페, 1 식당, 2 술집, 3 전부, 4 단골
     SharedPreferences sharedPreferences;
     Long userSeq;
-    int count = 0;
-
+    LinearLayout noPatronLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
         barBtn = v.findViewById(R.id.barBtn);
         allBtn = v.findViewById(R.id.allBtn);
         patronBtn = v.findViewById(R.id.patronBtn);
+        noPatronLayout = v.findViewById(R.id.noPatron);
         swipeRefreshLayout = v.findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -95,6 +96,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 selectedStoreType = 1;
+                restaurantBtn.setBackgroundResource(R.drawable.full_red_round);
+                restaurantBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                allBtn.setBackgroundResource(R.drawable.black_round_border);
+                allBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                barBtn.setBackgroundResource(R.drawable.black_round_border);
+                barBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                cafeBtn.setBackgroundResource(R.drawable.black_round_border);
+                cafeBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                patronBtn.setBackgroundResource(R.drawable.black_round_border);
+                patronBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
                 refreshRestaurantList();
             }
@@ -103,6 +114,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 selectedStoreType = 0;
+                cafeBtn.setBackgroundResource(R.drawable.full_red_round);
+                cafeBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                allBtn.setBackgroundResource(R.drawable.black_round_border);
+                allBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                barBtn.setBackgroundResource(R.drawable.black_round_border);
+                barBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                restaurantBtn.setBackgroundResource(R.drawable.black_round_border);
+                restaurantBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                patronBtn.setBackgroundResource(R.drawable.black_round_border);
+                patronBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
                 refreshCafeList();
             }
@@ -111,6 +132,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 selectedStoreType = 2;
+                barBtn.setBackgroundResource(R.drawable.full_red_round);
+                barBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                allBtn.setBackgroundResource(R.drawable.black_round_border);
+                allBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                cafeBtn.setBackgroundResource(R.drawable.black_round_border);
+                cafeBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                restaurantBtn.setBackgroundResource(R.drawable.black_round_border);
+                restaurantBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                patronBtn.setBackgroundResource(R.drawable.black_round_border);
+                patronBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
                 refreshBarList();
             }
@@ -120,6 +151,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 selectedStoreType = 3;
+                allBtn.setBackgroundResource(R.drawable.full_red_round);
+                allBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                barBtn.setBackgroundResource(R.drawable.black_round_border);
+                barBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                cafeBtn.setBackgroundResource(R.drawable.black_round_border);
+                cafeBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                restaurantBtn.setBackgroundResource(R.drawable.black_round_border);
+                restaurantBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                patronBtn.setBackgroundResource(R.drawable.black_round_border);
+                patronBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
                 refreshCafeList();
                 refreshRestaurantList();
@@ -131,6 +172,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 selectedStoreType = 4;
+                patronBtn.setBackgroundResource(R.drawable.full_red_round);
+                patronBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                barBtn.setBackgroundResource(R.drawable.black_round_border);
+                barBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                cafeBtn.setBackgroundResource(R.drawable.black_round_border);
+                cafeBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                restaurantBtn.setBackgroundResource(R.drawable.black_round_border);
+                restaurantBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                allBtn.setBackgroundResource(R.drawable.black_round_border);
+                allBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
                 refreshPatronStoreList();
             }

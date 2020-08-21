@@ -67,7 +67,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
         else
             holder.latestUpdateTv.setText("");
         if(rate == -1.0) holder.rateTv.setText("등록된 평점 없음");
-        else holder.rateTv.setText(String.format("%.2f", rate));
+        else holder.rateTv.setText(String.format("%.1f", rate));
         holder.runningTimeTv.setText(runningTime);
         if(isPatron) {
             holder.heartButton.setImageResource(R.drawable.ic_heart_red);

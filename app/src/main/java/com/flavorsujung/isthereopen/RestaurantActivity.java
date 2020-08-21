@@ -58,6 +58,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     ImageView thirdStar;
     ImageView fourthStar;
     ImageView fifthStar;
+    TextView rateTv;
     TextView openStyleTv;
     TextView priceTv;
     TextView takeoutTv;
@@ -98,6 +99,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         thirdStar = findViewById(R.id.restaurantAvgStarThree);
         fourthStar = findViewById(R.id.restaurantAvgStarFour);
         fifthStar = findViewById(R.id.restaurantAvgStarFive);
+        rateTv = findViewById(R.id.restaurantAvgRate);
         openStyleTv = findViewById(R.id.restaurantAvgOpenStyle);
         priceTv = findViewById(R.id.restaurantAvgPrice);
         takeoutTv = findViewById(R.id.restaurantAvgTakeout);
@@ -435,6 +437,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if(response.isSuccessful()) {
                     Double rate = response.body();
+                    rateTv.setText(String.format("%.1f", rate));
                     if (rate < 0) {
                         firstStar.setImageResource(R.drawable.ic_star_gray);
                         secondStar.setImageResource(R.drawable.ic_star_gray);

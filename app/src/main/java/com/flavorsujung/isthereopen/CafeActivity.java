@@ -293,18 +293,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> lightnessList = new ArrayList<>();
-                    for(String str : response.body()) {
-                        if(str.equals("LIGHT")) {
-                            lightnessList.add("밝은 편");
-                        }
-                        else if (str.equals("NORMAL")) {
-                            lightnessList.add("보통");
-                        }
-                        else if (str.equals("DARK")) {
-                            lightnessList.add("어두운 편");
-                        }
-                    }
+                    List<String> lightnessList = response.body();
                     if(lightnessList.size() == 0) {
                         lightnessTv.setText("정보 없음");
                     }
@@ -329,24 +318,18 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()) {
-                    List<String> tableHeightList = new ArrayList<>();
-                    for(String s : response.body()) {
-                        if(s.equals("LOW")) {
-                            tableHeightList.add("낮은 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            tableHeightList.add("보통");
-                        }
-                        else if (s.equals("HIGH")) {
-                            tableHeightList.add("높은 편");
-                        }
-                        else if (s.equals("NOTABLE")) {
-                            tableHeightList.add("테이블 없음");
-                        }
-                    }
-
+                    List<String> tableHeightList = response.body();
                     if(tableHeightList.size() == 0) {
                         tableHeightTv.setText("정보 없음");
+                    }
+                    else if (tableHeightList.size() == 1) {
+                        tableHeightTv.setText(tableHeightList.get(0));
+                    }
+                    else if (tableHeightList.size() == 2) {
+                        tableHeightTv.setText(tableHeightList.get(0) + "~" + tableHeightList.get(1));
+                    }
+                    else if (tableHeightList.size() == 3) {
+                        tableHeightTv.setText("의견이 많이 갈려요");
                     }
                 }
             }
@@ -359,24 +342,8 @@ public class CafeActivity extends AppCompatActivity  {
         serverAPI.getAvgPlugNum(cafeSeq).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                Log.d("플러그 ", "들어옴");
                 if (response.isSuccessful()) {
-                    Log.d("플러그 ", "성공");
-                    List<String> plugNumList = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("LITTLE")) {
-                            plugNumList.add("적은 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            plugNumList.add("보통");
-                        }
-                        else if (s.equals("MANY")) {
-                            plugNumList.add("많은 편");
-                        }
-                        else if (s.equals("NOTABLE")) {
-                            plugNumList.add("테이블 없음");
-                        }
-                    }
+                    List<String> plugNumList = response.body();
                     if(plugNumList.size() == 0) {
                         plugNumTv.setText("정보 없음");
                     }
@@ -391,7 +358,7 @@ public class CafeActivity extends AppCompatActivity  {
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
-                Log.d("플러그", t.getMessage());
+
             }
         });
 
@@ -399,18 +366,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> priceList = new ArrayList<>();
-                    for(String s : response.body()) {
-                        if (s.equals("EXPENSIVE")) {
-                            priceList.add("비싼 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            priceList.add("보통");
-                        }
-                        else if (s.equals("CHEAP")) {
-                            priceList.add("싼 편");
-                        }
-                    }
+                    List<String> priceList = response.body();
                     if(priceList.size() == 0) {
                         priceTv.setText("정보 없음");
                     }
@@ -435,18 +391,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> openStyleList = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("STABLE")) {
-                            openStyleList.add("잘 지키는 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            openStyleList.add("보통");
-                        }
-                        else if (s.equals("UNSTABLE")) {
-                            openStyleList.add("마음대로 여는 편");
-                        }
-                    }
+                    List<String> openStyleList = response.body();
                     if(openStyleList.size() == 0) {
                         openStyleTv.setText("정보 없음");
                     }
@@ -472,18 +417,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> customerNumList = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("UNCROWDED")) {
-                            customerNumList.add("적은 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            customerNumList.add("보통");
-                        }
-                        else if (s.equals("CROWDED")) {
-                            customerNumList.add("많은 편");
-                        }
-                    }
+                    List<String> customerNumList = response.body();
                     if(customerNumList.size() == 0) {
                         customerNumTv.setText("정보 없음");
                     }
@@ -508,17 +442,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> timeList = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("SHORT")) {
-                            timeList.add("짧은 편");
-                        } else if (s.equals("NORMAL")) {
-                            timeList.add("보통");
-                        }
-                        else if (s.equals("LONG")) {
-                            timeList.add("오래 걸리는 편");
-                        }
-                    }
+                    List<String> timeList = response.body();
                     if(timeList.size() == 0) {
                         waitingTimeTv.setText("정보 없음");
                     }
@@ -554,21 +478,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> heightList = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("LOW")) {
-                            heightList.add("낮은 편");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            heightList.add("보통");
-                        }
-                        else if (s.equals("HIGH")) {
-                            heightList.add("높은 편");
-                        }
-                        else if (s.equals("NOTABLE")) {
-                            heightList.add("테이블 없음");
-                        }
-                    }
+                    List<String> heightList = response.body();
                     if (heightList.size() == 0) {
                         tableHeightTv.setText("정보 없음");
                     }
@@ -593,21 +503,7 @@ public class CafeActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    List<String> list = new ArrayList<>();
-                    for (String s : response.body()) {
-                        if(s.equals("POSSIBLE")) {
-                            list.add("가능");
-                        }
-                        else if (s.equals("NORMAL")) {
-                            list.add("보통");
-                        }
-                        else if (s.equals("UNCOMFORTABLE")) {
-                            list.add("눈치보여요");
-                        }
-                        else if (s.equals("TAKEOUT")) {
-                            list.add("테이블 없음");
-                        }
-                    }
+                    List<String> list = response.body();
                     if(list.size() == 0) {
                         stayLongTv.setText("정보 없음");
                     }
@@ -628,82 +524,96 @@ public class CafeActivity extends AppCompatActivity  {
 
             }
         });
+        serverAPI.getCafeAvgRate(cafeSeq).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    Double rate = response.body();
+                    rateTv.setText(String.format("%.1f", rate));
+                    if (rate < 0) {
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 1.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
 
-        if (rate < 0) {
-            firstStar.setImageResource(R.drawable.ic_star_gray);
-            secondStar.setImageResource(R.drawable.ic_star_gray);
-            thirdStar.setImageResource(R.drawable.ic_star_gray);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
-        }
-        else if (rate < 1.25) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_gray);
-            thirdStar.setImageResource(R.drawable.ic_star_gray);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if(rate < 1.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_half_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
 
-        }
-        else if(rate < 1.75) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_half_red);
-            thirdStar.setImageResource(R.drawable.ic_star_gray);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 2.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
 
-        }
-        else if (rate < 2.25) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_gray);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 2.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_half_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.25) {
 
-        }
-        else if (rate < 2.75) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_half_red);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
-        }
-        else if (rate < 3.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 3.75) {
 
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_red);
-            fourthStar.setImageResource(R.drawable.ic_star_gray);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
-        }
-        else if (rate < 3.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_half_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.25) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    }
+                    else if (rate < 4.75) {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_half_red);
+                    }
+                    else {
+                        firstStar.setImageResource(R.drawable.ic_star_red);
+                        secondStar.setImageResource(R.drawable.ic_star_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_red);
+                    }
 
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_red);
-            fourthStar.setImageResource(R.drawable.ic_star_half_red);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
-        }
-        else if (rate < 4.25) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_red);
-            fourthStar.setImageResource(R.drawable.ic_star_red);
-            fifthStar.setImageResource(R.drawable.ic_star_gray);
-        }
-        else if (rate < 4.75) {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_red);
-            fourthStar.setImageResource(R.drawable.ic_star_red);
-            fifthStar.setImageResource(R.drawable.ic_star_half_red);
-        }
-        else {
-            firstStar.setImageResource(R.drawable.ic_star_red);
-            secondStar.setImageResource(R.drawable.ic_star_red);
-            thirdStar.setImageResource(R.drawable.ic_star_red);
-            fourthStar.setImageResource(R.drawable.ic_star_red);
-            fifthStar.setImageResource(R.drawable.ic_star_red);
-        }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
 
     }
 }

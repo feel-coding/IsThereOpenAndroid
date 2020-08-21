@@ -92,6 +92,9 @@ public interface ServerAPI {
     @GET("/cafe/{cafeSeq}/lightness")
     Call<List<String> > getCafeAvgLightness(@Path("cafeSeq") Long cafeSeq);
 
+    @GET("/cafe/{cafeSeq}/avgRate")
+    Call<Double> getCafeAvgRate(@Path("cafeSeq") Long cafeSeq);
+
     @PUT("/cafe/{cafeSeq}/openReview") //카페 오픈리뷰 작성
     Call<Void> putCafeOpenReview(@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);
 

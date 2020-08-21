@@ -1,6 +1,8 @@
 package com.flavorsujung.isthereopen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -8,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -33,15 +36,28 @@ public class CafeReviewActivity extends AppCompatActivity {
     SwipeRefreshLayout noReviewLayout;
     List<CafeInfoReview> reviewList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
+    Toolbar toolbar;
+    TextView toolbarTitleTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cafe_review);
+        getWindow().setStatusBarColor(0xFFFFFFFF);
+        View decoView = getWindow().getDecorView();
+        decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        toolbar = findViewById(R.id.cafeReviewToolbar);
+        toolbarTitleTv = findViewById(R.id.cafeReviewTitleTv);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         cafeName = intent.getStringExtra("name");
+        toolbarTitleTv.setText(cafeName);
         Log.d("카페 seq", cafeSeq + "");
         recyclerView = findViewById(R.id.cafeReviewRv);
         writeReviewBtn = findViewById(R.id.writeCafeReviewBtn);
@@ -104,5 +120,15 @@ public class CafeReviewActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
