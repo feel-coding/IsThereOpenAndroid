@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -61,31 +60,31 @@ public class BarReviewAdapter extends RecyclerView.Adapter<BarReviewViewHolder> 
         String rate = reviewList.get(position).getRate();
         if(rate.equals("WORST")) {
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.twoStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.threeStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.twoStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.threeStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("BAD")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.threeStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.threeStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("SOSO")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
             holder.threeStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("GOOD")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
             holder.threeStarIv.setImageResource(R.drawable.ic_star_red);
             holder.fourStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("BEST")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);

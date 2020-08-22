@@ -1,7 +1,6 @@
 package com.flavorsujung.isthereopen;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,6 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder>   {
     private List<CafeInfoReview> reviewList;
@@ -67,31 +64,31 @@ public class CafeReviewAdapter extends RecyclerView.Adapter<CafeReviewViewHolder
         String rate = reviewList.get(position).getRate();
         if(rate.equals("WORST")) {
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.twoStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.threeStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.twoStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.threeStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("BAD")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.threeStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.threeStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("SOSO")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
             holder.threeStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.fourStarIv.setImageResource(R.drawable.ic_star_gray);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.fourStarIv.setImageResource(R.drawable.ic_star_border_red);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("GOOD")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);
             holder.twoStarIv.setImageResource(R.drawable.ic_star_red);
             holder.threeStarIv.setImageResource(R.drawable.ic_star_red);
             holder.fourStarIv.setImageResource(R.drawable.ic_star_red);
-            holder.fiveStarIv.setImageResource(R.drawable.ic_star_gray);
+            holder.fiveStarIv.setImageResource(R.drawable.ic_star_border_red);
         }
         else if (rate.equals("BEST")){
             holder.oneStarIv.setImageResource(R.drawable.ic_star_red);

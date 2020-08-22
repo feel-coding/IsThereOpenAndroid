@@ -2,6 +2,7 @@ package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
         sharedPreferences = activity.getSharedPreferences("nickname", MODE_PRIVATE);

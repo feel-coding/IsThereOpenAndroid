@@ -246,6 +246,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     openStyle = "UNSTABLE";
                     break;
             }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class ToiletClickListener implements View.OnClickListener {
@@ -267,6 +270,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
 
                     toilet = "ONE";
                     break;
+            }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -340,6 +346,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     mainAlcohol = "VODKA";
                     break;
             }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class CleannessClickListener implements View.OnClickListener {
@@ -373,6 +382,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     cleannessNormalBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                     cleanness = "DIRTY";
                     break;
+            }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -410,6 +422,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     price = "EXPENSIVE";
                     break;
             }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
 
@@ -445,6 +460,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     mood = "SILENT";
                     break;
             }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
 
@@ -454,26 +472,26 @@ public class WriteBarReviewActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.barStarOne:
                     firstStar.setImageResource(R.drawable.ic_star_red);
-                    secondStar.setImageResource(R.drawable.ic_star_gray);
-                    thirdStar.setImageResource(R.drawable.ic_star_gray);
-                    fourthStar.setImageResource(R.drawable.ic_star_gray);
-                    fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    secondStar.setImageResource(R.drawable.ic_star_border_red);
+                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     rate = "WORST";
                     break;
                 case R.id.barStarTwo:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
-                    thirdStar.setImageResource(R.drawable.ic_star_gray);
-                    fourthStar.setImageResource(R.drawable.ic_star_gray);
-                    fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     rate = "BAD";
                     break;
                 case R.id.barStarThree:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_gray);
-                    fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     rate = "SOSO";
                     break;
                 case R.id.barStarFour:
@@ -481,7 +499,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
                     fourthStar.setImageResource(R.drawable.ic_star_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     rate = "GOOD";
                     break;
                 case R.id.barStarFive:
@@ -492,6 +510,9 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     fifthStar.setImageResource(R.drawable.ic_star_red);
                     rate = "BEST";
                     break;
+            }
+            if(!rate.equals("") && !mood.equals("") && !openStyle.equals("") && !price.equals("") && !toilet.equals("") && !mainAlcohol.equals("") && !cleanness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }

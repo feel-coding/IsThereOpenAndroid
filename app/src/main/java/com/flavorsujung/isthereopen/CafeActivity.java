@@ -9,7 +9,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,14 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,6 +32,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CafeActivity extends AppCompatActivity  {
+
+
+
+
+    RecyclerView recyclerView;
+    List<CafeInfoReview> reviewList = new ArrayList<>();
+    CafeReviewAdapter adapter;
+
+
+
+
+
 
     ImageView cafeLogoIv;
     Intent intent;
@@ -79,6 +90,24 @@ public class CafeActivity extends AppCompatActivity  {
         getWindow().setStatusBarColor(0xFFFFFFFF);
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+
+
+
+
+        recyclerView = findViewById(R.id.rv);
+        adapter = new CafeReviewAdapter(reviewList, CafeActivity.this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CafeActivity.this));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new MyItemDecorator());
+
+
+
+
+
+
+
+
         toolbar = findViewById(R.id.cafeToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -88,6 +117,10 @@ public class CafeActivity extends AppCompatActivity  {
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
+
+
+
+
         toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
         cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);cafeTitleTv = findViewById(R.id.cafeTitleTv);
@@ -150,6 +183,39 @@ public class CafeActivity extends AppCompatActivity  {
             }
         });
         refreshInfo();
+
+
+
+        serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
+            @Override
+            public void onResponse(Call<List<CafeInfoReview>> call, Response<List<CafeInfoReview>> response) {
+                if(response.isSuccessful()) {
+                    reviewList.clear();
+                    reviewList = response.body();
+                    adapter = new CafeReviewAdapter(response.body(), CafeActivity.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CafeInfoReview>> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -531,50 +597,50 @@ public class CafeActivity extends AppCompatActivity  {
                     Double rate = response.body();
                     rateTv.setText(String.format("%.1f", rate));
                     if (rate < 0) {
-                        firstStar.setImageResource(R.drawable.ic_star_gray);
-                        secondStar.setImageResource(R.drawable.ic_star_gray);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        firstStar.setImageResource(R.drawable.ic_star_border_red);
+                        secondStar.setImageResource(R.drawable.ic_star_border_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 1.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
-                        secondStar.setImageResource(R.drawable.ic_star_gray);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_border_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if(rate < 1.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_half_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if (rate < 2.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if (rate < 2.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_half_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 3.25) {
 
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 3.75) {
 
@@ -582,14 +648,14 @@ public class CafeActivity extends AppCompatActivity  {
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
                         fourthStar.setImageResource(R.drawable.ic_star_half_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 4.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
                         fourthStar.setImageResource(R.drawable.ic_star_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 4.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);

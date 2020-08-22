@@ -42,31 +42,31 @@
                 android:id="@+id/barUserStarOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_gray" />
+                android:src="@drawable/ic_star_border_red" />
 
             <ImageView
                 android:id="@+id/barUserStarTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_gray" />
+                android:src="@drawable/ic_star_border_red" />
 
             <ImageView
                 android:id="@+id/barUserStarThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_gray" />
+                android:src="@drawable/ic_star_border_red" />
 
             <ImageView
                 android:id="@+id/barUserStarFour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_gray" />
+                android:src="@drawable/ic_star_border_red" />
 
             <ImageView
                 android:id="@+id/barUserStarFive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_gray" />
+                android:src="@drawable/ic_star_border_red" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

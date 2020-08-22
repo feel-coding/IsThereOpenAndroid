@@ -437,50 +437,50 @@ public class BarActivity extends AppCompatActivity {
                     Double rate = response.body();
                     rateTv.setText(String.format("%.1f", rate));
                     if (rate < 0) {
-                        firstStar.setImageResource(R.drawable.ic_star_gray);
-                        secondStar.setImageResource(R.drawable.ic_star_gray);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        firstStar.setImageResource(R.drawable.ic_star_border_red);
+                        secondStar.setImageResource(R.drawable.ic_star_border_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 1.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
-                        secondStar.setImageResource(R.drawable.ic_star_gray);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_border_red);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if(rate < 1.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_half_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if (rate < 2.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_gray);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
 
                     }
                     else if (rate < 2.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_half_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 3.25) {
 
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_gray);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 3.75) {
 
@@ -488,14 +488,14 @@ public class BarActivity extends AppCompatActivity {
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
                         fourthStar.setImageResource(R.drawable.ic_star_half_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 4.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
                         secondStar.setImageResource(R.drawable.ic_star_red);
                         thirdStar.setImageResource(R.drawable.ic_star_red);
                         fourthStar.setImageResource(R.drawable.ic_star_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
                     }
                     else if (rate < 4.75) {
                         firstStar.setImageResource(R.drawable.ic_star_red);

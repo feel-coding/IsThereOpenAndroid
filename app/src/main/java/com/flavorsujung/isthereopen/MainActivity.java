@@ -25,11 +25,14 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Intent i = new Intent(this, TestActivity.class);
+//        startActivity(i);
         getWindow().setStatusBarColor(0xFFF7F7F7);
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         mainViewPagerAdapter = new MainViewPagerAdapter(this, 4);
         mainViewPager = findViewById(R.id.main_viewpager);
+        mainViewPager.setUserInputEnabled(false);
         mainViewPager.setAdapter(mainViewPagerAdapter);
 
         bottomNavigationView = findViewById(R.id.navigation);

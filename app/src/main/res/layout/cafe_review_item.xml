@@ -46,31 +46,31 @@
                     android:id="@+id/cafeUserStarOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_gray" />
+                    android:src="@drawable/ic_star_border_red" />
 
                 <ImageView
                     android:id="@+id/cafeUserStarTwo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_gray" />
+                    android:src="@drawable/ic_star_border_red" />
 
                 <ImageView
                     android:id="@+id/cafeUserStarThree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_gray" />
+                    android:src="@drawable/ic_star_border_red" />
 
                 <ImageView
                     android:id="@+id/cafeUserStarFour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_gray" />
+                    android:src="@drawable/ic_star_border_red" />
 
                 <ImageView
                     android:id="@+id/cafeUserStarFive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_gray" />
+                    android:src="@drawable/ic_star_border_red" />
             </LinearLayout>
         </LinearLayout>
 
