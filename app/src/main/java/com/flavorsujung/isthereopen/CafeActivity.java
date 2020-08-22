@@ -20,8 +20,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,14 +34,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CafeActivity extends AppCompatActivity  {
+public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
 
 
 
-
+////////////////////////////////////////////////////////////////
     RecyclerView recyclerView;
     List<CafeInfoReview> reviewList = new ArrayList<>();
     CafeReviewAdapter adapter;
+    private CafeViewPagerAdapter viewPagerAdapter;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private String[] tabTitles= {"가게리뷰", "오픈리뷰"};
+////////////////////////////////////////////////////////////////
 
 
 
@@ -95,11 +103,11 @@ public class CafeActivity extends AppCompatActivity  {
 
 
 
-        recyclerView = findViewById(R.id.rv);
-        adapter = new CafeReviewAdapter(reviewList, CafeActivity.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(CafeActivity.this));
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new MyItemDecorator());
+//        recyclerView = findViewById(R.id.rv);
+//        adapter = new CafeReviewAdapter(reviewList, CafeActivity.this);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(CafeActivity.this));
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.addItemDecoration(new MyItemDecorator());
 
 
 
@@ -117,6 +125,23 @@ public class CafeActivity extends AppCompatActivity  {
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
+
+
+
+
+
+
+        ////////////////////////////////////////////////////////////////////
+        viewPagerAdapter = new CafeViewPagerAdapter(this, 2);
+        viewPager = findViewById(R.id.cafeViewPager);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        tabLayout = findViewById(R.id.cafeReviewTab);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {tab.setText(tabTitles[position]);
+                    viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
+        ////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -186,7 +211,15 @@ public class CafeActivity extends AppCompatActivity  {
 
 
 
-        serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
+
+
+
+
+
+
+
+
+        /*serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
             @Override
             public void onResponse(Call<List<CafeInfoReview>> call, Response<List<CafeInfoReview>> response) {
                 if(response.isSuccessful()) {
@@ -202,7 +235,10 @@ public class CafeActivity extends AppCompatActivity  {
             public void onFailure(Call<List<CafeInfoReview>> call, Throwable t) {
 
             }
-        });
+        });*/
+
+
+
 
 
 
@@ -680,6 +716,11 @@ public class CafeActivity extends AppCompatActivity  {
 
             }
         });
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

@@ -42,31 +42,31 @@
                 android:id="@+id/restaurantUserStarOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_border_red" />
+                android:src="@drawable/ic_star_gray" />
 
             <ImageView
                 android:id="@+id/restaurantUserStarTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_border_red" />
+                android:src="@drawable/ic_star_gray" />
 
             <ImageView
                 android:id="@+id/restaurantUserStarThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_border_red" />
+                android:src="@drawable/ic_star_gray" />
 
             <ImageView
                 android:id="@+id/restaurantUserStarFour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_border_red" />
+                android:src="@drawable/ic_star_gray" />
 
             <ImageView
                 android:id="@+id/restaurantUserStarFive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_border_red" />
+                android:src="@drawable/ic_star_gray" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

@@ -472,26 +472,26 @@ public class WriteBarReviewActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.barStarOne:
                     firstStar.setImageResource(R.drawable.ic_star_red);
-                    secondStar.setImageResource(R.drawable.ic_star_border_red);
-                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    secondStar.setImageResource(R.drawable.ic_star_gray);
+                    thirdStar.setImageResource(R.drawable.ic_star_gray);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "WORST";
                     break;
                 case R.id.barStarTwo:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
-                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    thirdStar.setImageResource(R.drawable.ic_star_gray);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "BAD";
                     break;
                 case R.id.barStarThree:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "SOSO";
                     break;
                 case R.id.barStarFour:
@@ -499,7 +499,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
                     fourthStar.setImageResource(R.drawable.ic_star_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "GOOD";
                     break;
                 case R.id.barStarFive:

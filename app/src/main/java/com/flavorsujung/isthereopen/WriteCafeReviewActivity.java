@@ -293,7 +293,7 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     break;
             }
             if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
-
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -346,6 +346,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     tableHeight = "NOTABLE";
 
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class PlugNumClickListener implements View.OnClickListener {
@@ -397,6 +400,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     plugNum = "NOTABLE";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class WaitingTimeClickListener implements View.OnClickListener {
@@ -430,6 +436,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     waitingTimeLongBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                     waitingTime = "SHORT";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -482,6 +491,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     stayLong = "TAKEOUT";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class LightnessClickListener implements View.OnClickListener {
@@ -515,6 +527,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     lightBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                     lightness = "NORMAL";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -551,6 +566,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     price = "EXPENSIVE";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
 
@@ -586,6 +604,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     customerNum = "NORMAL";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
 
@@ -595,26 +616,26 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.cafeStarOne:
                     firstStar.setImageResource(R.drawable.ic_star_red);
-                    secondStar.setImageResource(R.drawable.ic_star_border_red);
-                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    secondStar.setImageResource(R.drawable.ic_star_gray);
+                    thirdStar.setImageResource(R.drawable.ic_star_gray);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "WORST";
                     break;
                 case R.id.cafeStarTwo:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
-                    thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    thirdStar.setImageResource(R.drawable.ic_star_gray);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "BAD";
                     break;
                 case R.id.cafeStarThree:
                     firstStar.setImageResource(R.drawable.ic_star_red);
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
-                    fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fourthStar.setImageResource(R.drawable.ic_star_gray);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "SOSO";
                     break;
                 case R.id.cafeStarFour:
@@ -622,7 +643,7 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     secondStar.setImageResource(R.drawable.ic_star_red);
                     thirdStar.setImageResource(R.drawable.ic_star_red);
                     fourthStar.setImageResource(R.drawable.ic_star_red);
-                    fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    fifthStar.setImageResource(R.drawable.ic_star_gray);
                     rate = "GOOD";
                     break;
                 case R.id.cafeStarFive:
@@ -633,6 +654,9 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     fifthStar.setImageResource(R.drawable.ic_star_red);
                     rate = "BEST";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !customerNum.equals("") && !stayLong.equals("") && !plugNum.equals("") && !tableHeight.equals("") && !lightness.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }

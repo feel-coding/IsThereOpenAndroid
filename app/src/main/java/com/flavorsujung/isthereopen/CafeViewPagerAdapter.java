@@ -21,11 +21,11 @@ public class CafeViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                openReviewFragment = new OpenReviewFragment();
-                return openReviewFragment;
-            case 1:
                 infoReviewFragment = new CafeInfoReviewFragment();
                 return infoReviewFragment;
+            case 1:
+                openReviewFragment = new OpenReviewFragment();
+                return openReviewFragment;
             default:
                 return null;
         }

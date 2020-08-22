@@ -6,7 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,14 +20,22 @@ import android.widget.ListView;
 import com.amar.library.ui.StickyScrollView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CafeInfoReviewFragment extends Fragment {
     Context mContext;
     Activity activity;
+    ServerAPI serverAPI;
     StickyScrollView stickyScrollView;
-    ListView listView;
-    private Integer cafeSeq;
+    RecyclerView recyclerView;
+    List<CafeInfoReview> reviewList = new ArrayList<>();
+    CafeReviewAdapter adapter;
+    private Long cafeSeq;
 
     private String mParam1;
     private String mParam2;
@@ -55,7 +66,31 @@ public class CafeInfoReviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_cafe_info_review, container, false);
-        listView = v.findViewById(R.id.cafeInfoReviewLv);
+        serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
+        recyclerView = v.findViewById(R.id.rv);
+        adapter = new CafeReviewAdapter(reviewList, activity);
+        Log.d("탭탭", "도달함");
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new MyItemDecorator());
+        serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
+            @Override
+            public void onResponse(Call<List<CafeInfoReview>> call, Response<List<CafeInfoReview>> response) {
+                if(response.isSuccessful()) {
+                    reviewList.clear();
+                    reviewList = response.body();
+                    adapter = new CafeReviewAdapter(response.body(), activity);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CafeInfoReview>> call, Throwable t) {
+
+            }
+        });
+
        /* listView.setNestedScrollingEnabled(false);
         stickyScrollView = v.findViewById(R.id.stickyScroll);
         stickyScrollView.setOnTouchListener(new View.OnTouchListener() {
@@ -100,16 +135,7 @@ public class CafeInfoReviewFragment extends Fragment {
                 return false;
             }
         });*/
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("(사용자id)님이 몇시 몇분에 CLOSE을 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 BREAK를 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
-        arrayList.add("(사용자id)님이 몇시 몇분에 OPEN을 확인하였습니다.");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(),android.R.layout.simple_list_item_1, arrayList);
-        listView.setAdapter(adapter);
+
         return v;
     }
 
@@ -126,7 +152,7 @@ public class CafeInfoReviewFragment extends Fragment {
         mContext = context;
         if(context instanceof Activity)
             activity = (Activity) context;
-        cafeSeq = activity.getIntent().getIntExtra("seq", 0);
+        cafeSeq = activity.getIntent().getLongExtra("seq", 0);
 
     }
 
