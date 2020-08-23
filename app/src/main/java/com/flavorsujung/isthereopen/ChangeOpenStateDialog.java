@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -19,6 +20,10 @@ public class ChangeOpenStateDialog extends Dialog {
 
     private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
+
+    TextView messageTv;
+    String message;
+
 
 
     @Override
@@ -34,19 +39,24 @@ public class ChangeOpenStateDialog extends Dialog {
         setContentView(R.layout.change_open_state_dialog);
 
         //셋팅
-        mPositiveButton=(Button)findViewById(R.id.positiveBtn);
-        mNegativeButton=(Button)findViewById(R.id.negativeBtn);
+        mPositiveButton = findViewById(R.id.positiveBtn);
+        mNegativeButton = findViewById(R.id.negativeBtn);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
         mPositiveButton.setOnClickListener(mPositiveListener);
         mNegativeButton.setOnClickListener(mNegativeListener);
+
+        messageTv = findViewById(R.id.alertMessage);
+        messageTv.setText(message);
+
     }
 
     //생성자 생성
-    public ChangeOpenStateDialog(@NonNull Context context, View.OnClickListener positiveListener, View.OnClickListener negativeListener) {
+    public ChangeOpenStateDialog(@NonNull Context context, View.OnClickListener positiveListener, View.OnClickListener negativeListener, String message) {
         super(context);
         this.mPositiveListener = positiveListener;
         this.mNegativeListener = negativeListener;
+        this.message = message;
 
     }
 }

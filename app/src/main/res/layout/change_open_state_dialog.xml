@@ -13,6 +13,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/alertMessage"
+            android:textColor="@color/colorBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="오픈상태를 변경하시겠습니까?" />
@@ -21,29 +23,29 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
+        android:background="@color/colorLightGrey"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
             android:background="@color/colorWhite"
-            android:id="@+id/positiveBtn"
+            android:id="@+id/negativeBtn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="확인" />
+            android:text="취소" />
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorBlack" />
+            android:background="@color/colorLightGrey" />
 
         <Button
             android:background="@color/colorWhite"
-            android:id="@+id/negativeBtn"
+            android:id="@+id/positiveBtn"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="취소" />
+            android:text="확인" />
     </LinearLayout>
 </LinearLayout>

@@ -17,7 +17,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         button = findViewById(R.id.dialogBtn);
-        dialog = new ChangeOpenStateDialog(TestActivity.this, positiveListener, negativeListener);
+//        dialog = new ChangeOpenStateDialog(TestActivity.this, positiveListener, negativeListener);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

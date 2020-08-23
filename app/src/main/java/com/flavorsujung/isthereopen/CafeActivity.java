@@ -9,9 +9,11 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,6 +91,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     ImageView fourthStar;
     ImageView fifthStar;
 
+    ChangeOpenStateDialog dialog;
+    View.OnClickListener openListener;
+    View.OnClickListener breakListener;
+    View.OnClickListener closeListener;
+    View.OnClickListener cancelListener;
+    View.OnClickListener clickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,8 +120,9 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
         viewPagerAdapter = new CafeViewPagerAdapter(this, 2);
         viewPager = findViewById(R.id.cafeViewPager);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(viewPagerAdapter);
-
+        viewPager.setUserInputEnabled(false);
         tabLayout = findViewById(R.id.cafeReviewTab);
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {tab.setText(tabTitles[position]);
@@ -120,7 +130,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
        toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
-        cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);cafeTitleTv = findViewById(R.id.cafeTitleTv);
+        cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);
+        cafeTitleTv = findViewById(R.id.cafeTitleTv);
         cafeLogoIv = findViewById(R.id.cafeProfileImage);
         phoneNumberTv = findViewById(R.id.cafePhoneTv);
         openStateTv = findViewById(R.id.cafeOpenStateTv);
@@ -147,11 +158,29 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         fourthStar = findViewById(R.id.cafeAvgStarFour);
         fifthStar = findViewById(R.id.cafeAvgStarFive);
 
+
 //        toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
 //        toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
+        clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId() == R.id.cafeOpenBtn)
+                    changeState("OPEN");
+                else if (view.getId() == R.id.cafeBreakBtn)
+                    changeState("BREAK");
+                else if (view.getId() == R.id.cafeCloseBtn)
+                    changeState("CLOSE");
+            }
+        };
+        cancelListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        };
         serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
             @Override
             public void onResponse(Call<Cafe> call, Response<Cafe> response) {
@@ -208,6 +237,23 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Log.d("뷰페이저", "들어옴 " + position);
+                if(position == 0) {
+                    viewPager.requestLayout();
+                    cafeViewPagerAdapter.notifyDataSetChanged();
+                }
+                else if (position == 1) {
+                    viewPager.requestLayout();
+                    cafeViewPagerAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,83 +261,32 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                 startActivity(intent);
             }
         });
+
+        openListener = v -> changeState("OPEN");
+        breakListener = v -> changeState("BREAK");
+        closeListener = v-> changeState("CLOSE");
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "OPEN").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 OPEN으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("OPEN");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(CafeActivity.this, openListener, cancelListener, cafe.getName() + "의 상태를 OPEN으로 변경하시겠습니까?");
+                dialog.show();
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "BREAK").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 BREAK로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("BREAK");
-                        }
-                    }
+                dialog =  new ChangeOpenStateDialog(CafeActivity.this, breakListener, cancelListener, cafe.getName() + "의 상태를  BREAK로 변경하시겠습니까?");
+                dialog.show();
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, "CLOSE").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 CLOSE로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("CLOSE");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(CafeActivity.this, closeListener, cancelListener, cafe.getName() + "의 상태를 CLOSE로 변경하시겠습니까?");
+                dialog.show();
             }
         });
-
-        /*toCafeReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CafeActivity.this, CafeReviewActivity.class);
-                intent.putExtra("seq", cafeSeq);
-                intent.putExtra("name", cafe.getName());
-                startActivity(intent);
-            }
-        });
-        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CafeActivity.this, OpenReviewActivity.class);
-                intent.putExtra("seq", cafeSeq);
-                intent.putExtra("type", "cafe");
-                intent.putExtra("name", cafe.getName());
-                startActivity(intent);
-            }
-        });*/
 
         cafeLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         cafeLogoIv.setClipToOutline(true);
@@ -651,5 +646,27 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    void changeState(String openState) {
+        serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if(openState.equals("OPEN")) {
+                        Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 " + openState + "으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 " + openState + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    openStateTv.setText(openState);
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 }

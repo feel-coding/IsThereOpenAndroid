@@ -38,4 +38,6 @@ public class CafeViewPagerAdapter extends FragmentStateAdapter {
         return mPageCount;
     }
 
+
+
 }

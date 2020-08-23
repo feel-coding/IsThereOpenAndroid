@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -36,6 +37,7 @@ public class OpenReviewFragment extends Fragment {
     //ListView listView;
     RecyclerView recyclerView;
     OpenReviewAdapter adapter;
+    FrameLayout layout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,12 +63,9 @@ public class OpenReviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_open_review, container, false);
-//        listView = view.findViewById(R.id.openReviewLv);
-//        adapter = new OpenAdapter(activity, openReviewList);
-//        listView.setAdapter(adapter);
         recyclerView = view.findViewById(R.id.openReviewRv);
+        layout = view.findViewById(R.id.openReviewFragment);
         adapter = new OpenReviewAdapter(openReviewList, activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         recyclerView.setAdapter(adapter);
@@ -87,6 +86,8 @@ public class OpenReviewFragment extends Fragment {
                                         Log.d("카페", "두번째 성공");
                                         Date date = openReview.getCreatedAt();
                                         openReviewList.add(new OpenReview(date, response.body().getName(), openReview.getOpenState()));
+
+                                        Log.d("높이: ", "" + recyclerView.getMeasuredHeight());
                                         adapter.notifyDataSetChanged();
                                     }
                                 }
