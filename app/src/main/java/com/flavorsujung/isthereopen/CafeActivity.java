@@ -9,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,9 +40,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
 
 ////////////////////////////////////////////////////////////////
-    RecyclerView recyclerView;
-    List<CafeInfoReview> reviewList = new ArrayList<>();
-    CafeReviewAdapter adapter;
     private CafeViewPagerAdapter viewPagerAdapter;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
@@ -71,8 +69,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
-    Button toCafeReviewBtn;
-    Button toOpenReviewBtn;
+//    Button toCafeReviewBtn;
+//    Button toOpenReviewBtn;
     Long cafeSeq;
     ImageView callBtn;
 
@@ -100,22 +98,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
 
-
-
-
-//        recyclerView = findViewById(R.id.rv);
-//        adapter = new CafeReviewAdapter(reviewList, CafeActivity.this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(CafeActivity.this));
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.addItemDecoration(new MyItemDecorator());
-
-
-
-
-
-
-
-
         toolbar = findViewById(R.id.cafeToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -127,11 +109,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         userSeq = sharedPreferences.getLong("userSeq", 0L);
 
 
-
-
-
-
-        ////////////////////////////////////////////////////////////////////
         viewPagerAdapter = new CafeViewPagerAdapter(this, 2);
         viewPager = findViewById(R.id.cafeViewPager);
         viewPager.setAdapter(viewPagerAdapter);
@@ -140,13 +117,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {tab.setText(tabTitles[position]);
                     viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
-        ////////////////////////////////////////////////////////////////////
 
-
-
-
-
-        toolbar = findViewById(R.id.cafeToolbar);
+       toolbar = findViewById(R.id.cafeToolbar);
         swipeRefreshLayout = findViewById(R.id.cafeUpdate);
         cafeViewPagerAdapter = new CafeViewPagerAdapter(this, 2);cafeTitleTv = findViewById(R.id.cafeTitleTv);
         cafeLogoIv = findViewById(R.id.cafeProfileImage);
@@ -175,8 +147,8 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         fourthStar = findViewById(R.id.cafeAvgStarFour);
         fifthStar = findViewById(R.id.cafeAvgStarFive);
 
-        toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
-        toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
+//        toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
+//        toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
@@ -208,50 +180,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             }
         });
         refreshInfo();
-
-
-
-
-
-
-
-
-
-
-
-        /*serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
-            @Override
-            public void onResponse(Call<List<CafeInfoReview>> call, Response<List<CafeInfoReview>> response) {
-                if(response.isSuccessful()) {
-                    reviewList.clear();
-                    reviewList = response.body();
-                    adapter = new CafeReviewAdapter(response.body(), CafeActivity.this);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<CafeInfoReview>> call, Throwable t) {
-
-            }
-        });*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -345,7 +273,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             }
         });
 
-        toCafeReviewBtn.setOnClickListener(new View.OnClickListener() {
+        /*toCafeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CafeActivity.this, CafeReviewActivity.class);
@@ -363,7 +291,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                 intent.putExtra("name", cafe.getName());
                 startActivity(intent);
             }
-        });
+        });*/
 
         cafeLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         cafeLogoIv.setClipToOutline(true);
@@ -632,12 +560,13 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                 if(response.isSuccessful()) {
                     Double rate = response.body();
                     rateTv.setText(String.format("%.1f", rate));
-                    if (rate < 0) {
-                        firstStar.setImageResource(R.drawable.ic_star_border_red);
-                        secondStar.setImageResource(R.drawable.ic_star_border_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    if (rate <= 0.1) {
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        rateTv.setText("");
                     }
                     else if (rate < 1.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
@@ -713,7 +642,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-
+                Log.d("서버 통신 실패 원인", t.getMessage());
             }
         });
 

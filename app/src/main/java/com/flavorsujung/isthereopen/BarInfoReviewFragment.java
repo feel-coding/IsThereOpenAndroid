@@ -15,8 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.amar.library.ui.StickyScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,28 +26,36 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class RestaurantInfoReviewFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link BarInfoReviewFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link BarInfoReviewFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class BarInfoReviewFragment extends Fragment {
     Context mContext;
     Activity activity;
     ServerAPI serverAPI;
+    StickyScrollView stickyScrollView;
     RecyclerView recyclerView;
-    List<RestaurantInfoReview> reviewList = new ArrayList<>();
-    RestaurantReviewAdapter adapter;
+    List<BarInfoReview> reviewList = new ArrayList<>();
+    BarReviewAdapter adapter;
     TextView reviewCount;
     Button writeReviewBtn;
-    private Long restaurantSeq;
-    private String restaurantName;
+    private Long barSeq;
+    private String barName;
 
-    private OnFragmentInteractionListener mListener;
+    private BarInfoReviewFragment.OnFragmentInteractionListener mListener;
 
-    public RestaurantInfoReviewFragment() {
+    public BarInfoReviewFragment() {
         // Required empty public constructor
     }
 
 
-    public static RestaurantInfoReviewFragment newInstance(String param1, String param2) {
-        RestaurantInfoReviewFragment fragment = new RestaurantInfoReviewFragment();
+    public static BarInfoReviewFragment newInstance(String param1, String param2) {
+        BarInfoReviewFragment fragment = new BarInfoReviewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -63,44 +72,44 @@ public class RestaurantInfoReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_restaurant_info_review, container, false);
+        View v =  inflater.inflate(R.layout.fragment_bar_info_review, container, false);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
-        recyclerView = v.findViewById(R.id.restaurantReviewRecyclerView);
-        reviewCount = v.findViewById(R.id.restaurantReviewCount);
-        writeReviewBtn = v.findViewById(R.id.writeRestaurantReviewBtn);
-        adapter = new RestaurantReviewAdapter(reviewList, activity);
+        recyclerView = v.findViewById(R.id.barReviewRecyclerView);
+        reviewCount = v.findViewById(R.id.barReviewCount);
+        writeReviewBtn = v.findViewById(R.id.writeBarReviewBtn);
+        adapter = new BarReviewAdapter(reviewList, activity);
         Log.d("탭탭", "도달함");
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
-        serverAPI.getRestaurantInfoReviewList(restaurantSeq).enqueue(new Callback<List<RestaurantInfoReview>>() {
+        serverAPI.getBarInfoReviewList(barSeq).enqueue(new Callback<List<BarInfoReview>>() {
             @Override
-            public void onResponse(Call<List<RestaurantInfoReview>> call, Response<List<RestaurantInfoReview>> response) {
+            public void onResponse(Call<List<BarInfoReview>> call, Response<List<BarInfoReview>> response) {
                 if(response.isSuccessful()) {
                     reviewList.clear();
                     reviewList = response.body();
                     reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
-                    adapter = new RestaurantReviewAdapter(response.body(), activity);
+                    adapter = new BarReviewAdapter(response.body(), activity);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<RestaurantInfoReview>> call, Throwable t) {
+            public void onFailure(Call<List<BarInfoReview>> call, Throwable t) {
 
             }
         });
         writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, WriteRestaurantReviewActivity.class);
-                Log.d("정보넘기기", "seq: " + restaurantSeq + ", name: " + restaurantName);
-                intent.putExtra("seq", restaurantSeq);
-                intent.putExtra("name", restaurantName);
+                Intent intent = new Intent(activity, WriteBarReviewActivity.class);
+                intent.putExtra("seq", barSeq);
+                intent.putExtra("name", barName);
                 startActivity(intent);
             }
         });
+
         return v;
     }
 
@@ -117,8 +126,9 @@ public class RestaurantInfoReviewFragment extends Fragment {
         mContext = context;
         if(context instanceof Activity)
             activity = (Activity) context;
-        restaurantSeq = activity.getIntent().getLongExtra("seq", 0);
-        restaurantName = activity.getIntent().getStringExtra("name");
+        barSeq = activity.getIntent().getLongExtra("seq", 0);
+        barName = activity.getIntent().getStringExtra("name");
+
     }
 
     @Override

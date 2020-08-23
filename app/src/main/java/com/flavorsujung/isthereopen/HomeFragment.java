@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
                 storeList.clear();
                 refreshCafeList();
                 refreshRestaurantList();
-                refreshRestaurantList();
+                refreshBarList();
             }
         });
 

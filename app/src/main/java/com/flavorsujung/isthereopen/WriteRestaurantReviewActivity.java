@@ -240,6 +240,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     openStyle = "UNSTABLE";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class WaitingTimeClickListener implements View.OnClickListener {
@@ -274,6 +277,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     waitingTime = "SHORT";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
     class TakeoutClickListener implements View.OnClickListener {
@@ -295,6 +301,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     takeout = "UNABLE";
                     break;
 
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -329,6 +338,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     cleannessNormalBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                     cleanness = "DIRTY";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -366,6 +378,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     price = "EXPENSIVE";
                     break;
             }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
+            }
         }
     }
 
@@ -400,6 +415,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     eatAlonePossibleBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                     eatAlone = "UNABLE";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }
@@ -448,6 +466,9 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     fifthStar.setImageResource(R.drawable.ic_star_red);
                     rate = "BEST";
                     break;
+            }
+            if(!rate.equals("") && !openStyle.equals("") && !waitingTime.equals("") && !price.equals("") && !cleanness.equals("") && !takeout.equals("") && !eatAlone.equals("")) {
+                writeReviewBtn.setBackgroundResource(R.drawable.full_red_square);
             }
         }
     }

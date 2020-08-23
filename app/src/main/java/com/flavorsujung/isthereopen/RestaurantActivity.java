@@ -17,9 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -28,6 +32,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RestaurantActivity extends AppCompatActivity implements RestaurantInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
+
+    RecyclerView recyclerView;
+    RestaurantReviewAdapter adapter;
+    RestaurantViewPagerAdapter viewPagerAdapter;
+    private ViewPager2 viewPager;
+    TabLayout tabLayout;
+    private String[] tabTitles= {"가게리뷰", "오픈리뷰"};
 
     ImageView restaurantLogoIv;
     Intent intent;
@@ -45,8 +56,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
-    Button toRestaurantReviewBtn;
-    Button toOpenReviewBtn;
+//    Button toRestaurantReviewBtn;
+//    Button toOpenReviewBtn;
     Long restaurantSeq;
     ImageView callBtn;
     ImageView firstStar;
@@ -69,6 +80,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         getWindow().setStatusBarColor(0xFFFFFFFF);
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        viewPagerAdapter = new RestaurantViewPagerAdapter(this, 2);
+        viewPager = findViewById(R.id.restaurantViewPager);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        tabLayout = findViewById(R.id.restaurantReviewTab);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {tab.setText(tabTitles[position]);
+                    viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
         toolbar = findViewById(R.id.restaurantToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -102,8 +121,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         eatAloneTv = findViewById(R.id.avgEatAlone);
         waitingTimeTv = findViewById(R.id.restaurantAvgWaitingTime);
         cleannessTv = findViewById(R.id.restaurantAvgCleanness);
-        toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
-        toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
+//        toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
+//        toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0);
         serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
@@ -226,7 +245,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             }
         });
 
-        toRestaurantReviewBtn.setOnClickListener(new View.OnClickListener() {
+        /*toRestaurantReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RestaurantActivity.this, RestaurantReviewActivity.class);
@@ -244,7 +263,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                 intent.putExtra("name", restaurant.getName());
                 startActivity(intent);
             }
-        });
+        });*/
 
         restaurantLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         restaurantLogoIv.setClipToOutline(true);
@@ -284,7 +303,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
                     List<String> list = response.body();
-
                     if (list.size() == 0) {
                         waitingTimeTv.setText("정보 없음");
                     } else if (list.size() == 1) {
@@ -434,12 +452,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                 if(response.isSuccessful()) {
                     Double rate = response.body();
                     rateTv.setText(String.format("%.1f", rate));
-                    if (rate < 0) {
-                        firstStar.setImageResource(R.drawable.ic_star_border_red);
-                        secondStar.setImageResource(R.drawable.ic_star_border_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    if (rate <= 0.1) {
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        rateTv.setText("");
                     }
                     else if (rate < 1.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
@@ -519,4 +538,5 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             }
         });
     }
+
 }

@@ -9,16 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +31,7 @@ public class OpenReviewActivity extends AppCompatActivity {
     Toolbar toolbar;
     List<OpenReview> openReviewList = new ArrayList<>();
     ListView listView;
-    OpenReviewAdapter adapter;
+    OpenAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +47,7 @@ public class OpenReviewActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         listView = findViewById(R.id.openReviewLv);
-        adapter = new OpenReviewAdapter(this, openReviewList);
+        adapter = new OpenAdapter(this, openReviewList);
         listView.setAdapter(adapter);
         intent = getIntent();
         seq = intent.getLongExtra("seq", 0);

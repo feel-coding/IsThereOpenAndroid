@@ -19,8 +19,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -28,7 +31,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BarActivity extends AppCompatActivity {
+public class BarActivity extends AppCompatActivity implements BarInfoReviewFragment.OnFragmentInteractionListener, OpenReviewFragment.OnFragmentInteractionListener {
+
+    BarReviewAdapter adapter;
+    private BarViewPagerAdapter viewPagerAdapter;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private String[] tabTitles= {"가게리뷰", "오픈리뷰"};
 
     ImageView barLogoIv;
     Intent intent;
@@ -48,8 +57,8 @@ public class BarActivity extends AppCompatActivity {
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
-    Button toBarReviewBtn;
-    Button toOpenReviewBtn;
+//    Button toBarReviewBtn;
+//    Button toOpenReviewBtn;
     Long barSeq;
     ImageView callBtn;
 
@@ -74,6 +83,15 @@ public class BarActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(0xFFFFFFFF);
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        viewPagerAdapter = new BarViewPagerAdapter(this, 2);
+        viewPager = findViewById(R.id.barViewPager);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        tabLayout = findViewById(R.id.barReviewTab);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {tab.setText(tabTitles[position]);
+                    viewPager.setCurrentItem(tab.getPosition(), true);}).attach();
         toolbar = findViewById(R.id.barToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -108,8 +126,8 @@ public class BarActivity extends AppCompatActivity {
         toiletTv = findViewById(R.id.barAvgToilet);
         alcoholTv = findViewById(R.id.barAvgAlcohol);
         cleannessTv = findViewById(R.id.barAvgCleanness);
-        toBarReviewBtn = findViewById(R.id.toBarReviewBtn);
-        toOpenReviewBtn = findViewById(R.id.toBarOpenReviewBtn);
+//        toBarReviewBtn = findViewById(R.id.toBarReviewBtn);
+//        toOpenReviewBtn = findViewById(R.id.toBarOpenReviewBtn);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
@@ -140,7 +158,7 @@ public class BarActivity extends AppCompatActivity {
 
             }
         });
-        refreshInfo();
+        //refreshInfo();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -156,7 +174,6 @@ public class BarActivity extends AppCompatActivity {
                             else {
                                 openStateTv.setText(openState);
                             }
-                            refreshInfo();
                         }
                     }
 
@@ -165,6 +182,7 @@ public class BarActivity extends AppCompatActivity {
 
                     }
                 });
+                refreshInfo();
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
@@ -233,7 +251,7 @@ public class BarActivity extends AppCompatActivity {
             }
         });
 
-        toBarReviewBtn.setOnClickListener(new View.OnClickListener() {
+        /*toBarReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BarActivity.this, BarReviewActivity.class);
@@ -253,7 +271,7 @@ public class BarActivity extends AppCompatActivity {
                 intent.putExtra("name", bar.getName());
                 startActivity(intent);
             }
-        });
+        });*/
 
         barLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         barLogoIv.setClipToOutline(true);
@@ -276,6 +294,11 @@ public class BarActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     void refreshInfo() {
@@ -379,6 +402,7 @@ public class BarActivity extends AppCompatActivity {
         serverAPI.getAvgAlcohol(barSeq).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d("별점", "알코올");
                 if(response.isSuccessful()) {
                     List<String> list = response.body();
                     if(list.size() == 0) {
@@ -408,6 +432,7 @@ public class BarActivity extends AppCompatActivity {
         serverAPI.getBarAvgCleanness(barSeq).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d("별점", "클린니스");
                 if (response.isSuccessful()) {
                     List<String> list = response.body();
                     if(list.size() == 0) {
@@ -433,15 +458,18 @@ public class BarActivity extends AppCompatActivity {
         serverAPI.getBarAvgRate(barSeq).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
+                Log.d("별점", "들어옴");
                 if(response.isSuccessful()) {
                     Double rate = response.body();
                     rateTv.setText(String.format("%.1f", rate));
-                    if (rate < 0) {
-                        firstStar.setImageResource(R.drawable.ic_star_border_red);
-                        secondStar.setImageResource(R.drawable.ic_star_border_red);
-                        thirdStar.setImageResource(R.drawable.ic_star_border_red);
-                        fourthStar.setImageResource(R.drawable.ic_star_border_red);
-                        fifthStar.setImageResource(R.drawable.ic_star_border_red);
+                    if (rate <= 0.1) {
+                        Log.d("별점", "없음");
+                        firstStar.setImageResource(R.drawable.ic_star_gray);
+                        secondStar.setImageResource(R.drawable.ic_star_gray);
+                        thirdStar.setImageResource(R.drawable.ic_star_gray);
+                        fourthStar.setImageResource(R.drawable.ic_star_gray);
+                        fifthStar.setImageResource(R.drawable.ic_star_gray);
+                        rateTv.setText("");
                     }
                     else if (rate < 1.25) {
                         firstStar.setImageResource(R.drawable.ic_star_red);
@@ -517,9 +545,11 @@ public class BarActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-
+                Log.d("평균평점", t.getMessage());
             }
         });
+
+
 
     }
 

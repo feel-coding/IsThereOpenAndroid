@@ -47,16 +47,16 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        int type = storeList.get(position).type;
-        Long seq = storeList.get(position).seq;
-        String storePhotoUrl = storeList.get(position).photoUrl;
-        Log.d("사진url", storePhotoUrl + ", 타입: " + type);
-        String storeName = storeList.get(position).name;
-        String openState = storeList.get(position).openState;
-        Date latestUpdate = storeList.get(position).latestUpdate;
-        String runningTime = storeList.get(position).runtime;
-        double rate = storeList.get(position).avgRate;
-        boolean isPatron = storeList.get(position).isPatron;
+        int safePosition = holder.getAdapterPosition();
+        int type = storeList.get(safePosition).type;
+        Long seq = storeList.get(safePosition).seq;
+        String storePhotoUrl = storeList.get(safePosition).photoUrl;
+        String storeName = storeList.get(safePosition).name;
+        String openState = storeList.get(safePosition).openState;
+        Date latestUpdate = storeList.get(safePosition).latestUpdate;
+        String runningTime = storeList.get(safePosition).runtime;
+        double rate = storeList.get(safePosition).avgRate;
+        boolean isPatron = storeList.get(safePosition).isPatron;
         Glide.with(mContext).load(storePhotoUrl).into(holder.storePhotoIv);
         holder.storeNameTv.setText(storeName);
         holder.openStateTv.setText(openState);
@@ -240,13 +240,17 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                 switch (type) {
                     case 0:
                         intent = new Intent(mContext, CafeActivity.class);
+                        intent.putExtra("type", "cafe");
                         break;
                     case 1:
                         intent = new Intent(mContext, RestaurantActivity.class);
+                        intent.putExtra("type", "restaurant");
                         break;
                     default:
                         intent = new Intent(mContext, BarActivity.class);
+                        intent.putExtra("type", "bar");
                 }
+                intent.putExtra("name", storeName);
                 intent.putExtra("seq", seq);
                 intent.putExtra("rate", rate);
                 mContext.startActivity(intent);

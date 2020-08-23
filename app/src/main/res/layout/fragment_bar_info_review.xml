@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.flavorsujung.isthereopen.CafeInfoReviewFragment">
+    tools:context="com.flavorsujung.isthereopen.BarInfoReviewFragment">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <View
             android:layout_width="match_parent"
@@ -22,7 +21,7 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/cafeReviewCount"
+                android:id="@+id/barReviewCount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -30,7 +29,7 @@
                 android:textSize="15sp" />
 
             <Button
-                android:id="@+id/writeCafeReviewBtn"
+                android:id="@+id/writeBarReviewBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -45,9 +44,11 @@
             android:layout_marginTop="10dp"
             android:background="@color/colorLightGrey" />
 
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cafeReviewRecyclerView"
+            android:id="@+id/barReviewRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
 </FrameLayout>

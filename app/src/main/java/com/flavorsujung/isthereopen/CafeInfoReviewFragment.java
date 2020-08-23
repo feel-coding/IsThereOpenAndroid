@@ -2,6 +2,7 @@ package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.amar.library.ui.StickyScrollView;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +30,14 @@ public class CafeInfoReviewFragment extends Fragment {
     Context mContext;
     Activity activity;
     ServerAPI serverAPI;
-    StickyScrollView stickyScrollView;
     RecyclerView recyclerView;
     List<CafeInfoReview> reviewList = new ArrayList<>();
     CafeReviewAdapter adapter;
+    TextView reviewCount;
     private Long cafeSeq;
+    private String cafeName;
+    Button writeReviewBtn;
 
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,7 +66,9 @@ public class CafeInfoReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_cafe_info_review, container, false);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
-        recyclerView = v.findViewById(R.id.rv);
+        recyclerView = v.findViewById(R.id.cafeReviewRecyclerView);
+        reviewCount = v.findViewById(R.id.cafeReviewCount);
+        writeReviewBtn = v.findViewById(R.id.writeCafeReviewBtn);
         adapter = new CafeReviewAdapter(reviewList, activity);
         Log.d("탭탭", "도달함");
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
@@ -79,6 +80,7 @@ public class CafeInfoReviewFragment extends Fragment {
                 if(response.isSuccessful()) {
                     reviewList.clear();
                     reviewList = response.body();
+                    reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
                     adapter = new CafeReviewAdapter(response.body(), activity);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -90,51 +92,16 @@ public class CafeInfoReviewFragment extends Fragment {
 
             }
         });
-
-       /* listView.setNestedScrollingEnabled(false);
-        stickyScrollView = v.findViewById(R.id.stickyScroll);
-        stickyScrollView.setOnTouchListener(new View.OnTouchListener() {
+        writeReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!stickyScrollView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else if (!stickyScrollView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                return false;
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, WriteCafeReviewActivity.class);
+                Log.d("정보넘기기", "seq: " + cafeSeq + ", name: " + cafeName);
+                intent.putExtra("seq", cafeSeq);
+                intent.putExtra("name", cafeName);
+                startActivity(intent);
             }
         });
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!stickyScrollView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else if (!stickyScrollView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(-1)) {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                else if (!listView.canScrollVertically(1)) {
-                    listView.setNestedScrollingEnabled(true);
-                }
-                else {
-                    listView.setNestedScrollingEnabled(false);
-                }
-                return false;
-            }
-        });*/
 
         return v;
     }
@@ -153,7 +120,7 @@ public class CafeInfoReviewFragment extends Fragment {
         if(context instanceof Activity)
             activity = (Activity) context;
         cafeSeq = activity.getIntent().getLongExtra("seq", 0);
-
+        cafeName = activity.getIntent().getStringExtra("name");
     }
 
     @Override
