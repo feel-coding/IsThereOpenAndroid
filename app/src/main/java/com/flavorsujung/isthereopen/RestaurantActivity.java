@@ -73,6 +73,12 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     TextView waitingTimeTv;
     TextView cleannessTv;
 
+    ChangeOpenStateDialog dialog;
+    View.OnClickListener openListener;
+    View.OnClickListener breakListener;
+    View.OnClickListener closeListener;
+    View.OnClickListener cancelListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +131,12 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
 //        toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0);
+        cancelListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        };
         serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
@@ -187,83 +199,33 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                 startActivity(intent);
             }
         });
+        openListener = v -> changeState("OPEN");
+        breakListener = v -> changeState("BREAK");
+        closeListener = v-> changeState("CLOSE");
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "OPEN").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 OPEN으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("OPEN");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(RestaurantActivity.this, openListener, cancelListener, restaurant.getName() + "의 상태를 OPEN으로 변경하시겠습니까?");
+                dialog.show();
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "BREAK").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 BREAK로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("BREAK");
-                        }
-                    }
+                dialog =  new ChangeOpenStateDialog(RestaurantActivity.this, breakListener, cancelListener, restaurant.getName() + "의 상태를  BREAK로 변경하시겠습니까?");
+                dialog.show();
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, "CLOSE").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 CLOSE로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("CLOSE");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(RestaurantActivity.this, closeListener, cancelListener, restaurant.getName() + "의 상태를 CLOSE로 변경하시겠습니까?");
+                dialog.show();
             }
         });
 
-        /*toRestaurantReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RestaurantActivity.this, RestaurantReviewActivity.class);
-                intent.putExtra("seq", restaurantSeq);
-                intent.putExtra("name", restaurant.getName());
-                startActivity(intent);
-            }
-        });
-        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RestaurantActivity.this, OpenReviewActivity.class);
-                intent.putExtra("seq", restaurantSeq);
-                intent.putExtra("type", "restaurant");
-                intent.putExtra("name", restaurant.getName());
-                startActivity(intent);
-            }
-        });*/
+
 
         restaurantLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         restaurantLogoIv.setClipToOutline(true);
@@ -538,5 +500,27 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             }
         });
     }
+    void changeState(String openState) {
+        serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if(openState.equals("OPEN")) {
+                        Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 " + openState + "으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(RestaurantActivity.this, restaurant.getName() + "의 오픈 정보가 " + openState + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    openStateTv.setText(openState);
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 }

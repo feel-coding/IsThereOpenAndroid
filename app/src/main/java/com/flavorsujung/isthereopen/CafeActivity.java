@@ -96,7 +96,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     View.OnClickListener breakListener;
     View.OnClickListener closeListener;
     View.OnClickListener cancelListener;
-    View.OnClickListener clickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,17 +163,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
-        clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(view.getId() == R.id.cafeOpenBtn)
-                    changeState("OPEN");
-                else if (view.getId() == R.id.cafeBreakBtn)
-                    changeState("BREAK");
-                else if (view.getId() == R.id.cafeCloseBtn)
-                    changeState("CLOSE");
-            }
-        };
+
         cancelListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

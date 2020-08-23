@@ -3,6 +3,7 @@ package com.flavorsujung.isthereopen;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ShapeDrawable;
@@ -76,6 +77,12 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
     TextView alcoholTv;
     TextView cleannessTv;
 
+    ChangeOpenStateDialog dialog;
+    View.OnClickListener openListener;
+    View.OnClickListener breakListener;
+    View.OnClickListener closeListener;
+    View.OnClickListener cancelListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +138,12 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
+        cancelListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        };
         serverAPI.getBar(barSeq).enqueue(new Callback<Bar>() {
             @Override
             public void onResponse(Call<Bar> call, Response<Bar> response) {
@@ -193,86 +206,32 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
                 startActivity(intent);
             }
         });
+
+        openListener = v -> changeState("OPEN");
+        breakListener = v -> changeState("BREAK");
+        closeListener = v-> changeState("CLOSE");
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putBarOpenReview(bar.getSeq(), userSeq, "OPEN").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(BarActivity.this, bar.getName() + "의 오픈 정보가 OPEN으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("OPEN");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(BarActivity.this, openListener, cancelListener, bar.getName() + "의 상태를 OPEN으로 변경하시겠습니까?");
+                dialog.show();
             }
         });
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putBarOpenReview(bar.getSeq(), userSeq, "BREAK").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(BarActivity.this, bar.getName() + "의 오픈 정보가 BREAK로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("BREAK");
-                        }
-                    }
+                dialog =  new ChangeOpenStateDialog(BarActivity.this, breakListener, cancelListener, bar.getName() + "의 상태를  BREAK로 변경하시겠습니까?");
+                dialog.show();
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
             }
         });
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serverAPI.putBarOpenReview(bar.getSeq(), userSeq, "CLOSE").enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(BarActivity.this, bar.getName() + "의 오픈 정보가 CLOSE로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                            openStateTv.setText("CLOSE");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                dialog =  new ChangeOpenStateDialog(BarActivity.this, closeListener, cancelListener, bar.getName() + "의 상태를 CLOSE로 변경하시겠습니까?");
+                dialog.show();
             }
         });
-
-        /*toBarReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BarActivity.this, BarReviewActivity.class);
-                Log.d("술집리뷰", "술집 리뷰 버튼 눌림. seq: " + barSeq);
-                intent.putExtra("seq", barSeq);
-                intent.putExtra("name", bar.getName());
-                startActivity(intent);
-            }
-        });
-
-        toOpenReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BarActivity.this, OpenReviewActivity.class);
-                intent.putExtra("seq", barSeq);
-                intent.putExtra("type", "bar");
-                intent.putExtra("name", bar.getName());
-                startActivity(intent);
-            }
-        });*/
-
         barLogoIv.setBackground(new ShapeDrawable(new OvalShape()));
         barLogoIv.setClipToOutline(true);
         barLogoIv.setOnClickListener(new View.OnClickListener() {
@@ -551,6 +510,27 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
 
 
 
+    }
+    void changeState(String openState) {
+        serverAPI.putBarOpenReview(bar.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if(openState.equals("OPEN")) {
+                        Toast.makeText(BarActivity.this, bar.getName() + "의 오픈 정보가 " + openState + "으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(BarActivity.this, bar.getName() + "의 오픈 정보가 " + openState + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    openStateTv.setText(openState);
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
 }
