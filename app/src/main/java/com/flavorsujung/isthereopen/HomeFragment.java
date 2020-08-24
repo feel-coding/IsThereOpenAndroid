@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +87,8 @@ public class HomeFragment extends Fragment {
                     refreshBarList();
                     refreshCafeList();
                     refreshRestaurantList();
+                    Collections.shuffle(storeList);
+                    adapter.notifyDataSetChanged();
                 }
                 else if (selectedStoreType == 4) {
                     storeList.clear();
@@ -167,6 +170,8 @@ public class HomeFragment extends Fragment {
                 refreshCafeList();
                 refreshRestaurantList();
                 refreshBarList();
+                Collections.shuffle(storeList);
+                adapter.notifyDataSetChanged();
             }
         });
 
