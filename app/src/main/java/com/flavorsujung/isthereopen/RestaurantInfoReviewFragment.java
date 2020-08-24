@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class RestaurantInfoReviewFragment extends Fragment {
@@ -98,7 +101,7 @@ public class RestaurantInfoReviewFragment extends Fragment {
                 Log.d("정보넘기기", "seq: " + restaurantSeq + ", name: " + restaurantName);
                 intent.putExtra("seq", restaurantSeq);
                 intent.putExtra("name", restaurantName);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
         return v;
@@ -129,5 +132,30 @@ public class RestaurantInfoReviewFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == RESULT_OK) {
+            serverAPI.getRestaurantInfoReviewList(restaurantSeq).enqueue(new Callback<List<RestaurantInfoReview>>() {
+                @Override
+                public void onResponse(Call<List<RestaurantInfoReview>> call, Response<List<RestaurantInfoReview>> response) {
+                    if(response.isSuccessful()) {
+                        reviewList.clear();
+                        reviewList = response.body();
+                        reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
+                        adapter = new RestaurantReviewAdapter(response.body(), activity);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<RestaurantInfoReview>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }

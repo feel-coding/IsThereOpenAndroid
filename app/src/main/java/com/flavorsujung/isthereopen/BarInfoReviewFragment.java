@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,7 +109,7 @@ public class BarInfoReviewFragment extends Fragment {
                 Intent intent = new Intent(activity, WriteBarReviewActivity.class);
                 intent.putExtra("seq", barSeq);
                 intent.putExtra("name", barName);
-                startActivity(intent);
+                startActivityForResult(intent, 300);
             }
         });
 
@@ -139,5 +142,30 @@ public class BarInfoReviewFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 300 && resultCode == RESULT_OK) {
+            serverAPI.getBarInfoReviewList(barSeq).enqueue(new Callback<List<BarInfoReview>>() {
+                @Override
+                public void onResponse(Call<List<BarInfoReview>> call, Response<List<BarInfoReview>> response) {
+                    if(response.isSuccessful()) {
+                        reviewList.clear();
+                        reviewList = response.body();
+                        reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
+                        adapter = new BarReviewAdapter(response.body(), activity);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<BarInfoReview>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }

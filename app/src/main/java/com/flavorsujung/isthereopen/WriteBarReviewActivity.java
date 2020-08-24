@@ -190,6 +190,8 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                             if(response.isSuccessful()) {
                                 Log.d("술집리뷰", barSeq + " " + userSeq + " " +  rate + " " + toilet + " " +  mood + " " + mainAlcohol + " " + price + " " + cleanness + " " + openStyle);
                                 Toast.makeText(WriteBarReviewActivity.this, "리뷰가 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent();
+                                setResult(RESULT_OK, i);
                                 finish();
                             }
                         }

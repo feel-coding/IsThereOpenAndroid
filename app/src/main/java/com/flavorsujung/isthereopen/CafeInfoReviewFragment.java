@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class CafeInfoReviewFragment extends Fragment {
@@ -99,7 +102,7 @@ public class CafeInfoReviewFragment extends Fragment {
                 Log.d("정보넘기기", "seq: " + cafeSeq + ", name: " + cafeName);
                 intent.putExtra("seq", cafeSeq);
                 intent.putExtra("name", cafeName);
-                startActivity(intent);
+                startActivityForResult(intent, 200);
             }
         });
 
@@ -131,5 +134,30 @@ public class CafeInfoReviewFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 200 && resultCode == RESULT_OK) {
+            serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {
+                @Override
+                public void onResponse(Call<List<CafeInfoReview>> call, Response<List<CafeInfoReview>> response) {
+                    if(response.isSuccessful()) {
+                        reviewList.clear();
+                        reviewList = response.body();
+                        reviewCount.setText("총 " + response.body().size() + "개의 리뷰");
+                        adapter = new CafeReviewAdapter(response.body(), activity);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<CafeInfoReview>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }
