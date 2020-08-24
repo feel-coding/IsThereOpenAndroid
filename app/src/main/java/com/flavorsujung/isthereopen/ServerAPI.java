@@ -13,8 +13,8 @@ import retrofit2.http.Query;
 
 public interface ServerAPI {
 //    String BASE_URL = "http://210.125.96.73:8081"; //학교 컴퓨터 서버 url
-//    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
-    String BASE_URL = "http://192.168.1.10:8081";
+    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
+//    String BASE_URL = "http://192.168.1.10:8081"; //내 컴퓨터 동적 ip
 
     //----------카페 API---------------
     @GET("/cafe/{cafeSeq}/openState")// 카페 오픈 여부 조회
