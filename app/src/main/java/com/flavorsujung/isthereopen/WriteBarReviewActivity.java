@@ -184,7 +184,17 @@ public class WriteBarReviewActivity extends AppCompatActivity {
                     Toast.makeText(WriteBarReviewActivity.this, "청결도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    serverAPI.putBarInfoReview(barSeq, userSeq, rate, toilet, mood, mainAlcohol, price, cleanness, openStyle).enqueue(new Callback<Void>() {
+                    BarInfoReview barInfoReview = new BarInfoReview();
+                    barInfoReview.setBarSeq(barSeq);
+                    barInfoReview.setUserSeq(userSeq);
+                    barInfoReview.setRate(rate);
+                    barInfoReview.setToilet(toilet);
+                    barInfoReview.setMood(mood);
+                    barInfoReview.setMainAlcohol(mainAlcohol);
+                    barInfoReview.setPrice(price);
+                    barInfoReview.setCleanness(cleanness);
+                    barInfoReview.setOpenStyle(openStyle);
+                    serverAPI.putBarInfoReview(barInfoReview).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()) {

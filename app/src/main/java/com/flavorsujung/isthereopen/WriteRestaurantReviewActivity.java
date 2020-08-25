@@ -178,7 +178,17 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
                     Toast.makeText(WriteRestaurantReviewActivity.this, "청결도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    serverAPI.putRestaurantInfoReview(restaurantSeq, userSeq, rate, waitingTime, cleanness, price, takeout, eatAlone, openStyle).enqueue(new Callback<Void>() {
+                    RestaurantInfoReview restaurantInfoReview = new RestaurantInfoReview();
+                    restaurantInfoReview.setRestaurantSeq(restaurantSeq);
+                    restaurantInfoReview.setUserSeq(userSeq);
+                    restaurantInfoReview.setRate(rate);
+                    restaurantInfoReview.setWaitingTime(waitingTime);
+                    restaurantInfoReview.setCleanness(cleanness);
+                    restaurantInfoReview.setPrice(price);
+                    restaurantInfoReview.setTakeOut(takeout);
+                    restaurantInfoReview.setEatAlone(eatAlone);
+                    restaurantInfoReview.setOpenStyle(openStyle);
+                    serverAPI.putRestaurantInfoReview(restaurantInfoReview/*restaurantSeq, userSeq, rate, waitingTime, cleanness, price, takeout, eatAlone, openStyle*/).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()) {

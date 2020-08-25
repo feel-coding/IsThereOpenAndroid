@@ -130,7 +130,10 @@ public class HomeFragment extends Fragment {
                 patronBtn.setBackgroundResource(R.drawable.black_round_border);
                 patronBtn.setTextColor(getResources().getColor(R.color.colorBlack));
                 storeList.clear();
+                Log.d("전 사이즈", "" + storeList.size());
                 refreshCafeList();
+                Log.d("후 사이즈", "" + storeList.size());
+                adapter.notifyDataSetChanged();
             }
         });
         barBtn.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +284,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Cafe>> call, Response<List<Cafe>> response) {
                 if (response.isSuccessful()) {
+                    Log.d("실패", "카페성공");
                     for (Cafe cafe : response.body()) {
                         String openState = cafe.getCurrentState();
                         if (openState.equals("UNKNOWN"))
@@ -329,6 +333,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Cafe>> call, Throwable t) {
                 Log.d("서버", t.getMessage());
+                Log.d("실패", "카페실패");
             }
         });
     }

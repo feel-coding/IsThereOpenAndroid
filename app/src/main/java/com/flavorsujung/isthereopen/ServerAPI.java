@@ -3,6 +3,7 @@ package com.flavorsujung.isthereopen;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
@@ -13,8 +14,8 @@ import retrofit2.http.Query;
 
 public interface ServerAPI {
 //    String BASE_URL = "http://210.125.96.73:8081"; //학교 컴퓨터 서버 url
-    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
-//    String BASE_URL = "http://192.168.1.10:8081"; //내 컴퓨터 동적 ip
+//    String BASE_URL = "http://13.125.64.62:8081"; //aws 서버 url
+    String BASE_URL = "http://192.168.1.10:8081"; //내 컴퓨터 동적 ip
 
     //----------카페 API---------------
     @GET("/cafe/{cafeSeq}/openState")// 카페 오픈 여부 조회
@@ -27,8 +28,9 @@ public interface ServerAPI {
     Call<Cafe> getCafe(@Path("cafeSeq") Long cafeSeq);
 
     @PUT("/cafe") //카페 추가
-    Call<Void> putCafe(@Query("name") String name, @Query("address") String address,
-                       @Query("runningTime") String runningTime, @Query("phoneNum") String phoneNum, @Query("photoURL") String photoURL);
+    Call<Void> putCafe(@Body Cafe cafe);
+//    Call<Void> putCafe(@Query("name") String name, @Query("address") String address,
+//                       @Query("runningTime") String runningTime, @Query("phoneNum") String phoneNum, @Query("photoURL") String photoURL);
 
     @POST("/cafe/{cafeSeq}/name")//카페 이름 변경
     Call<Void> changeCafeName(@Path("cafeSeq") Long cafeSeq, @Query("name") String name);
@@ -45,19 +47,8 @@ public interface ServerAPI {
     @DELETE("/cafe")//카페 삭제
     Call<Void> deleteCafe(@Query("cafeSeq") Long cafeSeq);
 
-    @PUT("/cafe/{cafeSeq}/infoReview") // 카페 정보 리뷰 작성
-    Call<Void> putCafeInfoReview(
-            @Path("cafeSeq") Long cafeSeq,
-            @Query("userSeq") Long userSeq,
-            @Query("openStyle") String openStyle,
-            @Query("waitingTime") String waitingTime,
-            @Query("price") String price,
-            @Query("customerNum") String customerNum,
-            @Query("plugNum") String plugNum,
-            @Query("rate") String rate,
-            @Query("tableHeight") String tableHeight,
-            @Query("lightness") String lightness,
-            @Query("stayLong") String stayLong);
+    @PUT("/cafe/infoReview") // 카페 정보 리뷰 작성
+    Call<Void> putCafeInfoReview(@Body CafeInfoReview cafeInfoReview);
 
     @GET("/cafe/{cafeSeq}/infoReview") //카페 정보 리뷰 리스트 조회
     Call<List<CafeInfoReview>> getCafeInfoReviewList(@Path("cafeSeq") Long cafeSeq);
@@ -125,13 +116,13 @@ public interface ServerAPI {
     @DELETE("/restaurant") //음식점 삭제
     Call<Void> deleteRestaurant(@Query("restaurantSeq") Long restaurantSeq);
 
-    @PUT("/restaurant/{restaurantSeq}/infoReview") // 음식점 정보리뷰 작성
-    Call<Void> putRestaurantInfoReview(
-            @Path("restaurantSeq") Long restaurantSeq,
+    @PUT("/restaurant/infoReview") // 음식점 정보리뷰 작성
+    Call<Void> putRestaurantInfoReview(@Body RestaurantInfoReview restaurantInfoReview
+            /*@Path("restaurantSeq") Long restaurantSeq,
             @Query("userSeq") Long userSeq,
             @Query("rate") String rate, @Query("waitingTime") String waitingTime,
             @Query("cleanness") String cleanness,@Query("price") String price,
-            @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyle") String openStyle);
+            @Query("takeOut") String takeOut, @Query("eatAlone") String eatAlone, @Query("openStyle") String openStyle*/);
 
     @GET("/restaurant/{restaurantSeq}/infoReview") //음식점 정보리뷰 리스트 조회
     Call<List<RestaurantInfoReview>> getRestaurantInfoReviewList(@Path("restaurantSeq") Long restaurantSeq);
@@ -191,17 +182,8 @@ public interface ServerAPI {
     @DELETE("/bar") //술집 삭제
     Call<Void> deleteBar(@Query("barSeq") Long barSeq);
 
-    @PUT("/bar/{barSeq}/infoReview")// 술집 정보 리뷰 추가
-    Call<Void> putBarInfoReview(
-            @Path("barSeq") Long barSeq,
-            @Query("userSeq") Long userSeq,
-            @Query("rate") String rate,
-            @Query("toilet") String toilet,
-            @Query("mood") String mood,
-            @Query("mainAlcohol") String mainAlcohol,
-            @Query("price") String price,
-            @Query("cleanness") String cleanness,
-            @Query("openStyle") String openStyle);
+    @PUT("/bar/infoReview")// 술집 정보 리뷰 추가
+    Call<Void> putBarInfoReview(@Body BarInfoReview barInfoReview);
 
     @GET("/bar/{barSeq}/infoReview") //특정 술집의 정보리뷰 리스트 조회
     Call<List<BarInfoReview>> getBarInfoReviewList(@Path("barSeq") Long barSeq);

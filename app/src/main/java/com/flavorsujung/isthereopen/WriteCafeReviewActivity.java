@@ -93,7 +93,7 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         cafeName = intent.getStringExtra("name");
-        toolbarTitleTv.setText(cafeName + " 리뷰 쓰기");
+        toolbarTitleTv.setText(cafeName);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userName = sharedPreferences.getString("name", "");
         if(userName.equals("")) {
@@ -230,7 +230,20 @@ public class WriteCafeReviewActivity extends AppCompatActivity {
                     Toast.makeText(WriteCafeReviewActivity.this, "조명을 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    serverAPI.putCafeInfoReview(cafeSeq, userSeq, openStyle, waitingTime, price, customerNum, plugNum, rate, tableHeight, lightness, stayLong).enqueue(new Callback<Void>() {
+                    CafeInfoReview cafeInfoReview = new CafeInfoReview();
+                    cafeInfoReview.setCafeSeq(cafeSeq);
+                    cafeInfoReview.setUserSeq(userSeq);
+                    cafeInfoReview.setOpenStyle(openStyle);
+                    cafeInfoReview.setWaitingTime(waitingTime);
+                    cafeInfoReview.setPrice(price);
+                    cafeInfoReview.setCustomerNum(customerNum);
+                    cafeInfoReview.setPlugNum(plugNum);
+                    cafeInfoReview.setRate(rate);
+                    cafeInfoReview.setTableHeight(tableHeight);
+                    cafeInfoReview.setLightness(lightness);
+                    cafeInfoReview.setStayLong(stayLong);
+                    Log.d("카페싴", cafeInfoReview.getCafeSeq() + "");
+                    serverAPI.putCafeInfoReview(cafeInfoReview).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()) {
