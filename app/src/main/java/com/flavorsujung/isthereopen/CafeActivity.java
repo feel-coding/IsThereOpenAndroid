@@ -116,7 +116,6 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
 
-
         viewPagerAdapter = new CafeViewPagerAdapter(this, 2);
         viewPager = findViewById(R.id.cafeViewPager);
 //        viewPager.setOffscreenPageLimit(2);
@@ -170,58 +169,12 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                 dialog.dismiss();
             }
         };
-        serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
-            @Override
-            public void onResponse(Call<Cafe> call, Response<Cafe> response) {
-                if (response.isSuccessful()) {
-                    cafe = response.body();
-                    cafeTitleTv.setText(cafe.getName());
-                    Glide.with(CafeActivity.this).load(cafe.getPhotoURL()).into(cafeLogoIv);
-//                    Log.d("서버", bar.getCurrentState());
-                    String openState = cafe.getCurrentState();
-                    if(openState.equals("UNKNOWN")) {
-                        openState = "등록된 오픈 정보 없음";
-                        openStateTv.setText(openState);
-                    }
-                    else {
-                        openStateTv.setText(openState);
-                    }
-                    addressTv.setText(cafe.getAddress());
-                    runningTimeTv.setText(cafe.getRunningTime());
-                    phoneNumberTv.setText(cafe.getPhoneNum());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Cafe> call, Throwable t) {
-
-            }
-        });
         refreshInfo();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                serverAPI.getCafe(cafe.getSeq()).enqueue(new Callback<Cafe>() {
-                    @Override
-                    public void onResponse(Call<Cafe> call, Response<Cafe> response) {
-                        if (response.isSuccessful()) {
-                            String openState = response.body().getCurrentState();
-                            if(openState.equals("UNKNOWN")) {
-                                openState = "등록된 오픈 정보 없음";
-                                openStateTv.setText(openState);
-                            }
-                            else {
-                                openStateTv.setText(openState);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Cafe> call, Throwable t) {
-
-                    }
-                });
                 refreshInfo();
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
@@ -302,242 +255,65 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     }
 
     void refreshInfo() {
-
-        serverAPI.getCafeAvgLightness(cafeSeq).enqueue(new Callback<List<String>>() {
+        serverAPI.getCafe(cafeSeq).enqueue(new Callback<Cafe>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(Call<Cafe> call, Response<Cafe> response) {
                 if (response.isSuccessful()) {
-                    List<String> lightnessList = response.body();
-                    if(lightnessList.size() == 0) {
-                        lightnessTv.setText("정보 없음");
+                    cafe = response.body();
+                    cafeTitleTv.setText(cafe.getName());
+                    Glide.with(CafeActivity.this).load(cafe.getPhotoURL()).into(cafeLogoIv);
+                    String openState = cafe.getCurrentState();
+                    if(openState.equals("UNKNOWN") || openState == null) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
                     }
-                    else if (lightnessList.size() == 1) {
-                        lightnessTv.setText(lightnessList.get(0));
+                    else {
+                        openStateTv.setText(openState);
                     }
-                    else if (lightnessList.size() == 2) {
-                        lightnessTv.setText(lightnessList.get(0) + "~" + lightnessList.get(1));
-                    }
-                    else if (lightnessList.size() == 3) {
-                        lightnessTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getCafeAvgTableHeight(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    List<String> tableHeightList = response.body();
-                    if(tableHeightList.size() == 0) {
-                        tableHeightTv.setText("정보 없음");
-                    }
-                    else if (tableHeightList.size() == 1) {
-                        tableHeightTv.setText(tableHeightList.get(0));
-                    }
-                    else if (tableHeightList.size() == 2) {
-                        tableHeightTv.setText(tableHeightList.get(0) + "~" + tableHeightList.get(1));
-                    }
-                    else if (tableHeightList.size() == 3) {
-                        tableHeightTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgPlugNum(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> plugNumList = response.body();
-                    if(plugNumList.size() == 0) {
-                        plugNumTv.setText("정보 없음");
-                    }
-                    else if (plugNumList.size() == 1) {
-                        plugNumTv.setText(plugNumList.get(0));
-                    }
-                    else if (plugNumList.size() == 2) {
-                        plugNumTv.setText(plugNumList.get(0) + "~" + plugNumList.get(1));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-
-        serverAPI.getCafeAvgPrice(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> priceList = response.body();
-                    if(priceList.size() == 0) {
-                        priceTv.setText("정보 없음");
-                    }
-                    else if (priceList.size() == 1) {
-                        priceTv.setText(priceList.get(0));
-                    }
-                    else if (priceList.size() == 2) {
-                        priceTv.setText(priceList.get(0) + "~" + priceList.get(1));
-                    }
-                    else if (priceList.size() == 3) {
-                        priceTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getCafeAvgOpenStyle(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> openStyleList = response.body();
-                    if(openStyleList.size() == 0) {
+                    addressTv.setText(cafe.getAddress());
+                    runningTimeTv.setText(cafe.getRunningTime());
+                    phoneNumberTv.setText(cafe.getPhoneNum());
+                    if(cafe.getAvgOpenStyle() == null || cafe.getAvgOpenStyle().equals("UNKNOWN"))
                         openStyleTv.setText("정보 없음");
-                    }
-                    else if (openStyleList.size() == 1) {
-                        openStyleTv.setText(openStyleList.get(0));
-                    }
-                    else if (openStyleList.size() == 2) {
-                        openStyleTv.setText(openStyleList.get(0) + "~" + openStyleList.get(1));
-                    }
-                    else {
-                        priceTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-
-        serverAPI.getAvgCustomerNum(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> customerNumList = response.body();
-                    if(customerNumList.size() == 0) {
-                        customerNumTv.setText("정보 없음");
-                    }
-                    else if (customerNumList.size() == 1) {
-                        customerNumTv.setText(customerNumList.get(0));
-                    }
-                    else if (customerNumList.size() == 2) {
-                        customerNumTv.setText(customerNumList.get(0) + "~" + customerNumList.get(1));
-                    }
-                    else {
-                        priceTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getCafeAvgWaitingTime(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> timeList = response.body();
-                    if(timeList.size() == 0) {
+                    else
+                        openStyleTv.setText(cafe.getAvgOpenStyle());
+                    if(cafe.getAvgOpenStyle() == null)
+                        priceTv.setText("정보 없음");
+                    else
+                        priceTv.setText(cafe.getAvgPrice());
+                    if(cafe.getAvgOpenStyle() == null)
                         waitingTimeTv.setText("정보 없음");
-                    }
-                    else if (timeList.size() == 1) {
-                        waitingTimeTv.setText(timeList.get(0));
-                    }
-                    else if (timeList.size() == 2) {
-                        waitingTimeTv.setText(timeList.get(0) + "~" + timeList.get(1));
-                    }
-                    else {
-                        waitingTimeTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getCafeAvgLightness(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getCafeAvgTableHeight(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> heightList = response.body();
-                    if (heightList.size() == 0) {
+                    else
+                        waitingTimeTv.setText(cafe.getAvgWaitingTime());
+                    if(cafe.getAvgOpenStyle() == null)
+                        customerNumTv.setText("정보 없음");
+                    else
+                        customerNumTv.setText(cafe.getAvgCustomerNum());
+                    if(cafe.getAvgOpenStyle() == null)
+                        plugNumTv.setText("정보 없음");
+                    else
+                        plugNumTv.setText(cafe.getAvgPlugNum());
+                    if(cafe.getAvgOpenStyle() == null)
                         tableHeightTv.setText("정보 없음");
-                    }
-                    else if (heightList.size() == 1) {
-                        tableHeightTv.setText(heightList.get(0));
-                    }
-                    else if (heightList.size() == 2) {
-                        tableHeightTv.setText(heightList.get(0) + "~" + heightList.get(1));
-                    }
-                    else {
-                        tableHeightTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgStayLong(cafeSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else
+                        tableHeightTv.setText(cafe.getAvgTableHeight());
+                    if(cafe.getAvgOpenStyle() == null)
+                        lightnessTv.setText("정보 없음");
+                    else
+                        lightnessTv.setText(cafe.getAvgLightness());
+                    if(cafe.getAvgStayLong() == null)
                         stayLongTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        stayLongTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        stayLongTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else {
-                        stayLongTv.setText("의견이 많이 갈려요");
-                    }
+                    else
+                        stayLongTv.setText(cafe.getAvgStayLong());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Cafe> call, Throwable t) {
 
             }
         });
+
         serverAPI.getCafeAvgRate(cafeSeq).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
