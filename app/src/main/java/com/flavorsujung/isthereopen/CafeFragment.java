@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,8 +14,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,11 +34,14 @@ public class CafeFragment extends Fragment {
 
     RecyclerView recyclerView;
     StoreAdapter adapter;
-    ArrayList<Store> cafeList = new ArrayList<>();
+    List<Store> cafeList = new ArrayList<>();
+    List<Store> searchList = new ArrayList<>();
     private Context mContext;
     Activity activity;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
+    SearchView searchView;
+    TextView toolbarTitleTv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,8 +49,47 @@ public class CafeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_cafe, container, false);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
         recyclerView = v.findViewById(R.id.cafeRecyclerView);
-
+        searchView = v.findViewById(R.id.cafeSearchView);
+        toolbarTitleTv = v.findViewById(R.id.cafeToolbarTitleTv);
         swipeRefreshLayout = v.findViewById(R.id.cafeSwipe);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toolbarTitleTv.setText("");
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                toolbarTitleTv.setText("카페 열었나?");
+                adapter = new StoreAdapter(cafeList, mContext);
+                recyclerView.setAdapter(adapter);
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList.clear();
+                for (Store store : cafeList) {
+                    if (store.getName().contains(newText)) {
+                        searchList.add(store);
+                    }
+                }
+                adapter = new StoreAdapter(searchList, mContext);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,6 +120,8 @@ public class CafeFragment extends Fragment {
         if (context instanceof Activity)
             activity = (Activity) context;
     }
+
+
 
 
 
@@ -116,4 +164,5 @@ public class CafeFragment extends Fragment {
             }
         });
     }
+
 }

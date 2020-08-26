@@ -119,7 +119,7 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
 
         viewPagerAdapter = new CafeViewPagerAdapter(this, 2);
         viewPager = findViewById(R.id.cafeViewPager);
-        viewPager.setOffscreenPageLimit(2);
+//        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setUserInputEnabled(false);
         tabLayout = findViewById(R.id.cafeReviewTab);

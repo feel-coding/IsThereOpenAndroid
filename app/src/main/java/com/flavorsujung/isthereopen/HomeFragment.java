@@ -2,12 +2,14 @@ package com.flavorsujung.isthereopen;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +40,8 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     StoreAdapter adapter;
-    ArrayList<Store> storeList = new ArrayList<>();
+    List<Store> storeList = new ArrayList<>();
+    List<Store> searchList = new ArrayList<>();
     private Context mContext;
     Activity activity;
     Button restaurantBtn;
@@ -51,15 +55,20 @@ public class HomeFragment extends Fragment {
     SharedPreferences sharedPreferences;
     Long userSeq;
     LinearLayout noPatronLayout;
+    Toolbar toolbar;
+    SearchView searchView;
+    TextView toolbarTitleTv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-
-
+//        setHasOptionsMenu(true);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
         sharedPreferences = activity.getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
+//        toolbar = v.findViewById(R.id.homeToolbar);
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         recyclerView = v.findViewById(R.id.storeRecyclerView);
         restaurantBtn = v.findViewById(R.id.restaurantBtn);
         cafeBtn = v.findViewById(R.id.cafeBtn);
@@ -67,7 +76,46 @@ public class HomeFragment extends Fragment {
         allBtn = v.findViewById(R.id.allBtn);
         patronBtn = v.findViewById(R.id.patronBtn);
         noPatronLayout = v.findViewById(R.id.noPatron);
+        searchView = v.findViewById(R.id.homeSearchView);
+        toolbarTitleTv = v.findViewById(R.id.homeToolbarTitleTv);
         swipeRefreshLayout = v.findViewById(R.id.swipe);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toolbarTitleTv.setText("");
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                toolbarTitleTv.setText("거기 열었나?");
+                adapter = new StoreAdapter(storeList, mContext);
+                recyclerView.setAdapter(adapter);
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList.clear();
+                for (Store store : storeList) {
+                    if (store.getName().contains(newText)) {
+                        searchList.add(store);
+                    }
+                }
+                adapter = new StoreAdapter(searchList, mContext);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -97,6 +145,7 @@ public class HomeFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
+
         restaurantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -556,4 +605,35 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+        SearchView searchView = (SearchView)menu.findItem(R.id.actionSearch).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("가게 이름을 입력하세요");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }*/
 }

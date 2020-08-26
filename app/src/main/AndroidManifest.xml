@@ -27,7 +27,7 @@
         <activity android:name=".BarReviewActivity" />
         <activity android:name=".WriteCafeReviewActivity" />
         <activity android:name=".CafeReviewActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ImageActivity" />
         <activity android:name=".RestaurantActivity" />
