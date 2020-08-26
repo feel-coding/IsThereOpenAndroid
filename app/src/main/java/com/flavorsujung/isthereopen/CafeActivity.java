@@ -638,7 +638,11 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     }
 
     void changeState(String openState) {
-        serverAPI.putCafeOpenReview(cafe.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+        CafeOpenReview cafeOpenReview = new CafeOpenReview();
+        cafeOpenReview.setCafeSeq(cafe.getSeq());
+        cafeOpenReview.setUserSeq(userSeq);
+        cafeOpenReview.setOpenState(openState);
+        serverAPI.putCafeOpenReview(cafeOpenReview/*cafe.getSeq(), userSeq, openState*/).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

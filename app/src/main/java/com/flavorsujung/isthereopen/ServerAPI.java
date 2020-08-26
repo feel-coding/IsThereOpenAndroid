@@ -86,8 +86,8 @@ public interface ServerAPI {
     @GET("/cafe/{cafeSeq}/avgRate")
     Call<Double> getCafeAvgRate(@Path("cafeSeq") Long cafeSeq);
 
-    @PUT("/cafe/{cafeSeq}/openReview") //카페 오픈리뷰 작성
-    Call<Void> putCafeOpenReview(@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState);
+    @PUT("/cafe/openReview") //카페 오픈리뷰 작성
+    Call<Void> putCafeOpenReview(@Body CafeOpenReview cafeOpenReview/*@Path("cafeSeq") Long cafeSeq, @Query("userSeq") Long userSeq, @Query("openState") String openState*/);
 
     @GET("/user/{seq}/patronCafe/all") //내 단골카페 리스트 조회
     Call<List<PatronCafe>> getPatronCafeList(@Path("seq") Long userSeq);
@@ -148,8 +148,8 @@ public interface ServerAPI {
     @GET("/restaurant/{restaurantSeq}/cleanness")
     Call<List<String>> getAvgRestaurantCleanness(@Path("restaurantSeq") Long restaurantSeq);
 
-    @PUT("/restaurant/{restaurantSeq}/openReview") //음식점 오픈리뷰 작성
-    Call<Void> putRestaurantOpenReview(@Path("restaurantSeq") Long restaurantSeq,  @Query("userSeq") Long userSeq, @Query("openState") String openState);
+    @PUT("/restaurant/openReview") //음식점 오픈리뷰 작성
+    Call<Void> putRestaurantOpenReview(@Body RestaurantOpenReview restaurantOpenReview/*@Path("restaurantSeq") Long restaurantSeq,  @Query("userSeq") Long userSeq, @Query("openState") String openState*/);
 
     @GET("/restaurant/{restaurantSeq}/openReview") //특정 음식점의 오픈 리뷰 리스트 조회
     Call<List<RestaurantOpenReview>> getRestaurantOpenReviewList(@Path("restaurantSeq") Long restaurantSeq);
@@ -212,11 +212,8 @@ public interface ServerAPI {
     @GET("/bar/{seq}/openReview") //술집 오픈 리뷰 리스트 조회
     Call<List<BarOpenReview>> getBarOpenReviewList(@Path("seq") Long seq);
 
-    @PUT("/bar/{barSeq}/openReview") //술집 오픈 리뷰 작성
-    Call<Void> putBarOpenReview(
-            @Path("barSeq") Long barSeq,
-            @Query("userSeq") Long userSeq,
-            @Query("openState") String openState);
+    @PUT("/bar/openReview") //술집 오픈 리뷰 작성
+    Call<Void> putBarOpenReview(@Body BarOpenReview barOpenReview);
 
     @GET("/user/{seq}/patronBar/all")// 내 단골 술집 리스트 조회
     Call<List<PatronBar>> getPatronBarList(@Path("seq") Long userSeq);

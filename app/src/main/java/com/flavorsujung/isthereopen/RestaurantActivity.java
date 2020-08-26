@@ -501,7 +501,11 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         });
     }
     void changeState(String openState) {
-        serverAPI.putRestaurantOpenReview(restaurant.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+        RestaurantOpenReview restaurantOpenReview = new RestaurantOpenReview();
+        restaurantOpenReview.setRestaurantSeq(restaurant.getSeq());
+        restaurantOpenReview.setUserSeq(userSeq);
+        restaurantOpenReview.setOpenState(openState);
+        serverAPI.putRestaurantOpenReview(restaurantOpenReview/*restaurant.getSeq(), userSeq, openState*/).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

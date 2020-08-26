@@ -512,7 +512,11 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
 
     }
     void changeState(String openState) {
-        serverAPI.putBarOpenReview(bar.getSeq(), userSeq, openState).enqueue(new Callback<Void>() {
+        BarOpenReview barOpenReview = new BarOpenReview();
+        barOpenReview.setBarSeq(bar.getSeq());
+        barOpenReview.setUserSeq(userSeq);
+        barOpenReview.setOpenState(openState);
+        serverAPI.putBarOpenReview(barOpenReview).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
