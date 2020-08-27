@@ -33,6 +33,19 @@ public class Restaurant {
     @SerializedName("lastUpdate")
     private Date lastUpdate;
 
+    private String avgWaitingTime;
+    private String avgCleanness;
+    private String avgPrice;
+    private String avgTakeOut;
+    private String avgEatAlone;
+    private String avgOpenStyle;
+    private Integer shortWaiting;
+    private Integer clean;
+    private Integer cheap;
+    private Integer takeout;
+    private Integer stable;
+    private Integer eatAlone;
+
     public Long getSeq() {
         return seq;
     }
@@ -103,5 +116,101 @@ public class Restaurant {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getAvgWaitingTime() {
+        return avgWaitingTime;
+    }
+
+    public void setAvgWaitingTime(String avgWaitingTime) {
+        this.avgWaitingTime = avgWaitingTime;
+    }
+
+    public String getAvgCleanness() {
+        return avgCleanness;
+    }
+
+    public void setAvgCleanness(String avgCleanness) {
+        this.avgCleanness = avgCleanness;
+    }
+
+    public String getAvgPrice() {
+        return avgPrice;
+    }
+
+    public void setAvgPrice(String avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+    public String getAvgTakeOut() {
+        return avgTakeOut;
+    }
+
+    public void setAvgTakeOut(String avgTakeOut) {
+        this.avgTakeOut = avgTakeOut;
+    }
+
+    public String getAvgEatAlone() {
+        return avgEatAlone;
+    }
+
+    public void setAvgEatAlone(String avgEatAlone) {
+        this.avgEatAlone = avgEatAlone;
+    }
+
+    public String getAvgOpenStyle() {
+        return avgOpenStyle;
+    }
+
+    public void setAvgOpenStyle(String avgOpenStyle) {
+        this.avgOpenStyle = avgOpenStyle;
+    }
+
+    public Integer getShortWaiting() {
+        return shortWaiting;
+    }
+
+    public void setShortWaiting(Integer shortWaiting) {
+        this.shortWaiting = shortWaiting;
+    }
+
+    public Integer getClean() {
+        return clean;
+    }
+
+    public void setClean(Integer clean) {
+        this.clean = clean;
+    }
+
+    public Integer getCheap() {
+        return cheap;
+    }
+
+    public void setCheap(Integer cheap) {
+        this.cheap = cheap;
+    }
+
+    public Integer getTakeout() {
+        return takeout;
+    }
+
+    public void setTakeout(Integer takeout) {
+        this.takeout = takeout;
+    }
+
+    public Integer getStable() {
+        return stable;
+    }
+
+    public void setStable(Integer stable) {
+        this.stable = stable;
+    }
+
+    public Integer getEatAlone() {
+        return eatAlone;
+    }
+
+    public void setEatAlone(Integer eatAlone) {
+        this.eatAlone = eatAlone;
     }
 }

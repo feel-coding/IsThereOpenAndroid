@@ -16,11 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,12 +36,20 @@ public class RestaurantFragment extends Fragment {
     StoreAdapter adapter;
     List<Store> restaurantList = new ArrayList<>();
     List<Store> searchList = new ArrayList<>();
+    List<Store> selectedList = new ArrayList<>();
     private Context mContext;
     Activity activity;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
     SearchView searchView;
     TextView toolbarTitleTv;
+    Button stableBtn;
+    Button cheapBtn;
+    Button takeoutBtn;
+    Button eatAloneBtn;
+    Button fastBtn;
+    Button cleanBtn;
+    Map<String, Boolean> selected = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +60,18 @@ public class RestaurantFragment extends Fragment {
         swipeRefreshLayout = v.findViewById(R.id.restaurantSwipe);
         searchView = v.findViewById(R.id.restaurantSearchView);
         toolbarTitleTv = v.findViewById(R.id.restaurantToolbarTitleTv);
+        stableBtn = v.findViewById(R.id.restaurantStableBtn);
+        cheapBtn = v.findViewById(R.id.restaurantCheapBtn);
+        takeoutBtn = v.findViewById(R.id.restaurantTakeoutBtn);
+        eatAloneBtn = v.findViewById(R.id.restaurantEatAloneBtn);
+        fastBtn = v.findViewById(R.id.restaurantFastBtn);
+        cleanBtn = v.findViewById(R.id.restaurantCleanBtn);
+        selected.put("fast", false);
+        selected.put("cheap", false);
+        selected.put("takeout", false);
+        selected.put("eatAlone", false);
+        selected.put("clean", false);
+        selected.put("stable", false);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -68,15 +91,6 @@ public class RestaurantFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                Log.d("쿼리서브밋", query);
-//                for (Store store : cafeList) {
-//                    if (store.getName().contains(query)) {
-//                        searchList.add(store);
-//                    }
-//                }
-//                adapter = new StoreAdapter(searchList, mContext);
-//                recyclerView.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
                 return false;
             }
 
@@ -101,8 +115,142 @@ public class RestaurantFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false); // 다 됐으면 새로고침 표시 제거
             }
         });
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("클릭", "클릭됨");
+                switch (view.getId()) {
+                    case R.id.restaurantFastBtn:
+                        selected.put("fast", !selected.get("fast"));
+                        break;
+                    case R.id.restaurantCheapBtn:
+                        selected.put("cheap", !selected.get("cheap"));
+                        break;
+                    case R.id.restaurantTakeoutBtn:
+                        selected.put("takeout", !selected.get("takeout"));
+                        break;
+                    case R.id.restaurantEatAloneBtn:
+                        selected.put("eatAlone", !selected.get("eatAlone"));
+                        break;
+                    case R.id.restaurantCleanBtn:
+                        selected.put("clean", !selected.get("clean"));
+                        break;
+                    case R.id.restaurantStableBtn:
+                        selected.put("stable", !selected.get("stable"));
+                        break;
+                }
+                boolean nothingFlag = true; // 아무것도 선택 안 됐다
+                selectedList.clear();
+                selectedList.addAll(restaurantList);
+                if(selected.get("fast")) {
+                    nothingFlag = false;
+                    fastBtn.setBackgroundResource(R.drawable.full_red_round);
+                    fastBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantShortWaiting() == null || store.getRestaurantShortWaiting() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+
+                }
+                else {
+                    fastBtn.setBackgroundResource(R.drawable.black_round_square);
+                    fastBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("cheap")) {
+                    nothingFlag = false;
+                    cheapBtn.setBackgroundResource(R.drawable.full_red_round);
+                    cheapBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantCheap() == null || store.getRestaurantCheap() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    cheapBtn.setBackgroundResource(R.drawable.black_round_square);
+                    cheapBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("takeout")) {
+                    nothingFlag = false;
+                    takeoutBtn.setBackgroundResource(R.drawable.full_red_round);
+                    takeoutBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantTakeout() == null || store.getRestaurantTakeout() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+
+                }
+                else {
+                    takeoutBtn.setBackgroundResource(R.drawable.black_round_square);
+                    takeoutBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("eatAlone")) {
+                    nothingFlag = false;
+                    eatAloneBtn.setBackgroundResource(R.drawable.full_red_round);
+                    eatAloneBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantEatAlone() == null || store.getRestaurantEatAlone() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    eatAloneBtn.setBackgroundResource(R.drawable.black_round_square);
+                    eatAloneBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("clean")) {
+                    nothingFlag = false;
+                    cleanBtn.setBackgroundResource(R.drawable.full_red_round);
+                    cleanBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantClean() == null || store.getRestaurantClean() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    cleanBtn.setBackgroundResource(R.drawable.black_round_square);
+                    cleanBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+
+                if(selected.get("stable")) {
+                    nothingFlag = false;
+                    stableBtn.setBackgroundResource(R.drawable.full_red_round);
+                    stableBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getRestaurantStable() == null || store.getRestaurantStable() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    stableBtn.setBackgroundResource(R.drawable.black_round_square);
+                    stableBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+
+                if(nothingFlag) {
+                    adapter = new StoreAdapter(restaurantList, mContext);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                else {
+                    adapter = new StoreAdapter(selectedList, mContext);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
 
         refreshRestaurantList();
+
+        cleanBtn.setOnClickListener(onClickListener);
+        fastBtn.setOnClickListener(onClickListener);
+        takeoutBtn.setOnClickListener(onClickListener);
+        eatAloneBtn.setOnClickListener(onClickListener);
+        cheapBtn.setOnClickListener(onClickListener);
+        stableBtn.setOnClickListener(onClickListener);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         adapter = new StoreAdapter(restaurantList, mContext);
@@ -153,6 +301,12 @@ public class RestaurantFragment extends Fragment {
                         if(restaurant.getAvgRate() != null)
                             store.setAvgRate(restaurant.getAvgRate());
                         else store.setAvgRate(-1.0);
+                        store.setRestaurantCheap(restaurant.getCheap());
+                        store.setRestaurantClean(restaurant.getClean());
+                        store.setRestaurantEatAlone(restaurant.getEatAlone());
+                        store.setRestaurantShortWaiting(restaurant.getShortWaiting());
+                        store.setRestaurantStable(restaurant.getStable());
+                        store.setRestaurantTakeout(restaurant.getTakeout());
                         restaurantList.add(store);
                     }
                     Log.d("서버", restaurantList.toString());

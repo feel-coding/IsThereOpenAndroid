@@ -67,8 +67,8 @@
                     android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/cafeFastBtn"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="음료가 빨리 나오는"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
@@ -82,6 +82,8 @@
                     <Button
                         android:id="@+id/cafeStayLongBtn"
                         android:text="오래 있어도 눈치 안 보이는"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -93,16 +95,16 @@
                         android:layout_height="wrap_content" />
                     <Button
                         android:id="@+id/cafeManyPlugBtn"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="콘센트가 많은"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <Button
                         android:id="@+id/cafeNotLowBtn"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="테이블이 낮지 않은"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
@@ -110,14 +112,17 @@
                     <Button
                         android:id="@+id/cafeLightBtn"
                         android:text="밝은"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:minWidth="0dp"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <Button
                         android:id="@+id/cafeStableBtn"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="오픈 시간 잘 지키는"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="오픈 시간을 잘 지키는"
                         android:background="@drawable/black_round_square"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

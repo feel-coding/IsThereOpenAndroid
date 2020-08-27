@@ -137,34 +137,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                 dialog.dismiss();
             }
         };
-        serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
-            @Override
-            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
-                if (response.isSuccessful()) {
-                    restaurant = response.body();
-                    restaurantTitleTv.setText(restaurant.getName());
-                    Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
-//                    Log.d("서버", bar.getCurrentState());
-                    String openState = restaurant.getCurrentState();
-                    if(openState.equals("UNKNOWN")) {
-                        openState = "등록된 오픈 정보 없음";
-                        openStateTv.setText(openState);
-                    }
-                    else {
-                        openStateTv.setText(openState);
-                    }
-                    addressTv.setText(restaurant.getAddress());
-                    runningTimeTv.setText(restaurant.getRunningTime());
-                    phoneNumberTv.setText(restaurant.getPhoneNum());
-                    refreshInfo();
-                }
-            }
+        refreshInfo();
 
-            @Override
-            public void onFailure(Call<Restaurant> call, Throwable t) {
-
-            }
-        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -260,154 +234,57 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         return super.onOptionsItemSelected(item);
     }
     void refreshInfo() {
-        serverAPI.getAvgRestaurantWaitingTime(restaurantSeq).enqueue(new Callback<List<String>>() {
+        serverAPI.getRestaurant(restaurantSeq).enqueue(new Callback<Restaurant>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if (list.size() == 0) {
-                        waitingTimeTv.setText("정보 없음");
-                    } else if (list.size() == 1) {
-                        waitingTimeTv.setText(list.get(0));
-                    } else if (list.size() == 2) {
-                        waitingTimeTv.setText(list.get(0) + "~" + list.get(1));
-                    } else {
-                        waitingTimeTv.setText("의견이 많이 갈려요");
+                    restaurant = response.body();
+                    restaurantTitleTv.setText(restaurant.getName());
+                    Glide.with(RestaurantActivity.this).load(restaurant.getPhotoURL()).into(restaurantLogoIv);
+                    String openState = restaurant.getCurrentState();
+                    if(openState.equals("UNKNOWN")) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
                     }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getRestaurantAvgOpenStyle(restaurantSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else {
+                        openStateTv.setText(openState);
+                    }
+                    addressTv.setText(restaurant.getAddress());
+                    runningTimeTv.setText(restaurant.getRunningTime());
+                    phoneNumberTv.setText(restaurant.getPhoneNum());
+                    if(restaurant.getAvgOpenStyle() == null || restaurant.getAvgOpenStyle().equals("UNKNOWN"))
                         openStyleTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        openStyleTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        openStyleTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        openStyleTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgRestaurantPrice(restaurantSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else
+                        openStyleTv.setText(restaurant.getAvgOpenStyle());
+                    if(restaurant.getAvgPrice() == null)
                         priceTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        priceTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        priceTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        priceTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getRestaurantAvgEatAlone(restaurantSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
-                        eatAloneTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        eatAloneTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        eatAloneTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        eatAloneTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgTakeOut(restaurantSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
-                        takeoutTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        takeoutTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        takeoutTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        takeoutTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgRestaurantCleanness(restaurantSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else
+                        priceTv.setText(restaurant.getAvgPrice());
+                    if(restaurant.getAvgOpenStyle() == null)
+                        waitingTimeTv.setText("정보 없음");
+                    else
+                        waitingTimeTv.setText(restaurant.getAvgWaitingTime());
+                    if(restaurant.getAvgCleanness() == null)
                         cleannessTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        cleannessTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        cleannessTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        cleannessTv.setText("의견이 많이 갈려요");
-                    }
+                    else
+                        cleannessTv.setText(restaurant.getAvgCleanness());
+                    if(restaurant.getAvgEatAlone() == null)
+                        eatAloneTv.setText("정보 없음");
+                    else
+                        eatAloneTv.setText(restaurant.getAvgEatAlone());
+                    if(restaurant.getAvgTakeOut() == null)
+                        takeoutTv.setText("정보 없음");
+                    else
+                        takeoutTv.setText(restaurant.getAvgTakeOut());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Restaurant> call, Throwable t) {
 
             }
         });
+
         serverAPI.getRestaurantAvgRate(restaurantSeq).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {

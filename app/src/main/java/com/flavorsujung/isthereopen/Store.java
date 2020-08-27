@@ -12,6 +12,7 @@ public class Store {
     String runtime;
     double avgRate;
     boolean isPatron;
+
     private Integer cafeManyPlug;
     private Integer cafeCheap;
     private Integer cafeLittlePeople;
@@ -20,6 +21,13 @@ public class Store {
     private Integer cafeStable;
     private Integer cafeNotLow;
     private Integer cafeShortWaiting;
+
+    private Integer restaurantShortWaiting;
+    private Integer restaurantClean;
+    private Integer restaurantCheap;
+    private Integer restaurantTakeout;
+    private Integer restaurantStable;
+    private Integer restaurantEatAlone;
 
 
     public void setName(String name) {
@@ -157,5 +165,53 @@ public class Store {
 
     public void setCafeShortWaiting(Integer cafeShortWaiting) {
         this.cafeShortWaiting = cafeShortWaiting;
+    }
+
+    public Integer getRestaurantShortWaiting() {
+        return restaurantShortWaiting;
+    }
+
+    public void setRestaurantShortWaiting(Integer restaurantShortWaiting) {
+        this.restaurantShortWaiting = restaurantShortWaiting;
+    }
+
+    public Integer getRestaurantClean() {
+        return restaurantClean;
+    }
+
+    public void setRestaurantClean(Integer restaurantClean) {
+        this.restaurantClean = restaurantClean;
+    }
+
+    public Integer getRestaurantCheap() {
+        return restaurantCheap;
+    }
+
+    public void setRestaurantCheap(Integer restaurantCheap) {
+        this.restaurantCheap = restaurantCheap;
+    }
+
+    public Integer getRestaurantTakeout() {
+        return restaurantTakeout;
+    }
+
+    public void setRestaurantTakeout(Integer restaurantTakeout) {
+        this.restaurantTakeout = restaurantTakeout;
+    }
+
+    public Integer getRestaurantStable() {
+        return restaurantStable;
+    }
+
+    public void setRestaurantStable(Integer restaurantStable) {
+        this.restaurantStable = restaurantStable;
+    }
+
+    public Integer getRestaurantEatAlone() {
+        return restaurantEatAlone;
+    }
+
+    public void setRestaurantEatAlone(Integer restaurantEatAlone) {
+        this.restaurantEatAlone = restaurantEatAlone;
     }
 }

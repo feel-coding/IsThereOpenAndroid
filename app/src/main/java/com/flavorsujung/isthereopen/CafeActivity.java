@@ -277,27 +277,27 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                         openStyleTv.setText("정보 없음");
                     else
                         openStyleTv.setText(cafe.getAvgOpenStyle());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgPrice() == null)
                         priceTv.setText("정보 없음");
                     else
                         priceTv.setText(cafe.getAvgPrice());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgWaitingTime() == null)
                         waitingTimeTv.setText("정보 없음");
                     else
                         waitingTimeTv.setText(cafe.getAvgWaitingTime());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgCustomerNum() == null)
                         customerNumTv.setText("정보 없음");
                     else
                         customerNumTv.setText(cafe.getAvgCustomerNum());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgPlugNum() == null)
                         plugNumTv.setText("정보 없음");
                     else
                         plugNumTv.setText(cafe.getAvgPlugNum());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgTableHeight() == null)
                         tableHeightTv.setText("정보 없음");
                     else
                         tableHeightTv.setText(cafe.getAvgTableHeight());
-                    if(cafe.getAvgOpenStyle() == null)
+                    if(cafe.getAvgLightness() == null)
                         lightnessTv.setText("정보 없음");
                     else
                         lightnessTv.setText(cafe.getAvgLightness());
