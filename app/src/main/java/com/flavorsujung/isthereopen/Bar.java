@@ -33,6 +33,23 @@ public class Bar {
     @SerializedName("lastUpdate")
     private Date lastUpdate;
 
+    private String avgToilet;
+    private String avgMood;
+    private String avgMainAlcohol;
+    private String avgPrice;
+    private String avgCleanness;
+    private String avgOpenStyle;
+    private Integer separate;
+    private Integer notLoud;
+    private Integer cheap;
+    private Integer soju;
+    private Integer beer;
+    private Integer wine;
+    private Integer makgeolli;
+    private Integer vodka;
+    private Integer clean;
+    private Integer stable;
+
     public Long getSeq() {
         return seq;
     }
@@ -103,5 +120,133 @@ public class Bar {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getAvgToilet() {
+        return avgToilet;
+    }
+
+    public void setAvgToilet(String avgToilet) {
+        this.avgToilet = avgToilet;
+    }
+
+    public String getAvgMood() {
+        return avgMood;
+    }
+
+    public void setAvgMood(String avgMood) {
+        this.avgMood = avgMood;
+    }
+
+    public String getAvgMainAlcohol() {
+        return avgMainAlcohol;
+    }
+
+    public void setAvgMainAlcohol(String avgMainAlcohol) {
+        this.avgMainAlcohol = avgMainAlcohol;
+    }
+
+    public String getAvgPrice() {
+        return avgPrice;
+    }
+
+    public void setAvgPrice(String avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+    public String getAvgCleanness() {
+        return avgCleanness;
+    }
+
+    public void setAvgCleanness(String avgCleanness) {
+        this.avgCleanness = avgCleanness;
+    }
+
+    public String getAvgOpenStyle() {
+        return avgOpenStyle;
+    }
+
+    public void setAvgOpenStyle(String avgOpenStyle) {
+        this.avgOpenStyle = avgOpenStyle;
+    }
+
+    public Integer getSeparate() {
+        return separate;
+    }
+
+    public void setSeparate(Integer separate) {
+        this.separate = separate;
+    }
+
+    public Integer getNotLoud() {
+        return notLoud;
+    }
+
+    public void setNotLoud(Integer notLoud) {
+        this.notLoud = notLoud;
+    }
+
+    public Integer getCheap() {
+        return cheap;
+    }
+
+    public void setCheap(Integer cheap) {
+        this.cheap = cheap;
+    }
+
+    public Integer getSoju() {
+        return soju;
+    }
+
+    public void setSoju(Integer soju) {
+        this.soju = soju;
+    }
+
+    public Integer getBeer() {
+        return beer;
+    }
+
+    public void setBeer(Integer beer) {
+        this.beer = beer;
+    }
+
+    public Integer getWine() {
+        return wine;
+    }
+
+    public void setWine(Integer wine) {
+        this.wine = wine;
+    }
+
+    public Integer getMakgeolli() {
+        return makgeolli;
+    }
+
+    public void setMakgeolli(Integer makgeolli) {
+        this.makgeolli = makgeolli;
+    }
+
+    public Integer getVodka() {
+        return vodka;
+    }
+
+    public void setVodka(Integer vodka) {
+        this.vodka = vodka;
+    }
+
+    public Integer getClean() {
+        return clean;
+    }
+
+    public void setClean(Integer clean) {
+        this.clean = clean;
+    }
+
+    public Integer getStable() {
+        return stable;
+    }
+
+    public void setStable(Integer stable) {
+        this.stable = stable;
     }
 }

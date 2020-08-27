@@ -58,8 +58,6 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
     Button closeBtn;
     SharedPreferences sharedPreferences;
     Long userSeq;
-//    Button toBarReviewBtn;
-//    Button toOpenReviewBtn;
     Long barSeq;
     ImageView callBtn;
 
@@ -133,8 +131,6 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
         toiletTv = findViewById(R.id.barAvgToilet);
         alcoholTv = findViewById(R.id.barAvgAlcohol);
         cleannessTv = findViewById(R.id.barAvgCleanness);
-//        toBarReviewBtn = findViewById(R.id.toBarReviewBtn);
-//        toOpenReviewBtn = findViewById(R.id.toBarOpenReviewBtn);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
@@ -144,34 +140,8 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
                 dialog.dismiss();
             }
         };
-        serverAPI.getBar(barSeq).enqueue(new Callback<Bar>() {
-            @Override
-            public void onResponse(Call<Bar> call, Response<Bar> response) {
-                if (response.isSuccessful()) {
-                    bar = response.body();
-                    barTitleTv.setText(bar.getName());
-                    Glide.with(BarActivity.this).load(bar.getPhotoURL()).into(barLogoIv);
-                    String openState = bar.getCurrentState();
-                    if(openState.equals("UNKNOWN")) {
-                        openState = "등록된 오픈 정보 없음";
-                        openStateTv.setText(openState);
-                    }
-                    else {
-                        openStateTv.setText(openState);
-                    }
-                    addressTv.setText(bar.getAddress());
-                    runningTimeTv.setText(bar.getRunningTime());
-                    phoneNumberTv.setText(bar.getPhoneNum());
-                    refreshInfo();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Bar> call, Throwable t) {
-
-            }
-        });
-        //refreshInfo();
+        refreshInfo();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -261,159 +231,58 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
     }
 
     void refreshInfo() {
-        serverAPI.getBarAvgOpenStyle(barSeq).enqueue(new Callback<List<String>>() {
+        serverAPI.getBar(barSeq).enqueue(new Callback<Bar>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(Call<Bar> call, Response<Bar> response) {
                 if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    bar = response.body();
+                    barTitleTv.setText(bar.getName());
+                    Glide.with(BarActivity.this).load(bar.getPhotoURL()).into(barLogoIv);
+                    String openState = bar.getCurrentState();
+                    if(openState.equals("UNKNOWN")) {
+                        openState = "등록된 오픈 정보 없음";
+                        openStateTv.setText(openState);
+                    }
+                    else {
+                        openStateTv.setText(openState);
+                    }
+                    addressTv.setText(bar.getAddress());
+                    runningTimeTv.setText(bar.getRunningTime());
+                    phoneNumberTv.setText(bar.getPhoneNum());
+                    if(bar.getAvgOpenStyle() == null || bar.getAvgOpenStyle().equals("UNKNOWN"))
                         openStyleTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        openStyleTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        openStyleTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        openStyleTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgMood(barSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
-                        moodTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        moodTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        moodTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        moodTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getBarAvgPrice(barSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else
+                        openStyleTv.setText(bar.getAvgOpenStyle());
+                    if(bar.getAvgPrice() == null)
                         priceTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        priceTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        priceTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        priceTv.setText("의견이 많이 갈려요");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgToilet(barSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
-                        toiletTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        toiletTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        toiletTv.setText(list.get(0) + ", " + list.get(1));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getAvgAlcohol(barSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                Log.d("별점", "알코올");
-                if(response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
-                        alcoholTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        alcoholTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        alcoholTv.setText(list.get(0) + ", " + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        alcoholTv.setText(list.get(0) + ", " + list.get(1) + ", " +  list.get(2));
-                    }
-                    else if (list.size() >= 4) {
-                        alcoholTv.setText("다양함");
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        serverAPI.getBarAvgCleanness(barSeq).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                Log.d("별점", "클린니스");
-                if (response.isSuccessful()) {
-                    List<String> list = response.body();
-                    if(list.size() == 0) {
+                    else
+                        priceTv.setText(bar.getAvgPrice());
+                    if(bar.getAvgCleanness() == null)
                         cleannessTv.setText("정보 없음");
-                    }
-                    else if (list.size() == 1) {
-                        cleannessTv.setText(list.get(0));
-                    }
-                    else if (list.size() == 2) {
-                        cleannessTv.setText(list.get(0) + "~" + list.get(1));
-                    }
-                    else if (list.size() == 3) {
-                        cleannessTv.setText("의견이 많이 갈려요");
-                    }
+                    else
+                        cleannessTv.setText(bar.getAvgCleanness());
+                    if(bar.getAvgMood() == null)
+                        moodTv.setText("정보 없음");
+                    else
+                        moodTv.setText(bar.getAvgMood());
+                    if(bar.getAvgMainAlcohol() == null)
+                        alcoholTv.setText("정보 없음");
+                    else
+                        alcoholTv.setText(bar.getAvgMainAlcohol());
+                    if(bar.getAvgToilet() == null)
+                        toiletTv.setText("정보 없음");
+                    else
+                        toiletTv.setText(bar.getAvgToilet());
+
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Bar> call, Throwable t) {
 
             }
         });
+
         serverAPI.getBarAvgRate(barSeq).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {

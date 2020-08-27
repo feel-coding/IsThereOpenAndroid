@@ -55,6 +55,108 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <HorizontalScrollView
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/barCheapBtn"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="가격이 싼"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barNotLoudBtn"
+                        android:text="회식 분위기 아닌"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barCleanBtn"
+                        android:text="청결한"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:minWidth="0dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barSojuBtn"
+                        android:text="소주"
+                        android:minWidth="0dp"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/barBeerBtn"
+                        android:text="맥주"
+                        android:minWidth="0dp"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/barMakgeolliBtn"
+                        android:text="막걸리"
+                        android:minWidth="0dp"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barWineBtn"
+                        android:text="와인"
+                        android:minWidth="0dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barVodkaBtn"
+                        android:text="보드카"
+                        android:minWidth="0dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/barSeparateBtn"
+                        android:text="남녀 분리 화장실"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/barStableBtn"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="오픈 시간을 잘 지키는"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
 
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -29,6 +29,17 @@ public class Store {
     private Integer restaurantStable;
     private Integer restaurantEatAlone;
 
+    private Integer barSeparate;
+    private Integer barNotLoud;
+    private Integer barCheap;
+    private Integer barSoju;
+    private Integer barBeer;
+    private Integer barWine;
+    private Integer barMakgeolli;
+    private Integer barVodka;
+    private Integer barClean;
+    private Integer barStable;
+
 
     public void setName(String name) {
         this.name = name;
@@ -213,5 +224,86 @@ public class Store {
 
     public void setRestaurantEatAlone(Integer restaurantEatAlone) {
         this.restaurantEatAlone = restaurantEatAlone;
+    }
+
+
+    public Integer getBarSeparate() {
+        return barSeparate;
+    }
+
+    public void setBarSeparate(Integer barSeparate) {
+        this.barSeparate = barSeparate;
+    }
+
+    public Integer getBarNotLoud() {
+        return barNotLoud;
+    }
+
+    public void setBarNotLoud(Integer barNotLoud) {
+        this.barNotLoud = barNotLoud;
+    }
+
+    public Integer getBarCheap() {
+        return barCheap;
+    }
+
+    public void setBarCheap(Integer barCheap) {
+        this.barCheap = barCheap;
+    }
+
+    public Integer getBarSoju() {
+        return barSoju;
+    }
+
+    public void setBarSoju(Integer barSoju) {
+        this.barSoju = barSoju;
+    }
+
+    public Integer getBarBeer() {
+        return barBeer;
+    }
+
+    public void setBarBeer(Integer barBeer) {
+        this.barBeer = barBeer;
+    }
+
+    public Integer getBarWine() {
+        return barWine;
+    }
+
+    public void setBarWine(Integer barWine) {
+        this.barWine = barWine;
+    }
+
+    public Integer getBarMakgeolli() {
+        return barMakgeolli;
+    }
+
+    public void setBarMakgeolli(Integer barMakgeolli) {
+        this.barMakgeolli = barMakgeolli;
+    }
+
+    public Integer getBarVodka() {
+        return barVodka;
+    }
+
+    public void setBarVodka(Integer barVodka) {
+        this.barVodka = barVodka;
+    }
+
+    public Integer getBarClean() {
+        return barClean;
+    }
+
+    public void setBarClean(Integer barClean) {
+        this.barClean = barClean;
+    }
+
+    public Integer getBarStable() {
+        return barStable;
+    }
+
+    public void setBarStable(Integer barStable) {
+        this.barStable = barStable;
     }
 }
