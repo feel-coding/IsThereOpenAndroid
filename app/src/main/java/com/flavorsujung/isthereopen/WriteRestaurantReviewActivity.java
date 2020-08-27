@@ -81,7 +81,7 @@ public class WriteRestaurantReviewActivity extends AppCompatActivity {
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0L);
         restaurantName = intent.getStringExtra("name");
-        toolbarTitleTv.setText(restaurantName + " 리뷰 쓰기");
+        toolbarTitleTv.setText(restaurantName);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         userName = sharedPreferences.getString("name", "");

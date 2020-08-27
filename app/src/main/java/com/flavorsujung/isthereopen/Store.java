@@ -12,6 +12,14 @@ public class Store {
     String runtime;
     double avgRate;
     boolean isPatron;
+    private Integer cafeManyPlug;
+    private Integer cafeCheap;
+    private Integer cafeLittlePeople;
+    private Integer cafeStayLong;
+    private Integer cafeLight;
+    private Integer cafeStable;
+    private Integer cafeNotLow;
+    private Integer cafeShortWaiting;
 
 
     public void setName(String name) {
@@ -85,5 +93,69 @@ public class Store {
 
     public void setPatron(boolean patron) {
         isPatron = patron;
+    }
+
+    public Integer getCafeManyPlug() {
+        return cafeManyPlug;
+    }
+
+    public void setCafeManyPlug(Integer cafeManyPlug) {
+        this.cafeManyPlug = cafeManyPlug;
+    }
+
+    public Integer getCafeCheap() {
+        return cafeCheap;
+    }
+
+    public void setCafeCheap(Integer cafeCheap) {
+        this.cafeCheap = cafeCheap;
+    }
+
+    public Integer getCafeLittlePeople() {
+        return cafeLittlePeople;
+    }
+
+    public void setCafeLittlePeople(Integer cafeLittlePeople) {
+        this.cafeLittlePeople = cafeLittlePeople;
+    }
+
+    public Integer getCafeStayLong() {
+        return cafeStayLong;
+    }
+
+    public void setCafeStayLong(Integer cafeStayLong) {
+        this.cafeStayLong = cafeStayLong;
+    }
+
+    public Integer getCafeLight() {
+        return cafeLight;
+    }
+
+    public void setCafeLight(Integer cafeLight) {
+        this.cafeLight = cafeLight;
+    }
+
+    public Integer getCafeStable() {
+        return cafeStable;
+    }
+
+    public void setCafeStable(Integer cafeStable) {
+        this.cafeStable = cafeStable;
+    }
+
+    public Integer getCafeNotLow() {
+        return cafeNotLow;
+    }
+
+    public void setCafeNotLow(Integer cafeNotLow) {
+        this.cafeNotLow = cafeNotLow;
+    }
+
+    public Integer getCafeShortWaiting() {
+        return cafeShortWaiting;
+    }
+
+    public void setCafeShortWaiting(Integer cafeShortWaiting) {
+        this.cafeShortWaiting = cafeShortWaiting;
     }
 }

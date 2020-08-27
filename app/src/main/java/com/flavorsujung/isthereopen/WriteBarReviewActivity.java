@@ -83,7 +83,7 @@ public class WriteBarReviewActivity extends AppCompatActivity {
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0L);
         barName = intent.getStringExtra("name");
-        toolbarTitleTv.setText(barName + " 리뷰 쓰기");
+        toolbarTitleTv.setText(barName);
         sharedPreferences = getSharedPreferences("nickname", MODE_PRIVATE);
         userSeq = sharedPreferences.getLong("userSeq", 0L);
         serverAPI = RetrofitManager.getInstance().getServerAPI(this);

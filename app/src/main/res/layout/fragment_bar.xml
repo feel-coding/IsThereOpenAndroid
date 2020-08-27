@@ -27,7 +27,7 @@
                     android:layout_height="match_parent">
                     <androidx.appcompat.widget.SearchView
                         app:searchIcon="@drawable/ic_search_black"
-                        app:queryHint="가게 이름을 입력하세요"
+                        app:queryHint="술집 이름을 입력하세요"
                         android:layout_alignParentEnd="true"
                         android:gravity="center_vertical"
                         android:id="@+id/barSearchView"

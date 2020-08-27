@@ -28,7 +28,7 @@
                     android:layout_height="match_parent">
                     <androidx.appcompat.widget.SearchView
                         app:searchIcon="@drawable/ic_search_black"
-                        app:queryHint="가게 이름을 입력하세요"
+                        app:queryHint="카페 이름을 입력하세요"
                         android:layout_alignParentEnd="true"
                         android:gravity="center_vertical"
                         android:id="@+id/cafeSearchView"
@@ -55,7 +55,74 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <HorizontalScrollView
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/cafeFastBtn"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="음료가 빨리 나오는"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeCheapBtn"
+                        android:text="가격이 싼"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeStayLongBtn"
+                        android:text="오래 있어도 눈치 안 보이는"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeLittlePeopleBtn"
+                        android:text="손님이 적은"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeManyPlugBtn"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="콘센트가 많은"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeNotLowBtn"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="테이블이 낮지 않은"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeLightBtn"
+                        android:text="밝은"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cafeStableBtn"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="오픈 시간 잘 지키는"
+                        android:background="@drawable/black_round_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/cafeSwipe"

@@ -14,15 +14,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,13 +37,22 @@ public class CafeFragment extends Fragment {
     StoreAdapter adapter;
     List<Store> cafeList = new ArrayList<>();
     List<Store> searchList = new ArrayList<>();
+    List<Store> selectedList = new ArrayList<>();
     private Context mContext;
     Activity activity;
     SwipeRefreshLayout swipeRefreshLayout;
     ServerAPI serverAPI;
     SearchView searchView;
     TextView toolbarTitleTv;
-
+    Button fastBtn;
+    Button cheapBtn;
+    Button littlePeopleBtn;
+    Button manyPlugBtn;
+    Button notLowBtn;
+    Button lightBtn;
+    Button stableBtn;
+    Button stayLongBtn;
+    Map<String, Boolean> selected = new HashMap<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +62,22 @@ public class CafeFragment extends Fragment {
         searchView = v.findViewById(R.id.cafeSearchView);
         toolbarTitleTv = v.findViewById(R.id.cafeToolbarTitleTv);
         swipeRefreshLayout = v.findViewById(R.id.cafeSwipe);
+        fastBtn = v.findViewById(R.id.cafeFastBtn);
+        cheapBtn = v.findViewById(R.id.cafeCheapBtn);
+        stayLongBtn = v.findViewById(R.id.cafeStayLongBtn);
+        littlePeopleBtn = v.findViewById(R.id.cafeLittlePeopleBtn);
+        manyPlugBtn = v.findViewById(R.id.cafeManyPlugBtn);
+        notLowBtn = v.findViewById(R.id.cafeNotLowBtn);
+        lightBtn = v.findViewById(R.id.cafeLightBtn);
+        stableBtn = v.findViewById(R.id.cafeStableBtn);
+        selected.put("fast", false);
+        selected.put("cheap", false);
+        selected.put("long", false);
+        selected.put("littlePeople", false);
+        selected.put("manyPlug", false);
+        selected.put("notLow", false);
+        selected.put("light", false);
+        selected.put("stable", false);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +124,175 @@ public class CafeFragment extends Fragment {
             }
         });
 
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.cafeFastBtn:
+                        selected.put("fast", !selected.get("fast"));
+                        break;
+                    case R.id.cafeCheapBtn:
+                        selected.put("cheap", !selected.get("cheap"));
+                        break;
+                    case R.id.cafeStayLongBtn:
+                        selected.put("long", !selected.get("long"));
+                        break;
+                    case R.id.cafeLittlePeopleBtn:
+                        selected.put("littlePeople", !selected.get("littlePeople"));
+                        break;
+                    case R.id.cafeManyPlugBtn:
+                        selected.put("manyPlug", !selected.get("manyPlug"));
+                        break;
+                    case R.id.cafeNotLowBtn:
+                        selected.put("notLow", !selected.get("notLow"));
+                        break;
+                    case R.id.cafeLightBtn:
+                        selected.put("light", !selected.get("light"));
+                        break;
+                    case R.id.cafeStableBtn:
+                        selected.put("stable", !selected.get("stable"));
+                        break;
+                }
+                boolean nothingFlag = true; // 아무것도 선택 안 됐다
+                selectedList.clear();
+                selectedList.addAll(cafeList);
+                if(selected.get("fast")) {
+                    nothingFlag = false;
+                    fastBtn.setBackgroundResource(R.drawable.full_red_round);
+                    fastBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeShortWaiting() == null || store.getCafeShortWaiting() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+
+                }
+                else {
+                    fastBtn.setBackgroundResource(R.drawable.black_round_square);
+                    fastBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("cheap")) {
+                    nothingFlag = false;
+                    cheapBtn.setBackgroundResource(R.drawable.full_red_round);
+                    cheapBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeCheap() == null || store.getCafeCheap() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    cheapBtn.setBackgroundResource(R.drawable.black_round_square);
+                    cheapBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("long")) {
+                    nothingFlag = false;
+                    stayLongBtn.setBackgroundResource(R.drawable.full_red_round);
+                    stayLongBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeStayLong() == null || store.getCafeStayLong() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+
+                }
+                else {
+                    stayLongBtn.setBackgroundResource(R.drawable.black_round_square);
+                    stayLongBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("littlePeople")) {
+                    nothingFlag = false;
+                    littlePeopleBtn.setBackgroundResource(R.drawable.full_red_round);
+                    littlePeopleBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeLittlePeople() == null || store.getCafeLittlePeople() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    littlePeopleBtn.setBackgroundResource(R.drawable.black_round_square);
+                    littlePeopleBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("manyPlug")) {
+                    nothingFlag = false;
+                    manyPlugBtn.setBackgroundResource(R.drawable.full_red_round);
+                    manyPlugBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeManyPlug() == null || store.getCafeManyPlug() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    manyPlugBtn.setBackgroundResource(R.drawable.black_round_square);
+                    manyPlugBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("notLow")) {
+                    nothingFlag = false;
+                    notLowBtn.setBackgroundResource(R.drawable.full_red_round);
+                    notLowBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeNotLow() == null || store.getCafeNotLow() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    notLowBtn.setBackgroundResource(R.drawable.black_round_square);
+                    notLowBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("light")) {
+                    nothingFlag = false;
+                    lightBtn.setBackgroundResource(R.drawable.full_red_round);
+                    lightBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeLight() == null || store.getCafeLight() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    lightBtn.setBackgroundResource(R.drawable.black_round_square);
+                    lightBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+                if(selected.get("stable")) {
+                    nothingFlag = false;
+                    stableBtn.setBackgroundResource(R.drawable.full_red_round);
+                    stableBtn.setTextColor(getResources().getColor(R.color.colorWhite));
+                    for (Store store : selectedList) {
+                        if(store.getCafeStable() == null || store.getCafeStable() == 0) {
+                            selectedList.remove(store);
+                        }
+                    }
+                }
+                else {
+                    stableBtn.setBackgroundResource(R.drawable.black_round_square);
+                    stableBtn.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+
+                if(nothingFlag) {
+                    adapter = new StoreAdapter(cafeList, mContext);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                else {
+                    adapter = new StoreAdapter(selectedList, mContext);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
         refreshCafeList();
+
+        fastBtn.setOnClickListener(onClickListener);
+        cheapBtn.setOnClickListener(onClickListener);
+        stayLongBtn.setOnClickListener(onClickListener);
+        littlePeopleBtn.setOnClickListener(onClickListener);
+        manyPlugBtn.setOnClickListener(onClickListener);
+        notLowBtn.setOnClickListener(onClickListener);
+        lightBtn.setOnClickListener(onClickListener);
+        stableBtn.setOnClickListener(onClickListener);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         adapter = new StoreAdapter(cafeList, mContext);
@@ -151,6 +345,14 @@ public class CafeFragment extends Fragment {
                         if(cafe.getAvgRate() != null)
                             store.setAvgRate(cafe.getAvgRate());
                         else store.setAvgRate(-1.0);
+                        store.setCafeShortWaiting(cafe.getShortWaiting());
+                        store.setCafeCheap(cafe.getCheap());
+                        store.setCafeLight(cafe.getLight());
+                        store.setCafeManyPlug(cafe.getManyPlug());
+                        store.setCafeNotLow(cafe.getNotLow());
+                        store.setCafeLittlePeople(cafe.getLittlePeople());
+                        store.setCafeStayLong(cafe.getStayLong());
+                        store.setCafeStable(cafe.getStable());
                         cafeList.add(store);
                     }
                     Log.d("서버", cafeList.toString());
