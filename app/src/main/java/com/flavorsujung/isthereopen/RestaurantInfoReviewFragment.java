@@ -73,7 +73,7 @@ public class RestaurantInfoReviewFragment extends Fragment {
         writeReviewBtn = v.findViewById(R.id.writeRestaurantReviewBtn);
         adapter = new RestaurantReviewAdapter(reviewList, activity);
         Log.d("탭탭", "도달함");
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(activity));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
         serverAPI.getRestaurantInfoReviewList(restaurantSeq).enqueue(new Callback<List<RestaurantInfoReview>>() {

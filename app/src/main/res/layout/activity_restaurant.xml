@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.flavorsujung.isthereopen.RestaurantActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <!--androidx.appcompat.widget.Toolbar
         android:id="@+id/restaurantToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,43 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/restaurantToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/restaurantAddPatron"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/restaurantTitleTv"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text=""/>
+
+    </RelativeLayout>
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

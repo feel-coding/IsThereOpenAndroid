@@ -79,6 +79,9 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
     View.OnClickListener closeListener;
     View.OnClickListener cancelListener;
 
+    ImageView heartButton;
+    boolean isPatron;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,8 +130,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
         eatAloneTv = findViewById(R.id.avgEatAlone);
         waitingTimeTv = findViewById(R.id.restaurantAvgWaitingTime);
         cleannessTv = findViewById(R.id.restaurantAvgCleanness);
-//        toRestaurantReviewBtn = findViewById(R.id.toRestaurantReviewBtn);
-//        toOpenReviewBtn = findViewById(R.id.toRestaurantOpenReviewBtn);
+        heartButton = findViewById(R.id.restaurantAddPatron);
         intent = getIntent();
         restaurantSeq = intent.getLongExtra("seq", 0);
         cancelListener = new View.OnClickListener() {
@@ -171,6 +173,60 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + restaurant.getPhoneNum()));
                 startActivity(intent);
+            }
+        });
+        heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.getPatronRestaurantList(userSeq).enqueue(new Callback<List<PatronRestaurant>>() {
+                    @Override
+                    public void onResponse(Call<List<PatronRestaurant>> call, Response<List<PatronRestaurant>> response) {
+                        boolean isAlreadyPatron = false;
+                        for(PatronRestaurant patronRestaurant : response.body()) {
+                            if(patronRestaurant.getRestaurantSeq().equals(restaurantSeq)) {
+                                isAlreadyPatron = true;
+                                break;
+                            }
+                        }
+                        if(isAlreadyPatron) {
+                            serverAPI.deletePatronRestaurant(userSeq, restaurantSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart);
+                                        Toast.makeText(RestaurantActivity.this, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(RestaurantActivity.this, "네트워크 연결상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        else {
+                            serverAPI.putPatronRestaurant(userSeq, restaurantSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart_red);
+                                        Toast.makeText(RestaurantActivity.this, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<PatronRestaurant>> call, Throwable t) {
+
+                    }
+                });
             }
         });
         openListener = v -> changeState("OPEN");
@@ -276,6 +332,27 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantI
                         takeoutTv.setText("정보 없음");
                     else
                         takeoutTv.setText(restaurant.getAvgTakeOut());
+                    serverAPI.getPatronRestaurantList(userSeq).enqueue(new Callback<List<PatronRestaurant>>() {
+                        @Override
+                        public void onResponse(Call<List<PatronRestaurant>> call, Response<List<PatronRestaurant>> response) {
+                            if(response.isSuccessful()) {
+                                List<PatronRestaurant> patronRestaurantList = response.body();
+                                for(PatronRestaurant patronRestaurant : patronRestaurantList) {
+                                    if(patronRestaurant.getRestaurantSeq().equals(restaurantSeq)) {
+                                        isPatron = true;
+                                        break;
+                                    }
+                                }
+                                if(isPatron)
+                                    heartButton.setImageResource(R.drawable.ic_heart_red);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<PatronRestaurant>> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
 

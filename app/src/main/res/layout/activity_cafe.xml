@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.flavorsujung.isthereopen.CafeActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <!--androidx.appcompat.widget.Toolbar
         android:id="@+id/cafeToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,43 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/cafeToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/cafeAddPatron"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/cafeTitleTv"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text=""/>
+
+    </RelativeLayout>
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -69,13 +105,22 @@
                             android:text="현재 오픈 상태"
                             android:textColor="@color/colorBlack" />
 
-                        <TextView
-                            android:id="@+id/cafeOpenStateTv"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                        <LinearLayout
                             android:layout_weight="2"
-                            android:text="오픈상태"
-                            android:textColor="@color/colorBlack" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/cafeOpenStateTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="오픈상태"
+                                android:textColor="@color/colorBlack" />
+                            <TextView
+                                android:id="@+id/cafeUpdatedAtTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout

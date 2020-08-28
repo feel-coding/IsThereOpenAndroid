@@ -326,7 +326,7 @@ public class CafeFragment extends Fragment {
         lightBtn.setOnClickListener(onClickListener);
         stableBtn.setOnClickListener(onClickListener);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(v.getContext()));
         adapter = new StoreAdapter(cafeList, mContext);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());

@@ -82,7 +82,7 @@ public class BarInfoReviewFragment extends Fragment {
         writeReviewBtn = v.findViewById(R.id.writeBarReviewBtn);
         adapter = new BarReviewAdapter(reviewList, activity);
         Log.d("탭탭", "도달함");
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(activity));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
         serverAPI.getBarInfoReviewList(barSeq).enqueue(new Callback<List<BarInfoReview>>() {

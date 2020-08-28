@@ -277,7 +277,7 @@ public class RestaurantFragment extends Fragment {
         cheapBtn.setOnClickListener(onClickListener);
         stableBtn.setOnClickListener(onClickListener);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(v.getContext()));
         adapter = new StoreAdapter(restaurantList, mContext);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());

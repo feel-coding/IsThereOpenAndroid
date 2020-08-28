@@ -66,7 +66,7 @@ public class CafeReviewActivity extends AppCompatActivity {
         noReviewLayout = findViewById(R.id.cafeNoReview);
         refreshReviewList();
         adapter = new CafeReviewAdapter(reviewList, CafeReviewActivity.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(CafeReviewActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(CafeReviewActivity.this));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

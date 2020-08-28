@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,8 +64,11 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
         holder.storeNameTv.setText(storeName);
         holder.openStateTv.setText(openState);
         if(latestUpdate != null) {
-            holder.latestUpdateTv.setText(" (" + (latestUpdate.getMonth() + 1) + "/" + latestUpdate.getDate() + " " + latestUpdate.getHours() + ":" + latestUpdate.getMinutes() + " 기준)");
-            Log.d("시간", storeName + " " + latestUpdate.toString());
+            Date date = latestUpdate;
+            TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+            dateFormat.setTimeZone(timeZone);
+            holder.latestUpdateTv.setText(" (" + dateFormat.format(date) + " 기준)");
         }
         else
             holder.latestUpdateTv.setText("");
@@ -253,6 +259,7 @@ public class StoreAdapter extends RecyclerView.Adapter<MyViewHolder>  {
                 intent.putExtra("name", storeName);
                 intent.putExtra("seq", seq);
                 intent.putExtra("rate", rate);
+                intent.putExtra("isPatron", isPatron);
                 mContext.startActivity(intent);
             }
         });

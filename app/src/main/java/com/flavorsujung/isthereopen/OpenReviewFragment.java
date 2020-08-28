@@ -67,7 +67,7 @@ public class OpenReviewFragment extends Fragment {
         recyclerView = view.findViewById(R.id.openReviewRv);
         layout = view.findViewById(R.id.openReviewFragment);
         adapter = new OpenReviewAdapter(openReviewList, activity);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(activity));
         recyclerView.setAdapter(adapter);
 
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);

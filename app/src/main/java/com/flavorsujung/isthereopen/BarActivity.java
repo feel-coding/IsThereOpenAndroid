@@ -81,6 +81,9 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
     View.OnClickListener closeListener;
     View.OnClickListener cancelListener;
 
+    boolean isPatron;
+    ImageView heartButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +134,7 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
         toiletTv = findViewById(R.id.barAvgToilet);
         alcoholTv = findViewById(R.id.barAvgAlcohol);
         cleannessTv = findViewById(R.id.barAvgCleanness);
+        heartButton = findViewById(R.id.barAddPatron);
         intent = getIntent();
         barSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
@@ -177,6 +181,60 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
             }
         });
 
+        heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.getPatronBarList(userSeq).enqueue(new Callback<List<PatronBar>>() {
+                    @Override
+                    public void onResponse(Call<List<PatronBar>> call, Response<List<PatronBar>> response) {
+                        boolean isAlreadyPatron = false;
+                        for(PatronBar patronBar : response.body()) {
+                            if(patronBar.getBarSeq().equals(barSeq)) {
+                                isAlreadyPatron = true;
+                                break;
+                            }
+                        }
+                        if(isAlreadyPatron) {
+                            serverAPI.deletePatronBar(userSeq, barSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart);
+                                        Toast.makeText(BarActivity.this, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(BarActivity.this, "네트워크 연결상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        else {
+                            serverAPI.putPatronBar(userSeq, barSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart_red);
+                                        Toast.makeText(BarActivity.this, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<PatronBar>> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         openListener = v -> changeState("OPEN");
         breakListener = v -> changeState("BREAK");
         closeListener = v-> changeState("CLOSE");
@@ -273,7 +331,27 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
                         toiletTv.setText("정보 없음");
                     else
                         toiletTv.setText(bar.getAvgToilet());
+                    serverAPI.getPatronBarList(userSeq).enqueue(new Callback<List<PatronBar>>() {
+                        @Override
+                        public void onResponse(Call<List<PatronBar>> call, Response<List<PatronBar>> response) {
+                            if(response.isSuccessful()) {
+                                List<PatronBar> patronBarList = response.body();
+                                for(PatronBar patronBar : patronBarList) {
+                                    if(patronBar.getBarSeq().equals(barSeq)) {
+                                        isPatron = true;
+                                        break;
+                                    }
+                                }
+                                if(isPatron)
+                                    heartButton.setImageResource(R.drawable.ic_heart_red);
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<List<PatronBar>> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
 

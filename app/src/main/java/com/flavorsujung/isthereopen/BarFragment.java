@@ -375,7 +375,7 @@ public class BarFragment extends Fragment {
         cheapBtn.setOnClickListener(onClickListener);
         separateBtn.setOnClickListener(onClickListener);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(v.getContext()));
         adapter = new StoreAdapter(barList, mContext);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());

@@ -74,7 +74,7 @@ public class CafeInfoReviewFragment extends Fragment {
         writeReviewBtn = v.findViewById(R.id.writeCafeReviewBtn);
         adapter = new CafeReviewAdapter(reviewList, activity);
         Log.d("탭탭", "도달함");
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(activity));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
         serverAPI.getCafeInfoReviewList(cafeSeq).enqueue(new Callback<List<CafeInfoReview>>() {

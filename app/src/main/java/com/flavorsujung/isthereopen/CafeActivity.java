@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Path;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
@@ -29,9 +30,12 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,6 +101,10 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
     View.OnClickListener closeListener;
     View.OnClickListener cancelListener;
 
+    TextView updatedAtTv;
+    boolean isPatron;
+    ImageView heartButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,9 +164,9 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
         fourthStar = findViewById(R.id.cafeAvgStarFour);
         fifthStar = findViewById(R.id.cafeAvgStarFive);
 
+        updatedAtTv = findViewById(R.id.cafeUpdatedAtTv);
+        heartButton = findViewById(R.id.cafeAddPatron);
 
-//        toCafeReviewBtn = findViewById(R.id.toCafeReviewBtn);
-//        toOpenReviewBtn = findViewById(R.id.toCafeOpenReviewBtn);
         intent = getIntent();
         cafeSeq = intent.getLongExtra("seq", 0);
         rate = intent.getDoubleExtra("rate", -1.0);
@@ -201,6 +209,60 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cafe.getPhoneNum()));
                 startActivity(intent);
+            }
+        });
+        heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverAPI.getPatronCafeList(userSeq).enqueue(new Callback<List<PatronCafe>>() {
+                    @Override
+                    public void onResponse(Call<List<PatronCafe>> call, Response<List<PatronCafe>> response) {
+                        boolean isAlreadyPatron = false;
+                        for(PatronCafe patronCafe : response.body()) {
+                            if(patronCafe.getCafeSeq().equals(cafeSeq)) {
+                                isAlreadyPatron = true;
+                                break;
+                            }
+                        }
+                        if(isAlreadyPatron) {
+                            serverAPI.deletePatronCafe(userSeq, cafeSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart);
+                                        Toast.makeText(CafeActivity.this, "단골 가게에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(CafeActivity.this, "네트워크 연결상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        else {
+                            serverAPI.putPatronCafe(userSeq, cafeSeq).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        heartButton.setImageResource(R.drawable.ic_heart_red);
+                                        Toast.makeText(CafeActivity.this, "단골 가게에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<PatronCafe>> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
@@ -266,9 +328,14 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     if(openState.equals("UNKNOWN") || openState == null) {
                         openState = "등록된 오픈 정보 없음";
                         openStateTv.setText(openState);
-                    }
+                       }
                     else {
                         openStateTv.setText(openState);
+                        Date date = cafe.getLastUpdate();
+                        TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
+                        DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+                        dateFormat.setTimeZone(timeZone);
+                        updatedAtTv.setText(" (" + dateFormat.format(date) + " 기준)");
                     }
                     addressTv.setText(cafe.getAddress());
                     runningTimeTv.setText(cafe.getRunningTime());
@@ -305,6 +372,27 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                         stayLongTv.setText("정보 없음");
                     else
                         stayLongTv.setText(cafe.getAvgStayLong());
+                    serverAPI.getPatronCafeList(userSeq).enqueue(new Callback<List<PatronCafe>>() {
+                        @Override
+                        public void onResponse(Call<List<PatronCafe>> call, Response<List<PatronCafe>> response) {
+                            if (response.isSuccessful()) {
+                                List<PatronCafe> patronCafeList = response.body();
+                                for (PatronCafe patronCafe : patronCafeList) {
+                                    if(patronCafe.getCafeSeq().equals(cafeSeq)) {
+                                        isPatron = true;
+                                        break;
+                                    }
+                                }
+                                if(isPatron)
+                                    heartButton.setImageResource(R.drawable.ic_heart_red);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<PatronCafe>> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
 
@@ -428,6 +516,11 @@ public class CafeActivity extends AppCompatActivity implements CafeInfoReviewFra
                     else
                         Toast.makeText(CafeActivity.this, cafe.getName() + "의 오픈 정보가 " + openState + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
                     openStateTv.setText(openState);
+                    Date date = new Date();
+                    TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+                    dateFormat.setTimeZone(timeZone);
+                    updatedAtTv.setText(" (" + dateFormat.format(date) + " 기준)");
                     dialog.dismiss();
                 }
             }

@@ -23,7 +23,7 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/colorWhite"
         app:itemIconTint="@color/selector"
         app:itemTextColor="@color/selector"
         app:menu="@menu/navi_item_menu"/>

@@ -50,7 +50,7 @@ public class BarReviewActivity extends AppCompatActivity {
         noReviewLayout = findViewById(R.id.barNoReview);
         refreshReviewList();
         adapter = new BarReviewAdapter(reviewList, BarReviewActivity.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(BarReviewActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(BarReviewActivity.this));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MyItemDecorator());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
