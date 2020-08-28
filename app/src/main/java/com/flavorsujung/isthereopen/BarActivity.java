@@ -367,7 +367,6 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
                         fourthStar.setImageResource(R.drawable.ic_star_red);
                         fifthStar.setImageResource(R.drawable.ic_star_red);
                     }
-
                 }
             }
 
@@ -376,9 +375,6 @@ public class BarActivity extends AppCompatActivity implements BarInfoReviewFragm
                 Log.d("평균평점", t.getMessage());
             }
         });
-
-
-
     }
     void changeState(String openState) {
         BarOpenReview barOpenReview = new BarOpenReview();

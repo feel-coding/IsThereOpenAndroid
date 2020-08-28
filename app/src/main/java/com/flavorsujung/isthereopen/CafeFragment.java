@@ -160,9 +160,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     fastBtn.setBackgroundResource(R.drawable.full_red_round);
                     fastBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeShortWaiting() == null || store.getCafeShortWaiting() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
 
@@ -175,9 +179,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     cheapBtn.setBackgroundResource(R.drawable.full_red_round);
                     cheapBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeCheap() == null || store.getCafeCheap() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }
@@ -189,9 +197,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     stayLongBtn.setBackgroundResource(R.drawable.full_red_round);
                     stayLongBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeStayLong() == null || store.getCafeStayLong() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
 
@@ -204,9 +216,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     littlePeopleBtn.setBackgroundResource(R.drawable.full_red_round);
                     littlePeopleBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeLittlePeople() == null || store.getCafeLittlePeople() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }
@@ -218,9 +234,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     manyPlugBtn.setBackgroundResource(R.drawable.full_red_round);
                     manyPlugBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeManyPlug() == null || store.getCafeManyPlug() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }
@@ -232,9 +252,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     notLowBtn.setBackgroundResource(R.drawable.full_red_round);
                     notLowBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeNotLow() == null || store.getCafeNotLow() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }
@@ -246,9 +270,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     lightBtn.setBackgroundResource(R.drawable.full_red_round);
                     lightBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeLight() == null || store.getCafeLight() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }
@@ -260,9 +288,13 @@ public class CafeFragment extends Fragment {
                     nothingFlag = false;
                     stableBtn.setBackgroundResource(R.drawable.full_red_round);
                     stableBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getCafeStable() == null || store.getCafeStable() == 0) {
                             selectedList.remove(store);
+                            i--;
+                            size--;
                         }
                     }
                 }

@@ -170,9 +170,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     separateBtn.setBackgroundResource(R.drawable.full_red_round);
                     separateBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarSeparate() == null || store.getBarSeparate() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
 
@@ -185,9 +189,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     notLoudBtn.setBackgroundResource(R.drawable.full_red_round);
                     notLoudBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarNotLoud() == null || store.getBarNotLoud() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -199,9 +207,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     cheapBtn.setBackgroundResource(R.drawable.full_red_round);
                     cheapBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarCheap() == null || store.getBarCheap() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
 
@@ -214,9 +226,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     sojuBtn.setBackgroundResource(R.drawable.full_red_round);
                     sojuBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarSoju() == null || store.getBarSoju() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -228,9 +244,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     beerBtn.setBackgroundResource(R.drawable.full_red_round);
                     beerBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarBeer() == null || store.getBarBeer() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -242,9 +262,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     makgeolliBtn.setBackgroundResource(R.drawable.full_red_round);
                     makgeolliBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarMakgeolli() == null || store.getBarMakgeolli() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -256,9 +280,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     wineBtn.setBackgroundResource(R.drawable.full_red_round);
                     wineBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarWine() == null || store.getBarWine() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -270,9 +298,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     vodkaBtn.setBackgroundResource(R.drawable.full_red_round);
                     vodkaBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarVodka() == null || store.getBarVodka() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -284,9 +316,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     cleanBtn.setBackgroundResource(R.drawable.full_red_round);
                     cleanBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarClean() == null || store.getBarClean() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -299,9 +335,13 @@ public class BarFragment extends Fragment {
                     nothingFlag = false;
                     stableBtn.setBackgroundResource(R.drawable.full_red_round);
                     stableBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getBarStable() == null || store.getBarStable() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }

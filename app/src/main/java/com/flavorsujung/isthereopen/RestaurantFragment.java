@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -146,9 +147,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     fastBtn.setBackgroundResource(R.drawable.full_red_round);
                     fastBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantShortWaiting() == null || store.getRestaurantShortWaiting() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
 
@@ -161,9 +166,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     cheapBtn.setBackgroundResource(R.drawable.full_red_round);
                     cheapBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantCheap() == null || store.getRestaurantCheap() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -175,9 +184,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     takeoutBtn.setBackgroundResource(R.drawable.full_red_round);
                     takeoutBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantTakeout() == null || store.getRestaurantTakeout() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
 
@@ -190,9 +203,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     eatAloneBtn.setBackgroundResource(R.drawable.full_red_round);
                     eatAloneBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantEatAlone() == null || store.getRestaurantEatAlone() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -204,9 +221,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     cleanBtn.setBackgroundResource(R.drawable.full_red_round);
                     cleanBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantClean() == null || store.getRestaurantClean() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
@@ -219,9 +240,13 @@ public class RestaurantFragment extends Fragment {
                     nothingFlag = false;
                     stableBtn.setBackgroundResource(R.drawable.full_red_round);
                     stableBtn.setTextColor(getResources().getColor(R.color.colorWhite));
-                    for (Store store : selectedList) {
+                    int size = selectedList.size();
+                    for (int i = 0; i < size; i++) {
+                        Store store = selectedList.get(i);
                         if(store.getRestaurantStable() == null || store.getRestaurantStable() == 0) {
                             selectedList.remove(store);
+                            size--;
+                            i--;
                         }
                     }
                 }
