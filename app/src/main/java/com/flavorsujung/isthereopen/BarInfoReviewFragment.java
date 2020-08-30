@@ -29,19 +29,10 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BarInfoReviewFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BarInfoReviewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BarInfoReviewFragment extends Fragment {
     Context mContext;
     Activity activity;
     ServerAPI serverAPI;
-    StickyScrollView stickyScrollView;
     RecyclerView recyclerView;
     List<BarInfoReview> reviewList = new ArrayList<>();
     BarReviewAdapter adapter;
@@ -74,7 +65,6 @@ public class BarInfoReviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_bar_info_review, container, false);
         serverAPI = RetrofitManager.getInstance().getServerAPI(activity);
         recyclerView = v.findViewById(R.id.barReviewRecyclerView);
