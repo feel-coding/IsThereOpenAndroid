@@ -9,5 +9,7 @@
 
 ![리뷰 보기 및 오픈 상태 변경](https://user-images.githubusercontent.com/46566478/94362959-b6489980-00f9-11eb-967f-789ba335777e.gif)
 
+![스벅 오픈 상태 변경](https://user-images.githubusercontent.com/46566478/94363037-5dc5cc00-00fa-11eb-83bc-df39c2cf10e7.gif)
+
 
 ![앱시작 gif](https://user-images.githubusercontent.com/46566478/91070227-706b6200-e671-11ea-9d2f-6afe16825ebd.gif)
